@@ -23,7 +23,9 @@ type OutputElement =
     | FieldReference of text: string * declarationLocation: TextSpan
     | ParameterReference of text: string * declarationLocation: TextSpan
     | ParameterDeclaration of text: string * location: TextSpan
-    
+    | PropertyDeclaration of text: string * location: TextSpan
+    | PropertyReference of text: string * declarationLocation: TextSpan
+
 let semanticModel tree =
     let compilation = CSharpCompilation.Create("asdf", [|tree|], [|new MetadataFileReference(typeof<Object>.Assembly.Location)|])
     compilation.GetSemanticModel tree
@@ -62,6 +64,7 @@ type Visitor(model : SemanticModel) =
             match tokenKind with
             | SyntaxKind.ClassDeclaration
             | SyntaxKind.StructDeclaration -> TypeDeclaration (text, location)
+            | SyntaxKind.PropertyDeclaration -> PropertyDeclaration (text, location)
             | SyntaxKind.VariableDeclarator -> 
                 match token.Parent.Parent.Parent.CSharpKind() with
                 | SyntaxKind.FieldDeclaration -> FieldDeclaration (text, location)
@@ -77,6 +80,7 @@ type Visitor(model : SemanticModel) =
                     | SymbolKind.Field -> FieldReference (text, declLoc)
                     | SymbolKind.Local -> LocalVariableReference (text, declLoc)
                     | SymbolKind.Parameter -> ParameterReference (text, declLoc)
+                    | SymbolKind.Property -> PropertyReference (text, declLoc)
                     | _ -> Identifier text
                 else 
                     Identifier text

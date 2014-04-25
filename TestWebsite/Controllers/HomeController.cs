@@ -40,14 +40,24 @@ namespace TopLevel
             return someField == 0 && Test();
             #endregion
         }
-    } 
+        private class SubClass<TSomething>
+        {
+            public TSomething Value { get; set; }
+            public SubClass(TSomething ts)
+            {
+                Value = ts;
+            }
+        }
+    }
 }";
             var v = Analysis.analyseCode(code);
             
-            var s = Formatting.htmlFormat(v);
+            var s = Formatting.Formatting.htmlFormat(v);
+            var hoverCss = Formatting.Formatting.generateCss(v);
             return View(new CodeModel
                 {
-                    Code = s
+                    CodeElements = s,
+                    HoverCssClasses = hoverCss
                 });
         }
                 

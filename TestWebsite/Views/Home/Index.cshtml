@@ -4,52 +4,76 @@
 @model TestWebsite.Models.CodeModel
 
 <style type="text/css">
+    pre {
+        font-family: "Consolas", "Courier New", "Andale Mono", "Lucida Console", monospace;
+        font-size: 12pt;
+        line-height: 125%;
+        white-space: pre;
+    }
+
     .comment {
-         color: Green;
+        color: green;
     }
-    .keyword { 
-        color: Blue;
+
+    .keyword {
+        color: blue;
     }
+
     .stringLiteral {
-        color: #a31515;
+        color: darkred;
     }
 
     .numericLiteral {
-        color: #d202fe;
+        color: magenta;
     }
 
     .identifier {
-        color: #2b91af;
+        color: #2B91AF;
     }
 
     .region {
-        color: #e0e0e0;
+        color: lightgray;
     }
 
     .localDecl {
-        color: Yellow;
+        color: black;
     }
 
     .localRef {
-        color: Red;
+        color: black;
     }
 
     .fieldDecl {
-        color: DarkRed;
+        color: black;
     }
 
     .fieldRef {
-        color: DarkBlue;
+        color: black;
     }
 
     .paramDecl {
-        color: DarkRed;
+        color: black;
     }
 
     .paramRef {
-        color: DarkBlue;
+        color: black;
+    }
+
+    .propDecl {
+        color: black;
+    }
+
+    .propRef {
+        color: black;
     }
 </style>
-<div>
-    @Html.Raw(Model.Code)
+
+<style type="text/css">
+    @Html.Raw(Model.HoverCssClasses)
+</style>
+
+<div id="formattedCode">
+    <pre>
+        @Html.Raw(Model.CodeElements)
+    </pre>
 </div>

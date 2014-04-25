@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model TestWebsite.Models.CodeModel
+
+<style type="text/css">
+    .comment {
+         color: Green;
+    }
+    .keyword { 
+        color: Blue;
+    }
+    .stringLiteral {
+        color: #a31515;
+    }
+
+    .numericLiteral {
+        color: #d202fe;
+    }
+
+    .identifier {
+        color: #2b91af;
+    }
+
+    .region {
+        color: #e0e0e0;
+    }
+
+    .localDecl {
+        color: Yellow;
+    }
+
+    .localRef {
+        color: Red;
+    }
+
+    .fieldDecl {
+        color: DarkRed;
+    }
+
+    .fieldRef {
+        color: DarkBlue;
+    }
+
+    .paramDecl {
+        color: DarkRed;
+    }
+
+    .paramRef {
+        color: DarkBlue;
+    }
+</style>
+<div>
+    @Html.Raw(Model.Code)
+</div>

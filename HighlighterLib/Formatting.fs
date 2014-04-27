@@ -105,7 +105,7 @@ module Formatting =
         let toStr (tok:SyntaxToken) =
             tok.ToString()
 
-        let formatter ele = 
+        let htmlElementTransform ele = 
             match ele with
             | Unformatted tok -> Literal <| toStr tok
             | Keyword tok -> keyword <| toStr tok
@@ -137,7 +137,7 @@ module Formatting =
         let htmlOutput = 
             let out = new StringBuilder()
             eles
-            |> Array.map formatter
+            |> Array.map htmlElementTransform
             |> Array.iter 
                 (fun h -> 
                     formatHtmlElement h

@@ -51,6 +51,7 @@ module Formatting =
         | FieldDeclaration tok -> Some <| tokenClassName tok
         | ParameterDeclaration tok -> Some <| tokenClassName tok
         | PropertyDeclaration tok -> Some <| tokenClassName tok
+        | MethodDeclaration tok -> Some <| tokenClassName tok
         | _ -> None
 
     let generateCss (eles: OutputElement array) =
@@ -89,6 +90,7 @@ module Formatting =
         let fieldRef = sourceReference "fieldRef"
         let paramRef = sourceReference "paramRef"
         let propRef = sourceReference "propRef"
+        let methodRef = sourceReference "methodRef"
 
         let sourceDeclaration declClass tok =
             let c = tokenClassName tok
@@ -97,7 +99,8 @@ module Formatting =
         let propDecl = sourceDeclaration "propDecl"
         let paramDecl = sourceDeclaration "paramDecl"
         let fieldDecl = sourceDeclaration "fieldDecl"
-        let localDecl = sourceDeclaration  "localDecl"
+        let localDecl = sourceDeclaration "localDecl"
+        let methodDecl = sourceDeclaration "methodDecl"
 
         let toStr (tok:SyntaxToken) =
             tok.ToString()
@@ -119,8 +122,10 @@ module Formatting =
             | ParameterReference (tok, sym) -> paramRef tok sym <| toStr tok
             | PropertyDeclaration tok -> propDecl tok <| toStr tok
             | PropertyReference (tok, sym) -> propRef tok sym <| toStr tok
-            | Trivia s -> 
-                match s with
+            | MethodDeclaration tok -> methodDecl tok <| toStr tok
+            | MethodReference (tok, sym) -> methodRef tok sym <| toStr tok
+            | Trivia tr -> 
+                match tr with
                 | TriviaElement.BeginRegion s -> region <| s.ToString()
                 | TriviaElement.Comment s -> comment <| s.ToString()
                 | TriviaElement.EndRegion s -> region <| s.ToString()

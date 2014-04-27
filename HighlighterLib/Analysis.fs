@@ -31,6 +31,8 @@ module Analysis =
         | PropertyReference of SyntaxToken * ISymbol
         | NamedTypeDeclaration of SyntaxToken
         | NamedTypeReference of SyntaxToken * ISymbol
+        | MethodDeclaration of SyntaxToken
+        | MethodReference of SyntaxToken * ISymbol
     and TriviaElement =
         | Comment of SyntaxTrivia
         | BeginRegion of SyntaxTrivia
@@ -47,19 +49,6 @@ module Analysis =
         let addElement ele =
             outputElements <- ele :: outputElements
 
-        let isDecendedFromKind (levels:int) (kind:SyntaxKind)  (token:SyntaxToken) =
-            let rec isChildInternal (node:SyntaxNode) (currentLevel:int) =
-                if node = null then
-                    false
-                else if currentLevel = levels && node.CSharpKind() = kind then
-                    true
-                else
-                    isChildInternal node.Parent (currentLevel + 1)
-            isChildInternal token.Parent 1
-
-        let isGrandparentOfKind = isDecendedFromKind 2
-        let isParentOfKind = isDecendedFromKind 1
-
         let isVarDecl (token:SyntaxToken) = 
             token.Parent.Parent.CSharpKind() = SyntaxKind.VariableDeclaration && token.ToString().Equals("var", StringComparison.OrdinalIgnoreCase)
 
@@ -73,6 +62,7 @@ module Analysis =
                 | SyntaxKind.ClassDeclaration
                 | SyntaxKind.StructDeclaration -> NamedTypeDeclaration token
                 | SyntaxKind.PropertyDeclaration -> PropertyDeclaration token
+                | SyntaxKind.MethodDeclaration -> MethodDeclaration token
                 | SyntaxKind.VariableDeclarator -> 
                     match token.Parent.Parent.Parent.CSharpKind() with
                     | SyntaxKind.FieldDeclaration -> FieldDeclaration token
@@ -89,6 +79,7 @@ module Analysis =
                         | SymbolKind.Parameter -> ParameterReference (token, symbol)
                         | SymbolKind.Property -> PropertyReference (token, symbol)
                         | SymbolKind.NamedType -> NamedTypeReference (token, symbol)
+                        | SymbolKind.Method -> MethodReference (token, symbol)
                         | _ -> Identifier token
                     else 
                         Identifier token

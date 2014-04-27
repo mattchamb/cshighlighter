@@ -1,123 +1,159 @@
-﻿module Analysis
+﻿namespace CSHighlighter
 
-open System
-open Microsoft.CodeAnalysis
-open Microsoft.CodeAnalysis.CSharp
-open Microsoft.CodeAnalysis.CSharp.Syntax
-open Microsoft.CodeAnalysis.Text
+module Analysis =
 
-type OutputElement =
-    | Unformatted of text: string
-    | NewLine
-    | Comment of text: string
-    | Keyword of text: string
-    | Identifier of text: string
-    | TypeDeclaration of text: string * location: TextSpan
-    | StringLiteral of text: string
-    | NumericLiteral of text: string
-    | BeginRegion of text: string
-    | EndRegion of text: string
-    | LocalVariableDeclaration of text: string * location: TextSpan
-    | LocalVariableReference of text: string * declarationLocation: TextSpan
-    | FieldDeclaration of text: string * location: TextSpan
-    | FieldReference of text: string * declarationLocation: TextSpan
-    | ParameterReference of text: string * declarationLocation: TextSpan
-    | ParameterDeclaration of text: string * location: TextSpan
-    | PropertyDeclaration of text: string * location: TextSpan
-    | PropertyReference of text: string * declarationLocation: TextSpan
+    open System
+    open Microsoft.CodeAnalysis
+    open Microsoft.CodeAnalysis.CSharp
+    open Microsoft.CodeAnalysis.CSharp.Syntax
+    open Microsoft.CodeAnalysis.Text
 
-let semanticModel tree =
-    let compilation = CSharpCompilation.Create("asdf", [|tree|], [|new MetadataFileReference(typeof<Object>.Assembly.Location)|])
-    compilation.GetSemanticModel tree
+    type SourceInput =
+        {
+            Path: string;
+            Contents: string
+        }
 
-type Visitor(model : SemanticModel) =
-    inherit CSharpSyntaxWalker(SyntaxWalkerDepth.StructuredTrivia)
+    type OutputElement =
+        | Unformatted of SyntaxToken
+        | Trivia of TriviaElement
+        | Keyword of SyntaxToken
+        | Identifier of SyntaxToken
+        | StringLiteral of SyntaxToken
+        | NumericLiteral of SyntaxToken
+        | LocalVariableDeclaration of SyntaxToken * ISymbol
+        | LocalVariableReference of SyntaxToken * ISymbol
+        | FieldDeclaration of SyntaxToken
+        | FieldReference of SyntaxToken * ISymbol
+        | ParameterReference of SyntaxToken * ISymbol
+        | ParameterDeclaration of SyntaxToken
+        | PropertyDeclaration of SyntaxToken
+        | PropertyReference of SyntaxToken * ISymbol
+        | NamedTypeDeclaration of SyntaxToken
+        | NamedTypeReference of SyntaxToken * ISymbol
+    and TriviaElement =
+        | Comment of SyntaxTrivia
+        | BeginRegion of SyntaxTrivia
+        | EndRegion of SyntaxTrivia
+        | NewLine
+        | Whitespace of SyntaxTrivia
+        | UnformattedTrivia of SyntaxTrivia
 
-    let mutable outputElements: OutputElement list = []
+    type Visitor(model : SemanticModel) =
+        inherit CSharpSyntaxWalker(SyntaxWalkerDepth.StructuredTrivia)
 
-    let addElement ele =
-        outputElements <- ele :: outputElements
+        let mutable outputElements: OutputElement list = []
 
-    let isDecendedFromKind (levels:int) (kind:SyntaxKind)  (token:SyntaxToken) =
-        let rec isChildInternal (node:SyntaxNode) (currentLevel:int) =
-            if node = null then
-                false
-            else if currentLevel = levels && node.CSharpKind() = kind then
-                true
+        let addElement ele =
+            outputElements <- ele :: outputElements
+
+        let isDecendedFromKind (levels:int) (kind:SyntaxKind)  (token:SyntaxToken) =
+            let rec isChildInternal (node:SyntaxNode) (currentLevel:int) =
+                if node = null then
+                    false
+                else if currentLevel = levels && node.CSharpKind() = kind then
+                    true
+                else
+                    isChildInternal node.Parent (currentLevel + 1)
+            isChildInternal token.Parent 1
+
+        let isGrandparentOfKind = isDecendedFromKind 2
+        let isParentOfKind = isDecendedFromKind 1
+
+        let isVarDecl (token:SyntaxToken) = 
+            token.Parent.Parent.CSharpKind() = SyntaxKind.VariableDeclaration && token.ToString().Equals("var", StringComparison.OrdinalIgnoreCase)
+
+        let identifierElement (token:SyntaxToken) = 
+            let tokenKind = token.Parent.CSharpKind()
+            if isVarDecl token then 
+                Keyword token
             else
-                isChildInternal node.Parent (currentLevel + 1)
-        isChildInternal token.Parent 1
-
-    let isGrandparentOfKind = isDecendedFromKind 2
-    let isParentOfKind = isDecendedFromKind 1
-
-    let isVarDecl (token:SyntaxToken) = 
-        token.Parent.Parent.CSharpKind() = SyntaxKind.VariableDeclaration && token.ToString() = "var"
-
-    let identifierElement (token:SyntaxToken) = 
-        let text = token.ToString()
-        let tokenKind = token.Parent.CSharpKind()
-        if isVarDecl token then 
-            Keyword text
-        else
-            let location = token.GetLocation().SourceSpan
-            match tokenKind with
-            | SyntaxKind.ClassDeclaration
-            | SyntaxKind.StructDeclaration -> TypeDeclaration (text, location)
-            | SyntaxKind.PropertyDeclaration -> PropertyDeclaration (text, location)
-            | SyntaxKind.VariableDeclarator -> 
-                match token.Parent.Parent.Parent.CSharpKind() with
-                | SyntaxKind.FieldDeclaration -> FieldDeclaration (text, location)
-                | SyntaxKind.LocalDeclarationStatement -> LocalVariableDeclaration (text, location)
-                | _ -> failwith "ASDASD"
-            | SyntaxKind.Parameter -> ParameterDeclaration (text, location)
-            | SyntaxKind.IdentifierToken -> Identifier text
-            | _ ->
                 let symbol = model.GetSymbolInfo(token.Parent).Symbol
-                if symbol <> null then
-                    let declLoc = symbol.Locations.[0].SourceSpan
-                    match symbol.Kind with
-                    | SymbolKind.Field -> FieldReference (text, declLoc)
-                    | SymbolKind.Local -> LocalVariableReference (text, declLoc)
-                    | SymbolKind.Parameter -> ParameterReference (text, declLoc)
-                    | SymbolKind.Property -> PropertyReference (text, declLoc)
-                    | _ -> Identifier text
-                else 
-                    Identifier text
-
-    member x.getOutput() = outputElements |> List.rev // Reverse the elements because we are appending to the front when building the list.
-
-    override x.VisitTrivia trivia =
-        let output = match trivia.CSharpKind() with
-                        | SyntaxKind.MultiLineCommentTrivia
-                        | SyntaxKind.SingleLineCommentTrivia -> Comment (trivia.ToString())
-                        | SyntaxKind.EndOfLineTrivia -> NewLine
-                        | SyntaxKind.WhitespaceTrivia -> Unformatted (trivia.ToString())
-                        | SyntaxKind.RegionDirectiveTrivia -> BeginRegion (trivia.ToString())
-                        | SyntaxKind.EndRegionDirectiveTrivia -> EndRegion (trivia.ToString())
-                        | _ -> Unformatted (trivia.ToString())
-        addElement output
-
-    override x.VisitToken token =
-        x.VisitLeadingTrivia token
+                match tokenKind with
+                | SyntaxKind.ClassDeclaration
+                | SyntaxKind.StructDeclaration -> NamedTypeDeclaration token
+                | SyntaxKind.PropertyDeclaration -> PropertyDeclaration token
+                | SyntaxKind.VariableDeclarator -> 
+                    match token.Parent.Parent.Parent.CSharpKind() with
+                    | SyntaxKind.FieldDeclaration -> FieldDeclaration token
+                    | SyntaxKind.LocalDeclarationStatement -> LocalVariableDeclaration (token, symbol)
+                    | _ -> failwith "ASDASD"
+                | SyntaxKind.Parameter -> ParameterDeclaration token
+                | SyntaxKind.IdentifierToken -> Identifier token
+                | _ ->
+                    if symbol <> null then
+                        let declLoc = symbol.Locations.[0].SourceSpan
+                        match symbol.Kind with
+                        | SymbolKind.Field -> FieldReference (token, symbol)
+                        | SymbolKind.Local -> LocalVariableReference (token, symbol)
+                        | SymbolKind.Parameter -> ParameterReference (token, symbol)
+                        | SymbolKind.Property -> PropertyReference (token, symbol)
+                        | SymbolKind.NamedType -> NamedTypeReference (token, symbol)
+                        | _ -> Identifier token
+                    else 
+                        Identifier token
         
-        if token.IsKeyword() then
-            Keyword (token.Text)
-        else
-            let kind = token.CSharpKind()
-            match kind with
-            | SyntaxKind.IdentifierToken -> identifierElement token
-            | SyntaxKind.StringLiteralToken ->  StringLiteral (token.ToString())
-            | SyntaxKind.NumericLiteralToken ->  NumericLiteral (token.ToString())
-            | _ -> Unformatted (token.ToString())
-        |> addElement
-        x.VisitTrailingTrivia token
+        override x.VisitToken token =
+            x.VisitLeadingTrivia token
+            if token.IsKeyword() then
+                Keyword token
+            else
+                let kind = token.CSharpKind()
+                match kind with
+                | SyntaxKind.IdentifierToken -> identifierElement token
+                | SyntaxKind.StringLiteralToken ->  StringLiteral token
+                | SyntaxKind.NumericLiteralToken ->  NumericLiteral token
+                | _ -> Unformatted token
+            |> addElement
+            x.VisitTrailingTrivia token
 
-let analyseCode (text: string) =
-    let tree = CSharpSyntaxTree.ParseText text
-    let root = tree.GetRoot() :?> CompilationUnitSyntax
-    let model = semanticModel tree
-    let v = new Visitor(model)
-    v.DefaultVisit root
-    let elements = v.getOutput()
-    elements |> List.toArray
+        override x.VisitTrivia trivia =
+            let output = match trivia.CSharpKind() with
+                            | SyntaxKind.MultiLineCommentTrivia
+                            | SyntaxKind.SingleLineCommentTrivia -> Comment trivia
+                            | SyntaxKind.EndOfLineTrivia -> NewLine
+                            | SyntaxKind.WhitespaceTrivia -> Whitespace trivia
+                            | SyntaxKind.RegionDirectiveTrivia -> BeginRegion trivia
+                            | SyntaxKind.EndRegionDirectiveTrivia -> EndRegion trivia
+                            | _ -> UnformattedTrivia trivia
+                        |> Trivia
+            addElement output
+
+        member x.getOutput() = outputElements |> List.rev // Reverse the elements because we are appending to the front when building the list.
+
+
+    let compilationForSource trees =
+        CSharpCompilation.Create("highlightingCompilation", trees, [|new MetadataFileReference(typeof<Object>.Assembly.Location)|])
+
+    let parseCode (f:SourceInput) =
+        CSharpSyntaxTree.ParseText (f.Contents, f.Path)
+
+    let createHighlightingModel syntaxTreeRoot model =
+        let v = new Visitor(model)
+        v.DefaultVisit syntaxTreeRoot
+        let elements = v.getOutput()
+        List.toArray elements
+      
+    let analyseFile (file: SourceInput) = 
+        let syntaxTree = parseCode file
+        let compilation = compilationForSource [|syntaxTree|]
+        let root = syntaxTree.GetRoot()
+        let model = compilation.GetSemanticModel(syntaxTree)
+        createHighlightingModel root model
+
+    let analyseFiles (files: SourceInput seq) =
+        let syntaxTrees =
+            files
+            |> Seq.map parseCode
+            |> Seq.toArray
+        let compilation = compilationForSource syntaxTrees
+        let fileOutputs =
+            syntaxTrees
+            |> Array.map 
+                (fun t -> 
+                    let root = t.GetRoot()
+                    let model = compilation.GetSemanticModel(t)
+                    createHighlightingModel root model)
+        fileOutputs
+
+

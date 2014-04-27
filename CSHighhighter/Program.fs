@@ -1,5 +1,6 @@
 ﻿open System
-  
+open CSHighlighter
+
 [<EntryPoint>]
 let main argv = 
     
@@ -62,8 +63,8 @@ class C<T> {
     }
     
 }"
-
-    let a = Analysis.analyseCode(c2)
+    let sourceFile: Analysis.SourceInput = { Path = ""; Contents = c2 }
+    let a = Analysis.analyseFile(sourceFile)
     //let output = Formatting.plainFormat a
     //Console.WriteLine output
     //Console.ReadKey() |> ignore

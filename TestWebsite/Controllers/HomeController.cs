@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TestWebsite.Models;
+using CSHighlighter;
 
 namespace TestWebsite.Controllers
 {
@@ -83,10 +84,11 @@ namespace TopLevel
 
         private CodeModel RenderCodeToModel(string code)
         {
-            var v = Analysis.analyseCode(code);
+            var source = new Analysis.SourceInput("", code);
+            var v = Analysis.analyseFile(source);
 
-            var s = Formatting.Formatting.htmlFormat(v);
-            var hoverCss = Formatting.Formatting.generateCss(v);
+            var s = Formatting.htmlFormat(v);
+            var hoverCss = Formatting.generateCss(v);
             return new CodeModel
             {
                 CodeElements = s,

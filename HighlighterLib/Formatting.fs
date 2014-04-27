@@ -12,23 +12,23 @@ module Formatting =
     open System.Net
 
     type HtmlElement =
-        | Span of id: string option * contents: string * cssClasses: string array
-        | Anchor of href: string * contents: string * cssClasses: string array
+        | Span of id: string option * contents: string * cssClasses: string array * hoverId: string
+        | Anchor of href: string * contents: string * cssClasses: string array * hoverId: string
         | Literal of text: string
 
     let formatHtmlElement (htmlEle:HtmlElement) =
         let combineClasses (c: string array) = String.Join(" ", c)
         match htmlEle with
-        | Span (id, contents, classes) -> 
+        | Span (id, contents, classes, hover) -> 
             let css = combineClasses classes
             let encoded = WebUtility.HtmlEncode contents
             match id with
-            | Some idAttr -> sprintf @"<span id=""%s"" class=""%s"">%s</span>" idAttr css encoded
+            | Some idAttr -> sprintf @"<span id=""%s"" class=""%s"" data-hover=""%s"">%s</span>" idAttr css hover encoded
             | None -> sprintf @"<span class=""%s"">%s</span>" css encoded
-        | Anchor (href, contents, classes) -> 
+        | Anchor (href, contents, classes, hover) -> 
             let css = combineClasses classes
             let encoded = WebUtility.HtmlEncode contents
-            sprintf @"<a href=""%s"" class=""%s"">%s</a>" href css encoded
+            sprintf @"<a href=""%s"" class=""%s"" data-hover=""%s"">%s</a>" href css hover encoded
         | Literal text -> WebUtility.HtmlEncode text
 
     let locationToClassName (location:Location) = 
@@ -64,9 +64,9 @@ module Formatting =
 
     let htmlFormat (eles: OutputElement array) =
 
-        let intoSpan spanClass id text = Span (id, text, spanClass)
-        let intoLiteralSpan spanClass = intoSpan spanClass None
-        let intoHref spanClass ref text = Anchor (sprintf "#%s" ref, text, spanClass)
+        let intoSpan spanClass id hoverId text = Span (id, text, spanClass, hoverId)
+        let intoLiteralSpan spanClass = intoSpan spanClass None ""
+        let intoHref spanClass ref hoverId text = Anchor (sprintf "#%s" ref, text, spanClass, hoverId)
 
         let comment = 
             intoLiteralSpan [|"comment"|]
@@ -84,7 +84,8 @@ module Formatting =
         let sourceReference referenceClass tok sym =
             let c = tokenClassName tok
             let href = symbolIdName sym
-            intoHref [|referenceClass; href|] href
+            let hoverId = href
+            intoHref [|referenceClass; href|] href hoverId
 
         let localRef = sourceReference "localRef"
         let fieldRef = sourceReference "fieldRef"
@@ -94,7 +95,8 @@ module Formatting =
 
         let sourceDeclaration declClass tok =
             let c = tokenClassName tok
-            intoSpan [|declClass; c|] (Some c)
+            let hoverId = c
+            intoSpan [|declClass; c|] (Some c) hoverId
 
         let propDecl = sourceDeclaration "propDecl"
         let paramDecl = sourceDeclaration "paramDecl"

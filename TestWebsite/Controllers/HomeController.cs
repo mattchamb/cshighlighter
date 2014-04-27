@@ -88,11 +88,11 @@ namespace TopLevel
             var v = Analysis.analyseFile(source);
 
             var s = Formatting.htmlFormat(v);
-            var hoverCss = Formatting.generateCss(v);
+            //var hoverCss = Formatting.generateCss(v);
             return new CodeModel
             {
                 CodeElements = s,
-                HoverCssClasses = hoverCss
+                HoverCssClasses = ""
             };
         }
                 

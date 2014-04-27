@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Example";
 }
 @model TestWebsite.Models.CodeModel
 
@@ -67,8 +67,7 @@
         color: black;
     }
 </style>
-@if(Model != null)
-{ 
+
 <style type="text/css">
     @Html.Raw(Model.HoverCssClasses)
 </style>
@@ -76,29 +75,3 @@
 <div id="formattedCode">
     <pre>@Html.Raw(Model.CodeElements)</pre>
 </div>
-}
-else
-{
-    <style type="text/css">
-        ul > li {
-            display: block;
-            padding-bottom: 10px;
-        }
-        #codeInput {
-            width: 600px;
-            height: 700px;
-        }
-    </style>
-    if(Model != null && Model.ExceptionMessage != null)
-    {
-        <div>@Model.ExceptionMessage</div>
-    }
-    using(Html.BeginForm())
-    {
-        <ul>
-            <li>@Html.Label("code", "Type code here:")</li>
-            <li>@Html.TextArea("code", new { id = "codeInput" })</li>
-            <li><input type="submit" value="Submit" /></li>
-        </ul>
-    }
-}

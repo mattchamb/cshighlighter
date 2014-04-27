@@ -42,7 +42,28 @@ namespace TopLevel
     }
 }"
 
-    let a = Analysis.analyseCode(code)
+    let c2 = @"
+class C<T> {
+    
+    protected Func<T, int> funcField = t => 999;    
+
+    public C(string s) { 
+        var a = ""lol"";
+        var something = a == s;
+    }
+
+    public static C<T> Create() {
+        return new C<int>(""test"");
+    }
+
+    public int Something(T t) {
+        var a = this.funcField(t) * 2;
+        return a;
+    }
+    
+}"
+
+    let a = Analysis.analyseCode(c2)
     //let output = Formatting.plainFormat a
     //Console.WriteLine output
     //Console.ReadKey() |> ignore

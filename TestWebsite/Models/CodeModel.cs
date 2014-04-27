@@ -7,6 +7,7 @@ namespace TestWebsite.Models
 {
     public class CodeModel
     {
+        public string ExceptionMessage { get; set; }
         public string HoverCssClasses { get; set; }
         public string CodeElements { get; set; }
     }

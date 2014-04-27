@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,7 +10,34 @@ namespace TestWebsite.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Index(string code = null)
+        {
+            if(code == null)
+                return View();
+            try
+            {
+                return View(RenderCodeToModel(code));
+            }
+            catch (Exception ex)
+            {
+                Trace.Write(ex);
+                return View(new CodeModel()
+                    {
+                        ExceptionMessage = ex.ToString()
+                    });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Example()
         {
             var code = @"
 using System;
@@ -50,15 +78,20 @@ namespace TopLevel
         }
     }
 }";
+            return View(RenderCodeToModel(code));
+        }
+
+        private CodeModel RenderCodeToModel(string code)
+        {
             var v = Analysis.analyseCode(code);
-            
+
             var s = Formatting.Formatting.htmlFormat(v);
             var hoverCss = Formatting.Formatting.generateCss(v);
-            return View(new CodeModel
-                {
-                    CodeElements = s,
-                    HoverCssClasses = hoverCss
-                });
+            return new CodeModel
+            {
+                CodeElements = s,
+                HoverCssClasses = hoverCss
+            };
         }
                 
     }

@@ -60,6 +60,7 @@ module Analysis =
                 let symbol = model.GetSymbolInfo(token.Parent).Symbol
                 match tokenKind with
                 | SyntaxKind.ClassDeclaration
+                | SyntaxKind.EnumDeclaration
                 | SyntaxKind.StructDeclaration -> NamedTypeDeclaration token
                 | SyntaxKind.PropertyDeclaration -> PropertyDeclaration token
                 | SyntaxKind.MethodDeclaration -> MethodDeclaration token
@@ -67,7 +68,7 @@ module Analysis =
                     match token.Parent.Parent.Parent.CSharpKind() with
                     | SyntaxKind.FieldDeclaration -> FieldDeclaration token
                     | SyntaxKind.LocalDeclarationStatement -> LocalVariableDeclaration (token, symbol)
-                    | _ -> failwith "ASDASD"
+                    | _ -> Identifier token
                 | SyntaxKind.Parameter -> ParameterDeclaration token
                 | SyntaxKind.IdentifierToken -> Identifier token
                 | _ ->

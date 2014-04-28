@@ -79,8 +79,13 @@
         color: black;
     }
 </style>
-@if(Model != null)
-{ 
+@if (Model != null)
+{
+
+    if (Model.ExceptionMessage != null)
+    {
+        <div>@Model.ExceptionMessage</div>
+    }
 <style type="text/css">
     @Html.Raw(Model.HoverCssClasses)
 </style>
@@ -117,10 +122,6 @@ else
             height: 700px;
         }
     </style>
-    if(Model != null && Model.ExceptionMessage != null)
-    {
-        <div>@Model.ExceptionMessage</div>
-    }
     using(Html.BeginForm())
     {
         <ul>

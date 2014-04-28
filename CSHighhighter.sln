@@ -9,6 +9,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HighlighterLib", "Highlight
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebsite", "TestWebsite\TestWebsite.csproj", "{4CD29EC7-5366-4EFB-BEA8-87B0480371D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighlighterLib.Templating", "HighlighterLib.Templating\HighlighterLib.Templating.csproj", "{2F7FD1E6-10AD-485C-9544-51F49A7A0E26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4CD29EC7-5366-4EFB-BEA8-87B0480371D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CD29EC7-5366-4EFB-BEA8-87B0480371D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CD29EC7-5366-4EFB-BEA8-87B0480371D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F7FD1E6-10AD-485C-9544-51F49A7A0E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F7FD1E6-10AD-485C-9544-51F49A7A0E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F7FD1E6-10AD-485C-9544-51F49A7A0E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F7FD1E6-10AD-485C-9544-51F49A7A0E26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

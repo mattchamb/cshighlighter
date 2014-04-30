@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Directory</title>
+</head>
+<body>
+    <div data-bind="foreach: folder">
+
+    </div>
+    <div data-bind="foreach: file">
+        <div data-bind="text: name">
+            <a data-bind="attr: { href: url, title: details }" href="" target="sourceexplorer"></a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var directoryStructure = @Model.DirectoryJson;
+        var viewModel = new DIrectoryViewModel(directoryStructure);
+        ko.applyBindings(viewModel);
+    </script>
+</body>
+</html>

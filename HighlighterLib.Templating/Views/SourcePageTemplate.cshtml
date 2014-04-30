@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SourcePageTemplate</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/Style.css"></>
+</head>
+<body>
+    <div>
+
+        <div id="formattedCode" class="formattedCode">@Html.Raw(Model.CodeElements)</div>
+
+        <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript">
+            $("#formattedCode").find("*").each(function () {
+                this.onmouseover = function () {
+                    var hoverId = $(this).data.hover;
+                    if(hoverId) {
+                        $("." + hoverId).addClass("highlighted");
+                    }
+                };
+                this.onmouseout = function () {
+                    var hoverId = $(this).data.hover;
+                    if (hoverId) {
+                        $("." + hoverId).removeClass("highlighted");
+                    }
+                };
+            });
+        </script>
+    </div>
+</body>
+</html>

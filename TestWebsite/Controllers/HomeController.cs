@@ -6,11 +6,23 @@ using System.Web;
 using System.Web.Mvc;
 using TestWebsite.Models;
 using CSHighlighter;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace TestWebsite.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController()
+        {
+
+            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnection"));
+            var client = storageAccount.CreateCloudBlobClient();
+            var container = client.GetContainerReference("something");
+            container.CreateIfNotExists(BlobContainerPublicAccessType.Blob);
+            container.GetDirectoryReference("test/hello/");
+        }
         [HttpGet]
         public ActionResult Index()
         {

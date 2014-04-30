@@ -28,29 +28,56 @@ namespace HighlighterLib.Templating.Views
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/View.cshtml")]
-    public partial class View : System.Web.Mvc.WebViewPage<dynamic>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/Directory.cshtml")]
+    public partial class Directory : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public View()
+        public Directory()
         {
         }
         public override void Execute()
         {
-WriteLiteral(@"<!DOCTYPE html>
+WriteLiteral("\r\n");
+
+
+            
+            #line 2 "..\..\Views\Directory.cshtml"
+  
+    Layout = null;
+
+
+            
+            #line default
+            #line hidden
+WriteLiteral(@"
+<!DOCTYPE html>
 
 <html>
 <head>
     <meta name=""viewport"" content=""width=device-width"" />
-    <title>View</title>
+    <title>Directory</title>
 </head>
 <body>
-    <div> 
-        <iframe src=""~/Directory.html"" frameborder=""0"" name=""directorylist""></iframe>
-        <iframe src=""~/SourceDetails.html"" frameborder=""0"" name=""sourceexplorer""></iframe>
+    <div data-bind=""foreach: folder"">
+
     </div>
-</body>
-</html>
-");
+    <div data-bind=""foreach: file"">
+        <div data-bind=""text: name"">
+            <a data-bind=""attr: { href: url, title: details }"" href="""" target=""sourceexplorer""></a>
+        </div>
+    </div>
+    <script type=""text/javascript"">
+        var directoryStructure = ");
+
+
+            
+            #line 23 "..\..\Views\Directory.cshtml"
+                            Write(Model.DirectoryJson);
+
+            
+            #line default
+            #line hidden
+WriteLiteral(";\r\n        var viewModel = new DIrectoryViewModel(directoryStructure);\r\n        k" +
+"o.applyBindings(viewModel);\r\n    </script>\r\n</body>\r\n</html>\r\n");
 
 
         }

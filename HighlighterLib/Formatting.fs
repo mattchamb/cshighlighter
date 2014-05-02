@@ -12,7 +12,7 @@ module Formatting =
     open System.Net
 
     type HtmlElement =
-        | Span of id: string option * contents: string * cssClasses: string array * hoverId: string
+        | Span of id: string option * contents: string * cssClasses: string array * hoverId: string option
         | Anchor of href: string * contents: string * cssClasses: string array * hoverId: string
         | Literal of text: string
 
@@ -23,7 +23,10 @@ module Formatting =
             let css = combineClasses classes
             let encoded = WebUtility.HtmlEncode contents
             match id with
-            | Some idAttr -> sprintf @"<span id=""%s"" class=""%s"" data-hover=""%s"">%s</span>" idAttr css hover encoded
+            | Some idAttr -> 
+                match hover with
+                | Some h -> sprintf @"<span id=""%s"" class=""%s"" data-hover=""%s"">%s</span>" idAttr css h encoded
+                | None -> sprintf @"<span id=""%s"" class=""%s"">%s</span>" idAttr css encoded
             | None -> sprintf @"<span class=""%s"">%s</span>" css encoded
         | Anchor (href, contents, classes, hover) -> 
             let css = combineClasses classes
@@ -33,8 +36,8 @@ module Formatting =
 
     let locationToClassName (location:Location) = 
         match location.Kind with
-            | LocationKind.SourceFile -> sprintf "loc%d_%d" location.SourceSpan.Start location.SourceSpan.End
-            | _ -> failwith "Trying to get a css class name for token that is not in a source file."
+            | LocationKind.SourceFile -> Some <| sprintf "loc%d_%d" location.SourceSpan.Start location.SourceSpan.End
+            | _ -> None
 
     let symbolIdName (symbol:ISymbol) =
         let loc = Seq.head symbol.Locations
@@ -46,12 +49,12 @@ module Formatting =
 
     let locationClassName ele = 
         match ele with
-        | NamedTypeDeclaration tok -> Some <| tokenClassName tok
-        | LocalVariableDeclaration (tok, _) -> Some <| tokenClassName tok
-        | FieldDeclaration tok -> Some <| tokenClassName tok
-        | ParameterDeclaration tok -> Some <| tokenClassName tok
-        | PropertyDeclaration tok -> Some <| tokenClassName tok
-        | MethodDeclaration tok -> Some <| tokenClassName tok
+        | NamedTypeDeclaration tok -> tokenClassName tok
+        | LocalVariableDeclaration (tok, _) -> tokenClassName tok
+        | FieldDeclaration tok -> tokenClassName tok
+        | ParameterDeclaration tok -> tokenClassName tok
+        | PropertyDeclaration tok -> tokenClassName tok
+        | MethodDeclaration tok -> tokenClassName tok
         | _ -> None
 
     let generateCss (eles: OutputElement array) =
@@ -65,7 +68,7 @@ module Formatting =
     let htmlFormat (eles: OutputElement array) =
 
         let intoSpan spanClass id hoverId text = Span (id, text, spanClass, hoverId)
-        let intoLiteralSpan spanClass = intoSpan spanClass None ""
+        let intoLiteralSpan spanClass = intoSpan spanClass None None
         let intoHref spanClass ref hoverId text = Anchor (sprintf "#%s" ref, text, spanClass, hoverId)
 
         let comment = 
@@ -83,10 +86,12 @@ module Formatting =
 
         let sourceReference referenceClass tok sym =
             let c = tokenClassName tok
-            let href = symbolIdName sym
-            let hoverId = href
-            intoHref [|referenceClass; href|] href hoverId
-
+            let someHref = symbolIdName sym
+            let hoverId = someHref
+            match someHref with
+            | Some x -> intoHref [|referenceClass; x|] x x
+            | None -> intoSpan [|referenceClass|] None None
+                
         let localRef = sourceReference "localRef"
         let fieldRef = sourceReference "fieldRef"
         let paramRef = sourceReference "paramRef"
@@ -96,7 +101,9 @@ module Formatting =
         let sourceDeclaration declClass tok =
             let c = tokenClassName tok
             let hoverId = c
-            intoSpan [|declClass; c|] (Some c) hoverId
+            match c with
+            | Some x -> intoSpan [|declClass; x|] c hoverId
+            | None -> intoSpan [|declClass|] None None
 
         let propDecl = sourceDeclaration "propDecl"
         let paramDecl = sourceDeclaration "paramDecl"
@@ -104,7 +111,7 @@ module Formatting =
         let localDecl = sourceDeclaration "localDecl"
         let methodDecl = sourceDeclaration "methodDecl"
 
-        let toStr (tok:SyntaxToken) =
+        let toStr tok =
             tok.ToString()
 
         let htmlElementTransform ele = 
@@ -128,12 +135,12 @@ module Formatting =
             | MethodReference (tok, sym) -> methodRef tok sym <| toStr tok
             | Trivia tr -> 
                 match tr with
-                | TriviaElement.BeginRegion s -> region <| s.ToString()
-                | TriviaElement.Comment s -> comment <| s.ToString()
-                | TriviaElement.EndRegion s -> region <| s.ToString()
+                | TriviaElement.BeginRegion s -> region <| toStr s 
+                | TriviaElement.Comment s -> comment <| toStr s 
+                | TriviaElement.EndRegion s -> region <| toStr s 
                 | TriviaElement.NewLine -> Literal Environment.NewLine
-                | TriviaElement.UnformattedTrivia s -> Literal <| s.ToString()
-                | TriviaElement.Whitespace s -> Literal <| s.ToString()
+                | TriviaElement.UnformattedTrivia s -> Literal <| toStr s 
+                | TriviaElement.Whitespace s -> Literal <| toStr s 
             //| _ -> failwith "DONT KNOW HOW TO FORMAT"
         
         let htmlOutput = 

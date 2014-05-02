@@ -17,11 +17,11 @@ namespace TestWebsite.Controllers
         public HomeController()
         {
 
-            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnection"));
-            var client = storageAccount.CreateCloudBlobClient();
-            var container = client.GetContainerReference("something");
-            container.CreateIfNotExists(BlobContainerPublicAccessType.Blob);
-            container.GetDirectoryReference("test/hello/");
+            //var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnection"));
+            //var client = storageAccount.CreateCloudBlobClient();
+            //var container = client.GetContainerReference("something");
+            //container.CreateIfNotExists(BlobContainerPublicAccessType.Blob);
+            //container.GetDirectoryReference("test/hello/");
         }
         [HttpGet]
         public ActionResult Index()

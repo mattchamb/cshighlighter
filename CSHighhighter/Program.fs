@@ -63,9 +63,20 @@ class C<T> {
     }
     
 }"
-    let sourceFile: Analysis.SourceInput = { Path = ""; Contents = c2 }
+
+    let c3 = @"
+    class C {
+    public int Length { get; set; }
+    public static void Main(string[] args) {
+        var asdf = args[0];
+        var inst = new C();
+        inst.Length = asdf.Length;
+    }
+
+}"
+    let sourceFile: Analysis.SourceInput = { Path = ""; Contents = c3 }
     let a = Analysis.analyseFile(sourceFile)
-    //let output = Formatting.plainFormat a
+    let output = Formatting.htmlFormat a
     //Console.WriteLine output
     //Console.ReadKey() |> ignore
     0 // return an integer exit code

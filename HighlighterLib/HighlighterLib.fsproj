@@ -36,6 +36,7 @@
     <OtherFlags>--standalone</OtherFlags>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Build" />
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
@@ -84,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Analysis.fs" />
     <Compile Include="Formatting.fs" />
+    <Compile Include="SolutionParsing.fs" />
     <Compile Include="Github.fs" />
     <None Include="Script.fsx" />
     <None Include="packages.config" />

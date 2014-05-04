@@ -14,15 +14,15 @@ namespace TestWebsite.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly CloudBlobClient _blobClient;
         public HomeController()
         {
+            var conn = CloudConfigurationManager.GetSetting("StorageConnection");
 
-            //var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnection"));
-            //var client = storageAccount.CreateCloudBlobClient();
-            //var container = client.GetContainerReference("something");
-            //container.CreateIfNotExists(BlobContainerPublicAccessType.Blob);
-            //container.GetDirectoryReference("test/hello/");
+            var storageAccount = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
+            _blobClient = storageAccount.CreateCloudBlobClient();
         }
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -37,7 +37,8 @@ namespace TestWebsite.Controllers
                 return View();
             try
             {
-                return View(RenderCodeToModel(code));
+                var model = FormatAndUpload(code);
+                return Redirect(model.AbsoluteUri);
             }
             catch (Exception ex)
             {
@@ -49,63 +50,19 @@ namespace TestWebsite.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult Example()
-        {
-            var code = @"
-using System;
 
-namespace TopLevel
-{ 
-    class Foo 
-    {
-        // Something something comment
-        private int someField = 0;
-        private string someStringField = ""asdf"";
-        public Foo(int x)
-        {
-            var a = 10;
-            a = 3456;
-            this.someField = x;
-        }
 
-        /* multiline on a single line */
-        /*****
-        *
-        * Multiline on multi lines.
-        *
-        ******/
-        public bool Test()
-        {
-            #region SomeRegion
-            return someField == 0 && Test();
-            #endregion
-        }
-        private class SubClass<TSomething>
-        {
-            public TSomething Value { get; set; }
-            public SubClass(TSomething ts)
-            {
-                Value = ts;
-            }
-        }
-    }
-}";
-            return View(RenderCodeToModel(code));
-        }
-
-        private CodeModel RenderCodeToModel(string code)
+        private Uri FormatAndUpload(string code)
         {
             var source = new Analysis.SourceInput("", code);
             var v = Analysis.analyseFile(source);
 
             var s = Formatting.htmlFormat(v);
-            //var hoverCss = Formatting.generateCss(v);
-            return new CodeModel
-            {
-                CodeElements = s,
-                HoverCssClasses = ""
-            };
+            
+            var container = Storage.getContainer(_blobClient, "standalone");
+            var loc = Storage.storeBlob(container, Guid.NewGuid().ToString("N") + ".html", Storage.BlobContents.NewHtml(HighlighterLib.Templating.Render.SinglePage(s)));
+
+            return loc;
         }
                 
     }

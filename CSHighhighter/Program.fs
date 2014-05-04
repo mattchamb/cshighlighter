@@ -77,6 +77,8 @@ class C<T> {
     let sourceFile: Analysis.SourceInput = { Path = ""; Contents = c3 }
     let a = Analysis.analyseFile(sourceFile)
     let output = Formatting.htmlFormat a
+
+    let a = HighlighterLib.Templating.Render.SinglePage(output)
     //Console.WriteLine output
     //Console.ReadKey() |> ignore
     0 // return an integer exit code

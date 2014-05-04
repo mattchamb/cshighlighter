@@ -33,6 +33,7 @@ module Analysis =
         | NamedTypeReference of SyntaxToken * ISymbol
         | MethodDeclaration of SyntaxToken
         | MethodReference of SyntaxToken * ISymbol
+        | SemanticError of SyntaxToken * Diagnostic array
     and TriviaElement =
         | Comment of SyntaxTrivia
         | BeginRegion of SyntaxTrivia
@@ -52,38 +53,68 @@ module Analysis =
         let isVarDecl (token:SyntaxToken) = 
             token.Parent.Parent.CSharpKind() = SyntaxKind.VariableDeclaration && token.ToString().Equals("var", StringComparison.OrdinalIgnoreCase)
 
+        let examineDefinedSymbols (token: SyntaxToken) = 
+            let definedSymbols = model.LookupSymbols(token.SpanStart, null, token.ToString(), true)
+            match definedSymbols.Length with
+            | 1 -> 
+                let symbol = definedSymbols.[0]
+                match symbol.Kind with
+                | SymbolKind.Method -> MethodReference (token, symbol)
+                | _ -> Identifier token
+            | _ -> 
+                Identifier token
+
+        let semanticErrors (token:SyntaxToken) =
+            let d = model.GetDiagnostics()
+            let asdf = 
+                d
+                |> Seq.filter (fun d -> d.Location.SourceSpan.Contains(token.Span))
+                |> Seq.toArray
+            let diagnostics = model.GetDiagnostics(new Nullable<TextSpan>(token.Span))
+            let errors =
+                asdf
+                |> Seq.filter (fun diag -> diag.Severity = DiagnosticSeverity.Error)
+                |> Seq.toArray
+            match errors.Length with
+            | 0 -> None
+            | _ -> Some errors
+
         let identifierElement (token:SyntaxToken) = 
             let tokenKind = token.Parent.CSharpKind()
             if isVarDecl token then 
                 Keyword token
             else
-                let symbol = model.GetSymbolInfo(token.Parent).Symbol
-                match tokenKind with
-                | SyntaxKind.ClassDeclaration
-                | SyntaxKind.EnumDeclaration
-                | SyntaxKind.StructDeclaration -> NamedTypeDeclaration token
-                | SyntaxKind.PropertyDeclaration -> PropertyDeclaration token
-                | SyntaxKind.MethodDeclaration -> MethodDeclaration token
-                | SyntaxKind.VariableDeclarator -> 
-                    match token.Parent.Parent.Parent.CSharpKind() with
-                    | SyntaxKind.FieldDeclaration -> FieldDeclaration token
-                    | SyntaxKind.LocalDeclarationStatement -> LocalVariableDeclaration (token, symbol)
-                    | _ -> Identifier token
-                | SyntaxKind.Parameter -> ParameterDeclaration token
-                | SyntaxKind.IdentifierToken -> Identifier token
-                | _ ->
-                    if symbol <> null then
-                        let declLoc = symbol.Locations.[0].SourceSpan
-                        match symbol.Kind with
-                        | SymbolKind.Field -> FieldReference (token, symbol)
-                        | SymbolKind.Local -> LocalVariableReference (token, symbol)
-                        | SymbolKind.Parameter -> ParameterReference (token, symbol)
-                        | SymbolKind.Property -> PropertyReference (token, symbol)
-                        | SymbolKind.NamedType -> NamedTypeReference (token, symbol)
-                        | SymbolKind.Method -> MethodReference (token, symbol)
+                match semanticErrors token with
+                | Some errors -> SemanticError (token, errors)
+                | None ->
+                    let symbol = model.GetSymbolInfo(token.Parent).Symbol
+                    match tokenKind with
+                    | SyntaxKind.ClassDeclaration
+                    | SyntaxKind.EnumDeclaration
+                    | SyntaxKind.StructDeclaration -> NamedTypeDeclaration token
+                    | SyntaxKind.PropertyDeclaration -> PropertyDeclaration token
+                    | SyntaxKind.MethodDeclaration -> MethodDeclaration token
+                    | SyntaxKind.VariableDeclarator -> 
+                        match token.Parent.Parent.Parent.CSharpKind() with
+                        | SyntaxKind.FieldDeclaration -> FieldDeclaration token
+                        | SyntaxKind.LocalDeclarationStatement -> LocalVariableDeclaration (token, symbol)
                         | _ -> Identifier token
-                    else 
-                        Identifier token
+                    | SyntaxKind.Parameter -> ParameterDeclaration token
+                    | SyntaxKind.IdentifierToken -> Identifier token
+                    | _ ->
+                        if symbol <> null then
+                            let declLoc = symbol.Locations.[0].SourceSpan
+                        
+                            match symbol.Kind with
+                            | SymbolKind.Field -> FieldReference (token, symbol)
+                            | SymbolKind.Local -> LocalVariableReference (token, symbol)
+                            | SymbolKind.Parameter -> ParameterReference (token, symbol)
+                            | SymbolKind.Property -> PropertyReference (token, symbol)
+                            | SymbolKind.NamedType -> NamedTypeReference (token, symbol)
+                            | SymbolKind.Method -> MethodReference (token, symbol)
+                            | _ -> Identifier token
+                        else 
+                            examineDefinedSymbols token
         
         override x.VisitToken token =
             x.VisitLeadingTrivia token

@@ -72,3 +72,8 @@
 .methodDecl {
     color: black;
 }
+
+.semanticError {
+    color: red;
+    text-decoration: underline;
+}

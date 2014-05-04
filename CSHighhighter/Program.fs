@@ -74,7 +74,43 @@ class C<T> {
     }
 
 }"
-    let sourceFile: Analysis.SourceInput = { Path = ""; Contents = c3 }
+    let c4 = @"
+namespace HighlighterLib.Templating
+{
+    using System;
+    using System.Collections.Generic;
+    public static class Render
+    {
+        
+
+        private static string RenderSingleFile(SingleFileModel m)
+        {
+            var config = new TemplateServiceConfiguration
+            {
+                BaseTemplateType = typeof(HtmlTemplateBase<>)
+            };
+
+            using (var service = new TemplateService(config))
+            {
+                var t = Resources.FormattedSingleFile;
+                Razor.SetTemplateService(service);
+                return Razor.Parse(t, m);
+            }
+        }
+
+        public static string SinglePage(string htmlContent, IEnumerable<Uri> cssPaths, IEnumerable<Uri> jsPaths)
+        {
+            var m = new Models.SingleFileModel()
+            {
+                StylesheetUris = cssPaths,
+                PreformattedHtml = htmlContent,
+                JavascriptUris = jsPaths
+            };
+            return RenderSingleFile(m);
+        }
+    }
+}"
+    let sourceFile: Analysis.SourceInput = { Path = ""; Contents = c4 }
     let a = Analysis.analyseFile(sourceFile)
     let output = Formatting.htmlFormat a
 

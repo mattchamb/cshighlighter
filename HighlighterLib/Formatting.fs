@@ -10,6 +10,7 @@ module Formatting =
     open Microsoft.CodeAnalysis.CSharp.Syntax
     open Microsoft.CodeAnalysis.Text
     open System.Net
+    open HighlighterLib.Templating
 
     type HtmlElement =
         | Span of id: string option * contents: string * cssClasses: string array * hoverId: string option

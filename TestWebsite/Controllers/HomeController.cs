@@ -9,6 +9,7 @@ using CSHighlighter;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System.Configuration;
 
 namespace TestWebsite.Controllers
 {
@@ -17,9 +18,8 @@ namespace TestWebsite.Controllers
         private readonly CloudBlobClient _blobClient;
         public HomeController()
         {
-            var conn = CloudConfigurationManager.GetSetting("StorageConnection");
-
-            var storageAccount = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
+            var conn = ConfigurationManager.ConnectionStrings["StorageConnection"].ConnectionString;
+            var storageAccount = CloudStorageAccount.Parse(conn);
             _blobClient = storageAccount.CreateCloudBlobClient();
         }
 
@@ -37,8 +37,9 @@ namespace TestWebsite.Controllers
                 return View();
             try
             {
-                var model = FormatAndUpload(code);
-                return Redirect(model.AbsoluteUri);
+                var blobUri = FormatAndUploadStandalone(code);
+                //return View(new CodeModel() { FrameUrl = blobUri.AbsoluteUri });
+                return Redirect(blobUri.AbsoluteUri);
             }
             catch (Exception ex)
             {
@@ -50,18 +51,13 @@ namespace TestWebsite.Controllers
             }
         }
 
-
-
-        private Uri FormatAndUpload(string code)
+        private Uri FormatAndUploadStandalone(string code)
         {
-            var source = new Analysis.SourceInput("", code);
-            var v = Analysis.analyseFile(source);
-
-            var s = Formatting.htmlFormat(v);
+            var standaloneHighlighting = Hightlighting.renderStandalone(code);
             
             var container = Storage.getContainer(_blobClient, "standalone");
-            var loc = Storage.storeBlob(container, Guid.NewGuid().ToString("N") + ".html", Storage.BlobContents.NewHtml(HighlighterLib.Templating.Render.SinglePage(s)));
-
+            var fileName = Guid.NewGuid().ToString("N") + ".html";
+            var loc = Storage.storeBlob(container, fileName, Storage.BlobContents.NewHtml(standaloneHighlighting));
             return loc;
         }
                 

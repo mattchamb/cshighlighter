@@ -196,10 +196,6 @@
     <Content Include="Scripts\jquery-2.1.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HighlighterLib.Templating\HighlighterLib.Templating.csproj">
-      <Project>{2f7fd1e6-10ad-485c-9544-51f49a7a0e26}</Project>
-      <Name>HighlighterLib.Templating</Name>
-    </ProjectReference>
     <ProjectReference Include="..\HighlighterLib\HighlighterLib.fsproj">
       <Project>{2b1161b9-e541-4bfc-9a0d-9ef9a714f121}</Project>
       <Name>HighlighterLib</Name>

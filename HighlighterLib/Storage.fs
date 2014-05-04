@@ -19,8 +19,9 @@ let getContainer (client: CloudBlobClient) (containerName: string) : CloudBlobCo
 let storeBlob (container: CloudBlobContainer) (blobPath: string) (contents: BlobContents) =
     let uploadToBlob (destBlob: CloudBlockBlob) (contents: string) (contentType: string) =
         use stream = new MemoryStream(Encoding.UTF8.GetBytes contents)
-        destBlob.UploadFromStream(stream)
         destBlob.Properties.ContentType <- contentType
+        destBlob.UploadFromStream(stream)
+        destBlob.SetProperties()
 
     let blob = container.GetBlockBlobReference(blobPath)
     match contents with

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model HighlighterLib.Templating.Models.SingleFileModel
+<!DOCTYPE html>
 <html>
 <head>
     <title>Upload - CS Hightligter</title>
@@ -8,13 +9,26 @@
             @Raw(css)
         </style>
     }
+    @foreach (var item in Model.StylesheetUris)
+    {
+        <link type="text/css" rel="@item.AbsolutePath" />
+    }
 </head>
 <body>
     <div>
         <div id="formattedCode" class="formattedCode">@Raw(Model.PreformattedHtml)</div>
     </div>
-    <script type="text/javascript">
-        @Raw(Model.Javascript)
-    </script>
+
+    @foreach (var src in Model.JavascriptUris)
+    {
+        <script type="text/javascript" src="@src.AbsolutePath"></script>
+    }
+    @foreach (var script in Model.Javascript)
+    {
+        <script type="text/javascript">
+            @Raw(script)
+        </script>
+    }
 </body>
+
 </html>

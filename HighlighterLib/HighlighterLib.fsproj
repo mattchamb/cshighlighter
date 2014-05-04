@@ -117,11 +117,19 @@
     <Compile Include="Storage.fs" />
     <Compile Include="Analysis.fs" />
     <Compile Include="Formatting.fs" />
+    <Compile Include="Hightlighting.fs" />
     <Compile Include="SolutionParsing.fs" />
     <Compile Include="Github.fs" />
     <None Include="Script.fsx" />
     <None Include="packages.config" />
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HighlighterLib.Templating\HighlighterLib.Templating.csproj">
+      <Name>HighlighterLib.Templating</Name>
+      <Project>{2f7fd1e6-10ad-485c-9544-51f49a7a0e26}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

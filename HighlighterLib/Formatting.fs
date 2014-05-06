@@ -12,88 +12,90 @@ module Formatting =
     open System.Net
     open HighlighterLib.Templating
 
+    type HtmlAttribute =
+        | Id of string
+        | Class of string array
+        | HoverId of string
+        | Title of string
+        | Href of string
+
     type HtmlElement =
-        | Span of id: string option * contents: string * cssClasses: string array * hoverId: string option * title: string option
-        | Anchor of href: string * contents: string * cssClasses: string array * hoverId: string
+        | Span of contents: string * attributes: HtmlAttribute list
+        | Anchor of contents: string * attributes: HtmlAttribute list
         | Literal of text: string
+    
+    let combineClasses (c: string array) = String.Join(" ", c)
+
+    let combineAttributes (attributes: HtmlAttribute list) = 
+        let sb = new StringBuilder()
+        attributes
+        |> List.iter (
+            fun attr ->
+                match attr with
+                | Id t -> sb.AppendFormat("id=\"{0}\" ", t) |> ignore
+                | Class c -> sb.AppendFormat("class=\"{0}\" ", combineClasses c) |> ignore
+                | HoverId t -> sb.AppendFormat("data-hover=\"{0}\" ", t) |> ignore
+                | Title t -> sb.AppendFormat("title=\"{0}\" ", t) |> ignore
+                | Href t -> sb.AppendFormat("href=\"{0}\" ", t) |> ignore
+            )
+        sb.ToString()
 
     let formatHtmlElement (htmlEle:HtmlElement) =
-        let combineClasses (c: string array) = String.Join(" ", c)
         match htmlEle with
-        | Span (id, contents, classes, hover, title) -> 
-            let css = combineClasses classes
+        | Span (contents, attributes) -> 
             let encoded = WebUtility.HtmlEncode contents
-            let titleAttr =
-                match title with
-                | Some t -> sprintf "title=\"%s\"" t
-                | None -> String.Empty
-            let hoverAttr =
-                match hover with
-                | Some t -> sprintf "data-hover=\"%s\"" t
-                | None -> String.Empty
-            let idAttr =
-                match id with
-                | Some t -> sprintf "id=\"%s\"" t
-                | None -> String.Empty
-            sprintf @"<span %s class=""%s"" %s %s>%s</span>" idAttr css hoverAttr titleAttr encoded
+            let attributeText = combineAttributes attributes
+            sprintf @"<span %s>%s</span>" attributeText encoded
                 
-        | Anchor (href, contents, classes, hover) -> 
-            let css = combineClasses classes
+        | Anchor (contents, attributes) -> 
             let encoded = WebUtility.HtmlEncode contents
-            sprintf @"<a href=""%s"" class=""%s"" data-hover=""%s"">%s</a>" href css hover encoded
+            let attributeText = combineAttributes attributes
+            sprintf @"<a %s>%s</a>" attributeText encoded
         | Literal text -> WebUtility.HtmlEncode text
 
-    let locationToClassName (location:Location) = 
+    let locationToString (location:Location) = 
         match location.Kind with
             | LocationKind.SourceFile -> Some <| sprintf "loc%d_%d" location.SourceSpan.Start location.SourceSpan.End
             | _ -> None
 
-    let symbolIdName (symbol:ISymbol) =
+    let symbolLocationString (symbol:ISymbol) =
         let loc = Seq.head symbol.Locations
-        locationToClassName loc
+        locationToString loc
 
-    let tokenClassName (tok:SyntaxToken) =
+    let tokenLocationString (tok:SyntaxToken) =
         let loc = tok.GetLocation()
-        locationToClassName loc
-
-    let locationClassName ele = 
-        match ele with
-        | NamedTypeDeclaration tok -> tokenClassName tok
-        | LocalVariableDeclaration (tok, _) -> tokenClassName tok
-        | FieldDeclaration tok -> tokenClassName tok
-        | ParameterDeclaration tok -> tokenClassName tok
-        | PropertyDeclaration tok -> tokenClassName tok
-        | MethodDeclaration tok -> tokenClassName tok
-        | _ -> None
+        locationToString loc
 
     let htmlFormat (eles: OutputElement array) =
 
-        let intoSpan spanClass id hoverId title text = Span (id, text, spanClass, hoverId, title)
-        let intoLiteralSpan spanClass = intoSpan spanClass None None
-        let intoHref spanClass ref hoverId text = Anchor (sprintf "#%s" ref, text, spanClass, hoverId)
+        let intoSpan attributes text = Span (text, attributes)
+        let intoLiteralSpan spanClass text = Span (text, [ Class [|spanClass|] ])
+        let intoHref attributes text = Anchor (text, attributes)
+        let intoTitledSpan spanClass title text = Span (text, [ Class [|spanClass|]; Title title ])
 
-        let comment = 
-            intoLiteralSpan [|"comment"|] None
-        let keyword = 
-            intoLiteralSpan [|"keyword"|] None
-        let ident = 
-            intoLiteralSpan [|"identifier"|] None
-        let stringLiteral = 
-            intoLiteralSpan [|"stringLiteral"|] None
-        let numericLiteral = 
-            intoLiteralSpan [|"numericLiteral"|] None
-        let region text = 
-            intoLiteralSpan [|"region"|] None (text + Environment.NewLine)
-        let semanticError title =
-            intoLiteralSpan [| "semanticError" |] (Some title)
+        let comment = intoLiteralSpan "comment"
+        let keyword = intoLiteralSpan "keyword"
+        let ident = intoLiteralSpan "identifier"
+        let stringLiteral = intoLiteralSpan "stringLiteral"
+        let numericLiteral = intoLiteralSpan "numericLiteral"
+        let region text = intoLiteralSpan "region" (text + Environment.NewLine)
+        let semanticError = intoTitledSpan "semanticError" 
 
         let sourceReference referenceClass tok sym =
-            let c = tokenClassName tok
-            let someHref = symbolIdName sym
-            let hoverId = someHref
-            match someHref with
-            | Some x -> intoHref [|referenceClass; x|] x x
-            | None -> intoSpan [|referenceClass|] None None None
+            let symbolLocation = symbolLocationString sym
+            match symbolLocation with
+            | Some x -> 
+                let attribs = [
+                        Class [|referenceClass; x|];
+                        Href <| sprintf "#%s" x;
+                        HoverId x
+                    ]
+                intoHref attribs
+            | None -> 
+                let attribs = [
+                        Class [|referenceClass|];
+                    ]
+                intoSpan attribs
                 
         let localRef = sourceReference "localRef"
         let fieldRef = sourceReference "fieldRef"
@@ -102,11 +104,20 @@ module Formatting =
         let methodRef = sourceReference "methodRef"
 
         let sourceDeclaration declClass tok =
-            let c = tokenClassName tok
-            let hoverId = c
-            match c with
-            | Some x -> intoSpan [|declClass; x|] c hoverId None
-            | None -> intoSpan [|declClass|] None None None
+            let tokenLocation = tokenLocationString tok
+            match tokenLocation with
+            | Some x -> 
+                let attribs = [
+                        Class [|declClass; x|];
+                        HoverId x;
+                        Id x
+                    ]
+                intoSpan attribs
+            | None -> 
+                let attribs = [
+                        Class [|declClass|];
+                    ]
+                intoSpan attribs
 
         let propDecl = sourceDeclaration "propDecl"
         let paramDecl = sourceDeclaration "paramDecl"

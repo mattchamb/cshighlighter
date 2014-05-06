@@ -83,17 +83,20 @@ module Formatting =
 
         let sourceReference referenceClass tok sym =
             let symbolLocation = symbolLocationString sym
+            let symbolDisplayText = sym.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)
             match symbolLocation with
             | Some x -> 
                 let attribs = [
                         Class [|referenceClass; x|];
                         Href <| sprintf "#%s" x;
-                        HoverId x
+                        HoverId x;
+                        Title symbolDisplayText
                     ]
                 intoHref attribs
             | None -> 
                 let attribs = [
                         Class [|referenceClass|];
+                        Title symbolDisplayText
                     ]
                 intoSpan attribs
                 

@@ -66,7 +66,7 @@ module Formatting =
         let loc = tok.GetLocation()
         locationToString loc
 
-    let htmlFormat (eles: OutputElement array) =
+    let htmlFormat (eles: OutputElement seq) =
 
         let intoSpan attributes text = Span (text, attributes)
         let intoLiteralSpan spanClass text = Span (text, [ Class [|spanClass|] ])
@@ -166,8 +166,8 @@ module Formatting =
         let htmlOutput = 
             let out = new StringBuilder()
             eles
-            |> Array.map htmlElementTransform
-            |> Array.iter 
+            |> Seq.map htmlElementTransform
+            |> Seq.iter 
                 (fun h -> 
                     formatHtmlElement h
                     |> out.Append

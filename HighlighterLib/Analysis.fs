@@ -3,6 +3,7 @@
 module Analysis =
 
     open System
+    open System.Collections.Generic
     open Microsoft.CodeAnalysis
     open Microsoft.CodeAnalysis.CSharp
     open Microsoft.CodeAnalysis.CSharp.Syntax
@@ -44,11 +45,12 @@ module Analysis =
 
     type Visitor(model : SemanticModel) =
         inherit CSharpSyntaxWalker(SyntaxWalkerDepth.StructuredTrivia)
+        let modelDiagnostics = model.GetDiagnostics()
 
-        let mutable outputElements: OutputElement list = []
+        let outputElements = new List<OutputElement>()
 
         let addElement ele =
-            outputElements <- ele :: outputElements
+            outputElements.Add ele
 
         let isVarDecl (token:SyntaxToken) = 
             token.Parent.Parent.CSharpKind() = SyntaxKind.VariableDeclaration && token.ToString().Equals("var", StringComparison.OrdinalIgnoreCase)
@@ -65,14 +67,12 @@ module Analysis =
                 Identifier token
 
         let semanticErrors (token:SyntaxToken) =
-            let d = model.GetDiagnostics()
-            let asdf = 
-                d
+            let tokenDiagnostics = 
+                modelDiagnostics
                 |> Seq.filter (fun d -> d.Location.SourceSpan.Contains(token.Span))
                 |> Seq.toArray
-            let diagnostics = model.GetDiagnostics(new Nullable<TextSpan>(token.Span))
             let errors =
-                asdf
+                tokenDiagnostics
                 |> Seq.filter (fun diag -> diag.Severity = DiagnosticSeverity.Error)
                 |> Seq.toArray
             match errors.Length with
@@ -142,7 +142,12 @@ module Analysis =
                         |> Trivia
             addElement output
 
-        member x.getOutput() = outputElements |> List.rev // Reverse the elements because we are appending to the front when building the list.
+        override x.VisitClassDeclaration decl =
+            let t = model.GetDeclaredSymbol(decl)
+            let members = t.GetMembers()
+            base.VisitClassDeclaration decl
+
+        member x.getOutput() = outputElements
 
 
     let compilationForSource trees =
@@ -155,7 +160,7 @@ module Analysis =
         let v = new Visitor(model)
         v.DefaultVisit syntaxTreeRoot
         let elements = v.getOutput()
-        List.toArray elements
+        elements
       
     let analyseFile (file: SourceInput) = 
         let syntaxTree = parseCode file

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace HighlighterLib.Templating
 {
-    public static class Content
+    public static class StaticContent
     {
         public static string[] GetScripts()
         {
@@ -20,6 +20,16 @@ namespace HighlighterLib.Templating
             return new[] {
                 Resources.Style
             };
+        }
+
+        public static string GetHighlightingScript()
+        {
+            return Resources.HightlightingScript;
+        }
+
+        public static string GetHighlightingStyle()
+        {
+            return Resources.Style;
         }
     }
 }

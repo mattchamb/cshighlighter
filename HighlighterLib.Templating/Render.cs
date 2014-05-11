@@ -21,9 +21,9 @@ namespace HighlighterLib.Templating
         {
             var m = new Models.SingleFileModel()
             {
-                Stylesheets = Content.GetStyles(),
+                Stylesheets = StaticContent.GetStyles(),
                 PreformattedHtml = htmlContent,
-                Javascript = Content.GetScripts()
+                Javascript = StaticContent.GetScripts()
             };
             return RenderSingleFile(m);
         }

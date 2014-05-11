@@ -9,13 +9,7 @@ module Analysis =
     open Microsoft.CodeAnalysis.CSharp.Syntax
     open Microsoft.CodeAnalysis.Text
 
-    type SourceInput =
-        {
-            Path: string;
-            Contents: string
-        }
-
-    type OutputElement =
+    type TokenClassification =
         | Unformatted of SyntaxToken
         | Trivia of TriviaElement
         | Keyword of SyntaxToken
@@ -43,11 +37,16 @@ module Analysis =
         | Whitespace of SyntaxTrivia
         | UnformattedTrivia of SyntaxTrivia
 
+    type AnalysisResult =
+        {
+            ClassifiedTokens: List<TokenClassification>
+        }
+
     type Visitor(model : SemanticModel) =
         inherit CSharpSyntaxWalker(SyntaxWalkerDepth.StructuredTrivia)
         let modelDiagnostics = model.GetDiagnostics()
 
-        let outputElements = new List<OutputElement>()
+        let outputElements = new List<TokenClassification>()
 
         let addElement ele =
             outputElements.Add ele
@@ -147,14 +146,20 @@ module Analysis =
             let members = t.GetMembers()
             base.VisitClassDeclaration decl
 
+        override x.VisitEnumDeclaration decl =
+            base.VisitEnumDeclaration decl
+
+        override x.VisitStructDeclaration decl =
+            base.VisitStructDeclaration decl
+
         member x.getOutput() = outputElements
 
 
     let compilationForSource trees =
         CSharpCompilation.Create("highlightingCompilation", trees, [|new MetadataFileReference(typeof<Object>.Assembly.Location)|])
 
-    let parseCode (f:SourceInput) =
-        CSharpSyntaxTree.ParseText (f.Contents, f.Path)
+    let parseCode (code: string) =
+        CSharpSyntaxTree.ParseText (code, String.Empty)
 
     let createHighlightingModel syntaxTreeRoot model =
         let v = new Visitor(model)
@@ -162,26 +167,27 @@ module Analysis =
         let elements = v.getOutput()
         elements
       
-    let analyseFile (file: SourceInput) = 
-        let syntaxTree = parseCode file
+    let analyseFile (code: string) = 
+        let syntaxTree = parseCode code
         let compilation = compilationForSource [|syntaxTree|]
         let root = syntaxTree.GetRoot()
         let model = compilation.GetSemanticModel(syntaxTree)
-        createHighlightingModel root model
+        let classifiedTokens = createHighlightingModel root model
+        { ClassifiedTokens = classifiedTokens }
 
-    let analyseFiles (files: SourceInput seq) =
-        let syntaxTrees =
-            files
-            |> Seq.map parseCode
-            |> Seq.toArray
-        let compilation = compilationForSource syntaxTrees
-        let fileOutputs =
-            syntaxTrees
-            |> Array.map 
-                (fun t -> 
-                    let root = t.GetRoot()
-                    let model = compilation.GetSemanticModel(t)
-                    createHighlightingModel root model)
-        fileOutputs
+//    let analyseFiles (files: SourceInput seq) =
+//        let syntaxTrees =
+//            files
+//            |> Seq.map parseCode
+//            |> Seq.toArray
+//        let compilation = compilationForSource syntaxTrees
+//        let fileOutputs =
+//            syntaxTrees
+//            |> Array.map 
+//                (fun t -> 
+//                    let root = t.GetRoot()
+//                    let model = compilation.GetSemanticModel(t)
+//                    createHighlightingModel root model)
+//        fileOutputs
 
 

@@ -86,10 +86,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Style.css" />
+    <Content Include="Content\Style.min.css">
+      <DependentUpon>Style.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\HightlightingScript.min.js">
+      <DependentUpon>HightlightingScript.js</DependentUpon>
+    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Content.cs" />
+    <Compile Include="StaticContent.cs" />
+    <Compile Include="ImageContent.cs" />
     <Compile Include="Models\SingleFileModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -115,6 +122,9 @@
     </Content>
     <Content Include="Views\SingleUpload\FormattedSingleFile.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\HightlightingScript.min.js.map">
+      <DependentUpon>HightlightingScript.min.js</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

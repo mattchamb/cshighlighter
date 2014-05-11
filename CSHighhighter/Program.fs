@@ -110,15 +110,15 @@ namespace HighlighterLib.Templating
         }
     }
 }"
-    let sourceFile: Analysis.SourceInput = { Path = ""; Contents = c3 }
-    let a = Analysis.analyseFile(sourceFile)
-    let output = Formatting.htmlFormat a
+    //let sourceFile: Analysis.SourceInput = { Path = ""; Contents = c3 }
+    //let a = Analysis.analyseFile(sourceFile)
+    //let output = Formatting.htmlFormat a
 
     //let a = HighlighterLib.Templating.Render.SinglePage(output)
     //Console.WriteLine output
     //Console.ReadKey() |> ignore
 
-    //let asdf = SolutionParsing.analyseSolution "C:\Projects\cecil\Mono.Cecil.sln"
+    let asdf = SolutionParsing.analyseSolution "C:\Projects\cecil\Mono.Cecil.sln"
 
     
     0 // return an integer exit code

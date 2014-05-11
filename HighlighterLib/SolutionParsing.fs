@@ -9,6 +9,7 @@ module SolutionParsing =
     open Microsoft.CodeAnalysis.CSharp
     open Microsoft.CodeAnalysis.CSharp.Syntax
     open Microsoft.CodeAnalysis.Text
+    open Formatting
 
     type ProcessedFile = {
         Path: string;
@@ -35,7 +36,8 @@ module SolutionParsing =
             let! model = doc.GetSemanticModelAsync() |> Async.AwaitTask
             let! root = doc.GetSyntaxRootAsync() |> Async.AwaitTask
             let highlightingModel = Analysis.createHighlightingModel root model
-            let html = Formatting.htmlFormat highlightingModel
+            let env = FormattingEnvironment.Project(doc.Project.Solution, doc.Id)
+            let html = Formatting.htmlFormat env highlightingModel
             return {
                 Path = doc.FilePath;
                 Content = html

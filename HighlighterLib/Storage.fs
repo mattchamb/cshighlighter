@@ -16,16 +16,19 @@ let getContainer (client: CloudBlobClient) (containerName: string) : CloudBlobCo
     container.CreateIfNotExists(BlobContainerPublicAccessType.Blob) |> ignore
     container
 
-let storeBlob (container: CloudBlobContainer) (blobPath: string) (contents: BlobContents) =
-    let uploadToBlob (destBlob: CloudBlockBlob) (contents: string) (contentType: string) =
+let storeInBlob (blob: ICloudBlob) (contents: BlobContents) =
+    let uploadToBlob (destBlob: ICloudBlob) (contents: string) (contentType: string) =
         use stream = new MemoryStream(Encoding.UTF8.GetBytes contents)
         destBlob.Properties.ContentType <- contentType
         destBlob.UploadFromStream(stream)
         destBlob.SetProperties()
-
-    let blob = container.GetBlockBlobReference(blobPath)
     match contents with
     | Html c -> uploadToBlob blob c "text/html"
     | Css c -> uploadToBlob blob c "text/css"
     | Javascript c -> uploadToBlob blob c "text/javascript"
     blob.Uri
+
+let storeBlob (container: CloudBlobContainer) (blobPath: string) (contents: BlobContents) =
+    let blob = container.GetBlockBlobReference(blobPath)
+    storeInBlob blob contents
+

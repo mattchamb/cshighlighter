@@ -18,9 +18,8 @@ namespace TestWebsite.Controllers
         private readonly CloudBlobClient _blobClient;
         public HomeController()
         {
-            var conn = ConfigurationManager.ConnectionStrings["StorageConnection"].ConnectionString;
-            var storageAccount = CloudStorageAccount.Parse(conn);
-            _blobClient = storageAccount.CreateCloudBlobClient();
+            var blobClientFactory = new BlobClientFactory();
+            _blobClient = blobClientFactory.CreateBlobClient();
         }
 
         [HttpGet]
@@ -55,7 +54,7 @@ namespace TestWebsite.Controllers
         {
             var standaloneHighlighting = Hightlighting.renderStandalone(code);
             
-            var container = Storage.getContainer(_blobClient, "standalone");
+            var container = Storage.getContainer(_blobClient, BlobContainers.StandaloneContainer);
             var fileName = Guid.NewGuid().ToString("N") + ".html";
             var loc = Storage.storeBlob(container, fileName, Storage.BlobContents.NewHtml(standaloneHighlighting));
             return loc;

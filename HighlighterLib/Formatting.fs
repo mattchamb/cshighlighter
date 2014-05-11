@@ -112,6 +112,13 @@ module Formatting =
             let loc = tok.GetLocation()
             getReferenceInfo loc
 
+        let getSymbolTitle (sym: ISymbol) =
+            let displayStr = sym.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)
+            let loc = sym.Locations.[0]
+            match loc.Kind with
+            | LocationKind.SourceFile -> sprintf "%s\n%s" displayStr (Path.GetFileName loc.SourceTree.FilePath)
+            | LocationKind.MetadataFile -> sprintf "%s\n%s" displayStr (loc.MetadataModule.ContainingAssembly.ToDisplayString())
+            | _ -> displayStr
 
         let intoSpan attributes text = Span (text, attributes)
         let intoLiteralSpan spanClass text = Span (text, [ Class [|spanClass|] ])
@@ -129,7 +136,7 @@ module Formatting =
         /// There is reference another defined symbol. The symbol may or may not be in the file that we are formatting.
         let sourceReference referenceClass tok sym =
             let refInfo = symbolReferenceInfo sym
-            let symbolDisplayText = sym.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)
+            let symbolDisplayText = getSymbolTitle sym
             match refInfo with
             | Some (destLocId, destHref, className) -> 
                 
@@ -152,6 +159,7 @@ module Formatting =
         let paramRef = sourceReference "paramRef"
         let propRef = sourceReference "propRef"
         let methodRef = sourceReference "methodRef"
+        let namedTypeRef = sourceReference "namedTypeRef"
 
         /// There is something being declared in the file that we are formatting.
         let sourceDeclaration declClass tok =
@@ -175,6 +183,7 @@ module Formatting =
         let fieldDecl = sourceDeclaration "fieldDecl"
         let localDecl = sourceDeclaration "localDecl"
         let methodDecl = sourceDeclaration "methodDecl"
+        let namedTypeDecl = sourceDeclaration "namedTypeDecl"
 
         let toStr tok =
             tok.ToString()
@@ -184,8 +193,8 @@ module Formatting =
             | Unformatted tok -> Literal <| toStr tok
             | Keyword tok -> keyword <| toStr tok
             | Identifier tok -> Literal <| toStr tok
-            | NamedTypeDeclaration tok -> ident <| toStr tok
-            | NamedTypeReference (tok, sym) -> ident <| toStr tok
+            | NamedTypeDeclaration tok -> namedTypeDecl tok <| toStr tok
+            | NamedTypeReference (tok, sym) -> namedTypeRef tok sym <| toStr tok
             | StringLiteral tok -> stringLiteral <| toStr tok
             | NumericLiteral tok -> numericLiteral <| toStr tok
             | LocalVariableDeclaration (tok, sym) -> localDecl tok <| toStr tok

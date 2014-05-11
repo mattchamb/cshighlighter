@@ -123,8 +123,8 @@
     <Compile Include="Content.fs" />
     <Compile Include="Analysis.fs" />
     <Compile Include="Formatting.fs" />
-    <Compile Include="Hightlighting.fs" />
     <Compile Include="SolutionParsing.fs" />
+    <Compile Include="Hightlighting.fs" />
     <Compile Include="Github.fs" />
     <None Include="Script.fsx" />
     <None Include="packages.config" />

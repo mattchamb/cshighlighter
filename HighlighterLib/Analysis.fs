@@ -61,6 +61,7 @@ module Analysis =
                 let symbol = definedSymbols.[0]
                 match symbol.Kind with
                 | SymbolKind.Method -> MethodReference (token, symbol)
+                | SymbolKind.NamedType -> NamedTypeReference (token, symbol)
                 | _ -> Identifier token
             | _ -> 
                 Identifier token
@@ -103,7 +104,6 @@ module Analysis =
                     | _ ->
                         if symbol <> null then
                             let declLoc = symbol.Locations.[0].SourceSpan
-                        
                             match symbol.Kind with
                             | SymbolKind.Field -> FieldReference (token, symbol)
                             | SymbolKind.Local -> LocalVariableReference (token, symbol)

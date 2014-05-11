@@ -10,6 +10,8 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Configuration;
+using System.Net;
+using System.IO;
 
 namespace TestWebsite.Controllers
 {
@@ -20,6 +22,7 @@ namespace TestWebsite.Controllers
         {
             var blobClientFactory = new BlobClientFactory();
             _blobClient = blobClientFactory.CreateBlobClient();
+            
         }
 
         [HttpGet]
@@ -48,6 +51,60 @@ namespace TestWebsite.Controllers
                         ExceptionMessage = ex.ToString()
                     });
             }
+        }
+
+        [HttpGet]
+        public ActionResult SubmitZipUrl()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SubmitZipUrl(ZipLocationModel model)
+        {
+            var contentContainer = Storage.getContainer(_blobClient, BlobContainers.ContentContainer);
+            var uris = CSHighlighter.Content.getOrUploadLatestContent(contentContainer);
+            var fileName = Guid.NewGuid().ToString("N");
+            var downloadTo = Path.Combine(Server.MapPath("~/App_Data/"), fileName + ".zip");
+            var zipDir = Path.Combine(Server.MapPath("~/App_Data/"), fileName);
+            if (!Directory.Exists(Server.MapPath("~/App_Data/")))
+            {
+                Directory.CreateDirectory(Server.MapPath("~/App_Data/"));
+            }
+            
+            try
+            {
+                new WebClient().DownloadFile(model.ZipUrl, downloadTo);
+                using (var zip = Ionic.Zip.ZipFile.Read(downloadTo))
+                {
+                    zip.ExtractAll(zipDir);
+                }
+                var solution = Directory.EnumerateFiles(zipDir, "*.sln", SearchOption.AllDirectories).FirstOrDefault();
+                var resultSoln = SolutionParsing.analyseSolution(solution);
+                var renderedContent = Hightlighting.renderSolution(resultSoln, uris.Style, uris.Script);
+
+                var projContainer = Storage.getContainer(_blobClient, BlobContainers.ProjectsContainer);
+
+                foreach (var item in renderedContent)
+                {
+                    var path = fileName + "/" + item.RelativePath;
+                    Storage.storeBlob(projContainer, path, Storage.BlobContents.NewHtml(item.Content));
+                }
+                model.Directory = projContainer.Uri.AbsoluteUri + "/" + fileName + "/" + "Directory.html";
+            }
+            finally
+            {
+                if (System.IO.File.Exists(downloadTo))
+                {
+                    System.IO.File.Delete(downloadTo);
+                }
+                if (Directory.Exists(zipDir))
+                {
+                    Directory.Delete(zipDir, true);
+                }
+            }
+            
+            return View(model);
         }
 
         private Uri FormatAndUploadStandalone(string code)

@@ -15,10 +15,12 @@
 
 .keyword {
     color: blue;
+    text-decoration: none;
 }
 
 .stringLiteral {
     color: darkred;
+    text-decoration: none;
 }
 
 .numericLiteral {
@@ -27,50 +29,74 @@
 
 .identifier {
     color: #2B91AF;
+    text-decoration: none;
 }
 
 .region {
     color: lightgray;
+    text-decoration: none;
 }
 
 .localDecl {
     color: black;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .localRef {
     color: black;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .fieldDecl {
-    color: black;
+    color: mediumvioletred;
+    text-decoration: none;
 }
 
 .fieldRef {
-    color: black;
+    color: mediumvioletred;
+    text-decoration: none;
 }
 
 .paramDecl {
     color: black;
+    text-decoration: none;
 }
 
 .paramRef {
     color: black;
+    text-decoration: none;
 }
 
 .propDecl {
-    color: black;
+    color: purple;
+    text-decoration: none;
 }
 
 .propRef {
-    color: black;
+    color: purple;
+    text-decoration: none;
 }
 
 .methodRef {
     color: black;
+    text-decoration: none;
 }
 
 .methodDecl {
     color: black;
+    text-decoration: none;
+}
+
+.namedTypeRef {
+    color: #2B91AF;
+    text-decoration: none;
+}
+
+.namedTypeDecl {
+    color: #2B91AF;
+    text-decoration: none;
 }
 
 .semanticError {

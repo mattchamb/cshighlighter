@@ -28,7 +28,7 @@ module SolutionParsing =
 
     let openSolution solutionPath = 
         let workspace = MSBuild.MSBuildWorkspace.Create()
-        workspace.OpenSolutionAsync(solutionPath) 
+        workspace.OpenSolutionAsync(solutionPath)
         |> Async.AwaitTask
 
     let processDocument (doc: Document) =

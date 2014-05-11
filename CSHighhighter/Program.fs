@@ -1,5 +1,7 @@
 ﻿open System
 open CSHighlighter
+open System.IO
+open HighlighterLib.Templating
 
 [<EntryPoint>]
 let main argv = 
@@ -119,6 +121,22 @@ namespace HighlighterLib.Templating
     //Console.ReadKey() |> ignore
 
     let asdf = SolutionParsing.analyseSolution "C:\Projects\cecil\Mono.Cecil.sln"
+    
+//    let baseDir = new Uri("C:\\Projects\\cecil\\")
+//
+//    if not(Directory.Exists(".\\asdf\\")) then
+//        Directory.CreateDirectory(".\\asdf\\") |> ignore
+//
+//    for proj in asdf.Projects do
+//        for file in proj.Files do
+//            let filePathUri = new Uri(file.Path + ".html")
+//            let relUri = baseDir.MakeRelativeUri filePathUri
+//            let p = Path.Combine(".\\asdf\\", relUri.ToString())
+//            let r = Render.SinglePage(file.Content)
+//            let folder = Directory.GetParent(p)
+//            if not (folder.Exists) then
+//                folder.Create()
+//            File.WriteAllText(p, r)
 
     
     0 // return an integer exit code

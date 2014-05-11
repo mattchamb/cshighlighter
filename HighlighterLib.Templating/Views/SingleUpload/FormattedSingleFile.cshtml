@@ -11,7 +11,7 @@
     }
     @foreach (var item in Model.StylesheetUris)
     {
-        <link type="text/css" rel="@item.AbsolutePath" />
+        <link type="text/css" href="@item.AbsoluteUri" rel="stylesheet" />
     }
 </head>
 <body>
@@ -21,7 +21,7 @@
 
     @foreach (var src in Model.JavascriptUris)
     {
-        <script type="text/javascript" src="@src.AbsolutePath"></script>
+        <script type="text/javascript" src="@src.AbsoluteUri"></script>
     }
     @foreach (var script in Model.Javascript)
     {

@@ -62,6 +62,34 @@ namespace HighlighterLib.Templating.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///@model IEnumerable&lt;string&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+        ///    &lt;title&gt;Directory&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;ul&gt;
+        ///        @foreach(var p in Model)
+        ///        { 
+        ///        &lt;li&gt;
+        ///            &lt;a href=&quot;@p&quot;&gt;@p&lt;/a&gt;
+        ///        &lt;/li&gt;
+        ///        }
+        ///    &lt;/ul&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;
+        ///.
+        /// </summary>
+        internal static string Directory {
+            get {
+                return ResourceManager.GetString("Directory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @model HighlighterLib.Templating.Models.SingleFileModel
+        ///&lt;!DOCTYPE html&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///    &lt;title&gt;Upload - CS Hightligter&lt;/title&gt;
@@ -71,17 +99,15 @@ namespace HighlighterLib.Templating.Properties {
         ///            @Raw(css)
         ///        &lt;/style&gt;
         ///    }
+        ///    @foreach (var item in Model.StylesheetUris)
+        ///    {
+        ///        &lt;link type=&quot;text/css&quot; rel=&quot;@item.AbsolutePath&quot; /&gt;
+        ///    }
         ///&lt;/head&gt;
         ///&lt;body&gt;
         ///    &lt;div&gt;
         ///        &lt;div id=&quot;formattedCode&quot; class=&quot;formattedCode&quot;&gt;@Raw(Model.PreformattedHtml)&lt;/div&gt;
-        ///    &lt;/div&gt;
-        ///    &lt;script type=&quot;text/javascript&quot;&gt;
-        ///        @Raw(Model.Javascript)
-        ///    &lt;/script&gt;
-        ///&lt;/body&gt;
-        ///&lt;/html&gt;
-        ///.
+        ///    &lt; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FormattedSingleFile {
             get {
@@ -90,16 +116,22 @@ namespace HighlighterLib.Templating.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (function() {
-        ///    var all = document.querySelectorAll(&quot;#formattedCode *&quot;);
-        ///    for (var i = 0; i &lt; all.length; i++) {
-        ///        var element = all[i];
-        ///        if (element.data &amp;&amp; element.data.hover) {
-        ///            var hoverId = element.data.hover;
-        ///            element.addEventListener(&quot;mouseover&quot;, function () {
-        ///                var toHighlight = document.querySelectorAll(&quot;.&quot; + hoverId);
-        ///                for(var j = 0; j &lt; toHighlight.length; j++) {
-        ///                    toHighlight[j].classList.add(&quot;highlig [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to (function () {
+        ///
+        ///    var hoverAttrName = &quot;data-hover&quot;;
+        ///    var highlightClassName = &quot;highlighted&quot;;
+        ///
+        ///    var mouseOver = function (element) {
+        ///        return function () {
+        ///            var hoverId = element.getAttribute(hoverAttrName)
+        ///            var toHighlight = document.querySelectorAll(&quot;.&quot; + hoverId);
+        ///            for(var j = 0; j &lt; toHighlight.length; j++) {
+        ///                toHighlight[j].classList.add(highlightClassName);
+        ///            }
+        ///        }
+        ///    };
+        ///
+        ///    var mouseOut = function(element) { [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HightlightingScript {
             get {
@@ -125,10 +157,12 @@ namespace HighlighterLib.Templating.Properties {
         ///
         ///.keyword {
         ///    color: blue;
+        ///    text-decoration: none;
         ///}
         ///
         ///.stringLiteral {
         ///    color: darkred;
+        ///    text-decoration: none;
         ///}
         ///
         ///.numericLiteral {
@@ -137,17 +171,8 @@ namespace HighlighterLib.Templating.Properties {
         ///
         ///.identifier {
         ///    color: #2B91AF;
-        ///}
-        ///
-        ///.region {
-        ///    color: lightgray;
-        ///}
-        ///
-        ///.localDecl {
-        ///    color: black;
-        ///}
-        ///
-        ///.lo [rest of string was truncated]&quot;;.
+        ///    text-decoration: none;
+        ///} [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Style {
             get {

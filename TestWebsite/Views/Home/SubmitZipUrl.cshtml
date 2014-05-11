@@ -1,0 +1,34 @@
+﻿@model TestWebsite.Models.ZipLocationModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SubmitZipUrl</title>
+</head>
+<body>
+    <div>
+        @if (Model != null && Model.Directory != null)
+        {
+            <div>
+                @Model.Directory
+            </div>
+        }
+    </div>
+    <div>
+        @using (Html.BeginForm())
+        {
+            @Html.TextBoxFor(x => x.ZipUrl)
+            <input type="submit" />
+        }
+    </div>
+</body>
+
+
+
+
+
+
+
+</html>

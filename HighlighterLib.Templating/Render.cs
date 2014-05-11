@@ -17,6 +17,19 @@ namespace HighlighterLib.Templating
         private const string CssResourceName = "Style";
         private const string JsResourceName = "HightlightingScript";
 
+        static Render()
+        {
+            var config = new TemplateServiceConfiguration
+            {
+                BaseTemplateType = typeof(HtmlTemplateBase<>)
+            };
+
+            var service = new TemplateService(config);
+            Razor.SetTemplateService(service);
+            Razor.Compile(Resources.FormattedSingleFile, "singleFile");
+            Razor.Compile(Resources.Directory, "directory");
+        }
+
         public static string SinglePage(string htmlContent)
         {
             var m = new Models.SingleFileModel()
@@ -39,21 +52,15 @@ namespace HighlighterLib.Templating
             return RenderSingleFile(m);
         }
 
-        private static string RenderSingleFile(SingleFileModel m)
+        public static string Directory(IEnumerable<string> files)
         {
-            var config = new TemplateServiceConfiguration
-            {
-                BaseTemplateType = typeof(HtmlTemplateBase<>)
-            };
-
-            using (var service = new TemplateService(config))
-            {
-                var t = Resources.FormattedSingleFile;
-                Razor.SetTemplateService(service);
-                return Razor.Parse(t, m);
-            }
+            return Razor.Run("directory", files);
         }
 
+        private static string RenderSingleFile(SingleFileModel m)
+        {
+            return Razor.Run("singleFile", m);
+        }
         
     }
 }

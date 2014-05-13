@@ -160,6 +160,7 @@ module Formatting =
         let propRef = sourceReference "propRef"
         let methodRef = sourceReference "methodRef"
         let namedTypeRef = sourceReference "namedTypeRef"
+        let enumMemberRef = sourceReference "enumMemberRef"
 
         /// There is something being declared in the file that we are formatting.
         let sourceDeclaration declClass tok =
@@ -184,6 +185,7 @@ module Formatting =
         let localDecl = sourceDeclaration "localDecl"
         let methodDecl = sourceDeclaration "methodDecl"
         let namedTypeDecl = sourceDeclaration "namedTypeDecl"
+        let enumMemberDecl = sourceDeclaration "enumMemberDecl"
 
         let toStr tok =
             tok.ToString()
@@ -207,6 +209,8 @@ module Formatting =
             | PropertyReference (tok, sym) -> propRef tok sym <| toStr tok
             | MethodDeclaration tok -> methodDecl tok <| toStr tok
             | MethodReference (tok, sym) -> methodRef tok sym <| toStr tok
+            | EnumMemberDeclaration tok -> enumMemberDecl tok <| toStr tok
+            | EnumMemberReference (tok, sym) -> enumMemberRef tok sym <| toStr tok
             | SemanticError (tok, errors) -> 
                 let errorMessage = String.Join(Environment.NewLine, errors)
                 semanticError errorMessage <| toStr tok

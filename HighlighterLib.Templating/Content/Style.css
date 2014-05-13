@@ -6,7 +6,7 @@
 }
 
 .highlighted {
-    background-color: aqua;
+    background-color: yellow;
 }
 
 .comment {
@@ -96,6 +96,16 @@
 
 .namedTypeDecl {
     color: #2B91AF;
+    text-decoration: none;
+}
+
+.enumMemberDecl {
+    color: royalblue;
+    text-decoration: none;
+}
+
+.enumMemberRef {
+    color: royalblue;
     text-decoration: none;
 }
 

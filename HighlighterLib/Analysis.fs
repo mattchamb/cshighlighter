@@ -28,6 +28,8 @@ module Analysis =
         | NamedTypeReference of SyntaxToken * ISymbol
         | MethodDeclaration of SyntaxToken
         | MethodReference of SyntaxToken * ISymbol
+        | EnumMemberDeclaration of SyntaxToken
+        | EnumMemberReference of SyntaxToken * ISymbol
         | SemanticError of SyntaxToken * Diagnostic array
     and TriviaElement =
         | Comment of SyntaxTrivia
@@ -79,6 +81,15 @@ module Analysis =
             | 0 -> None
             | _ -> Some errors
 
+        
+        let (| ClassOrStructField | EnumField |) (symbol: ISymbol) =
+            match symbol.ContainingType with
+            | null -> ClassOrStructField
+            | _ ->
+                match symbol.ContainingType.EnumUnderlyingType with
+                | null -> ClassOrStructField
+                | _ -> EnumField
+
         let identifierElement (token:SyntaxToken) = 
             let tokenKind = token.Parent.CSharpKind()
             if isVarDecl token then 
@@ -94,18 +105,22 @@ module Analysis =
                     | SyntaxKind.StructDeclaration -> NamedTypeDeclaration token
                     | SyntaxKind.PropertyDeclaration -> PropertyDeclaration token
                     | SyntaxKind.MethodDeclaration -> MethodDeclaration token
-                    | SyntaxKind.VariableDeclarator -> 
+                    | SyntaxKind.VariableDeclarator ->
                         match token.Parent.Parent.Parent.CSharpKind() with
                         | SyntaxKind.FieldDeclaration -> FieldDeclaration token
                         | SyntaxKind.LocalDeclarationStatement -> LocalVariableDeclaration (token, symbol)
                         | _ -> Identifier token
                     | SyntaxKind.Parameter -> ParameterDeclaration token
+                    | SyntaxKind.EnumMemberDeclaration -> EnumMemberDeclaration token
                     | SyntaxKind.IdentifierToken -> Identifier token
                     | _ ->
                         if symbol <> null then
                             let declLoc = symbol.Locations.[0].SourceSpan
                             match symbol.Kind with
-                            | SymbolKind.Field -> FieldReference (token, symbol)
+                            | SymbolKind.Field -> 
+                                match symbol with
+                                | ClassOrStructField -> FieldReference (token, symbol)
+                                | EnumField -> EnumMemberReference (token, symbol)
                             | SymbolKind.Local -> LocalVariableReference (token, symbol)
                             | SymbolKind.Parameter -> ParameterReference (token, symbol)
                             | SymbolKind.Property -> PropertyReference (token, symbol)

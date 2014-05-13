@@ -112,15 +112,25 @@ namespace HighlighterLib.Templating
         }
     }
 }"
-    //let sourceFile: Analysis.SourceInput = { Path = ""; Contents = c3 }
-    //let a = Analysis.analyseFile(sourceFile)
+    
+    let c5 = @"
+    public enum SomeEnum {
+        A = 1,
+        B = 2
+    }
+    public class SomeClass {
+        private SomeEnum Asdf = SomeEnum.B;
+    }
+    "
+
+    let a = Analysis.analyseFile(c5)
     //let output = Formatting.htmlFormat a
 
     //let a = HighlighterLib.Templating.Render.SinglePage(output)
     //Console.WriteLine output
     //Console.ReadKey() |> ignore
 
-    let asdf = SolutionParsing.analyseSolution "C:\Projects\cecil\Mono.Cecil.sln"
+   // let asdf = SolutionParsing.analyseSolution "C:\Projects\cecil\Mono.Cecil.sln"
     
 //    let baseDir = new Uri("C:\\Projects\\cecil\\")
 //

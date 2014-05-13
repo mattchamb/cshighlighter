@@ -13,6 +13,10 @@
     color: green;
 }
 
+.disabled {
+    color: gray;
+}
+
 .keyword {
     color: blue;
     text-decoration: none;

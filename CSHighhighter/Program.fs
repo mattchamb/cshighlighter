@@ -118,6 +118,10 @@ namespace HighlighterLib.Templating
         A = 1,
         B = 2
     }
+    ///<summary>
+    /// SomeClass does something.
+    /// Somehow.
+    ///</summary>
     public class SomeClass {
         private SomeEnum Asdf = SomeEnum.B;
     }

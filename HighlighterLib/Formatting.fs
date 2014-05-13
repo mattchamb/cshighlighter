@@ -132,6 +132,8 @@ module Formatting =
         let numericLiteral = intoLiteralSpan "numericLiteral"
         let region text = intoLiteralSpan "region" (text + Environment.NewLine)
         let semanticError = intoTitledSpan "semanticError" 
+        let disabled = intoLiteralSpan "disabled"
+
 
         /// There is reference another defined symbol. The symbol may or may not be in the file that we are formatting.
         let sourceReference referenceClass tok sym =
@@ -221,7 +223,8 @@ module Formatting =
                 | TriviaElement.EndRegion s -> region <| toStr s 
                 | TriviaElement.NewLine -> Literal Environment.NewLine
                 | TriviaElement.UnformattedTrivia s -> Literal <| toStr s 
-                | TriviaElement.Whitespace s -> Literal <| toStr s 
+                | TriviaElement.Whitespace s -> Literal <| toStr s
+                | TriviaElement.DisabledText s -> disabled <| toStr s
             //| _ -> failwith "DONT KNOW HOW TO FORMAT"
 
         let htmlOutput = 

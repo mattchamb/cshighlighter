@@ -37,6 +37,7 @@ module Analysis =
         | EndRegion of SyntaxTrivia
         | NewLine
         | Whitespace of SyntaxTrivia
+        | DisabledText of SyntaxTrivia
         | UnformattedTrivia of SyntaxTrivia
 
     type AnalysisResult =
@@ -138,23 +139,27 @@ module Analysis =
                 let kind = token.CSharpKind()
                 match kind with
                 | SyntaxKind.IdentifierToken -> identifierElement token
-                | SyntaxKind.StringLiteralToken ->  StringLiteral token
-                | SyntaxKind.NumericLiteralToken ->  NumericLiteral token
+                | SyntaxKind.StringLiteralToken -> StringLiteral token
+                | SyntaxKind.NumericLiteralToken -> NumericLiteral token
                 | _ -> Unformatted token
             |> addElement
             x.VisitTrailingTrivia token
 
         override x.VisitTrivia trivia =
-            let output = match trivia.CSharpKind() with
-                            | SyntaxKind.MultiLineCommentTrivia
-                            | SyntaxKind.SingleLineCommentTrivia -> Comment trivia
-                            | SyntaxKind.EndOfLineTrivia -> NewLine
-                            | SyntaxKind.WhitespaceTrivia -> Whitespace trivia
-                            | SyntaxKind.RegionDirectiveTrivia -> BeginRegion trivia
-                            | SyntaxKind.EndRegionDirectiveTrivia -> EndRegion trivia
-                            | _ -> UnformattedTrivia trivia
-                        |> Trivia
-            addElement output
+            if trivia.HasStructure then
+                x.Visit (trivia.GetStructure())
+            else
+                let output = match trivia.CSharpKind() with
+                                | SyntaxKind.MultiLineCommentTrivia
+                                | SyntaxKind.SingleLineCommentTrivia -> Comment trivia
+                                | SyntaxKind.EndOfLineTrivia -> NewLine
+                                | SyntaxKind.WhitespaceTrivia -> Whitespace trivia
+                                | SyntaxKind.RegionDirectiveTrivia -> BeginRegion trivia
+                                | SyntaxKind.EndRegionDirectiveTrivia -> EndRegion trivia
+                                | SyntaxKind.DisabledTextTrivia -> DisabledText trivia
+                                | _ -> UnformattedTrivia trivia
+                            |> Trivia
+                addElement output
 
         override x.VisitClassDeclaration decl =
             let t = model.GetDeclaredSymbol(decl)

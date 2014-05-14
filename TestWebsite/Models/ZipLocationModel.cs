@@ -9,5 +9,6 @@ namespace TestWebsite.Models
     {
         public string Directory { get; set; }
         public string ZipUrl { get; set; }
+        public string Exception { get; set; }
     }
 }

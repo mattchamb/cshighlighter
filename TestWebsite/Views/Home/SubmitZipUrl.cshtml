@@ -11,6 +11,10 @@
     <div>
         @if (Model != null && Model.Directory != null)
         {
+            if (Model.Exception != null)
+            {
+                <div>@Model.Exception</div>
+            }
             <div>
                 @Model.Directory
             </div>
@@ -24,6 +28,14 @@
         }
     </div>
 </body>
+
+
+
+
+
+
+
+
 
 
 

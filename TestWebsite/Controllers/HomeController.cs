@@ -94,13 +94,19 @@ namespace TestWebsite.Controllers
             }
             finally
             {
-                if (System.IO.File.Exists(downloadTo))
+                try
                 {
-                    System.IO.File.Delete(downloadTo);
-                }
-                if (Directory.Exists(zipDir))
+                    if (System.IO.File.Exists(downloadTo))
+                    {
+                        System.IO.File.Delete(downloadTo);
+                    }
+                    if (Directory.Exists(zipDir))
+                    {
+                        Directory.Delete(zipDir, true);
+                    }
+                } catch (Exception ex)
                 {
-                    Directory.Delete(zipDir, true);
+                    model.Exception = ex.ToString();
                 }
             }
             

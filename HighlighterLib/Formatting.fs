@@ -223,7 +223,7 @@ module Formatting =
                 | TriviaElement.EndRegion s -> region <| toStr s 
                 | TriviaElement.NewLine -> Literal Environment.NewLine
                 | TriviaElement.UnformattedTrivia s -> Literal <| toStr s 
-                | TriviaElement.Whitespace s -> Literal <| toStr s
+                | TriviaElement.Whitespace s -> Literal <| ((toStr s).Replace("\t", "    "))
                 | TriviaElement.DisabledText s -> disabled <| toStr s
             //| _ -> failwith "DONT KNOW HOW TO FORMAT"
 

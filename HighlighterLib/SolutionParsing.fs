@@ -27,9 +27,11 @@ module SolutionParsing =
     }
 
     let openSolution solutionPath = 
-        let workspace = MSBuild.MSBuildWorkspace.Create()
-        workspace.OpenSolutionAsync(solutionPath)
-        |> Async.AwaitTask
+        async {
+            let workspace = MSBuild.MSBuildWorkspace.Create()
+            let! solution =workspace.OpenSolutionAsync(solutionPath) |> Async.AwaitTask
+            return workspace
+        }
 
     let processDocument (doc: Document) =
         async {
@@ -72,6 +74,6 @@ module SolutionParsing =
     
     let analyseSolution solutionPath =
         async {
-            let! rawSoln = openSolution solutionPath
-            return! processSolution rawSoln
+            use! workspace = openSolution solutionPath
+            return! processSolution workspace.CurrentSolution
         } |> Async.RunSynchronously

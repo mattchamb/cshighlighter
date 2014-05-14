@@ -116,7 +116,6 @@ module Analysis =
                     | SyntaxKind.IdentifierToken -> Identifier token
                     | _ ->
                         if symbol <> null then
-                            let declLoc = symbol.Locations.[0].SourceSpan
                             match symbol.Kind with
                             | SymbolKind.Field -> 
                                 match symbol with

@@ -86,7 +86,6 @@ module Formatting =
                 | LocationKind.SourceFile -> 
                     let span = destLoc.SourceSpan
                     let destIdRef = internalFileIdRef span
-                    let destFilePath = new Uri(htmlifyPath destLoc.SourceTree.FilePath)
                     let className = classNameForLocation span
                     let destLocId = idForLocation span
                     match env with
@@ -95,6 +94,7 @@ module Formatting =
                     | Project (sol, docId) ->
                         let doc = sol.GetDocument docId
                         let currentDoc = new Uri (htmlifyPath doc.FilePath)
+                        let destFilePath = new Uri(htmlifyPath destLoc.SourceTree.FilePath)
                         let relativeUri = currentDoc.MakeRelativeUri(destFilePath)
                         let destPath = relativeUri.ToString()
                         Some (destLocId, sprintf "%s%s" destPath destIdRef, className)

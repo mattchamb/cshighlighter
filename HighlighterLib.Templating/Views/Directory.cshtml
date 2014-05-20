@@ -1,18 +1,49 @@
 ﻿<!DOCTYPE html>
-@model IEnumerable<string>
+@model HighlighterLib.Shared.SolutionFolder
+@using System.IO
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Directory</title>
 </head>
 <body>
-    <ul>
-        @foreach(var p in Model)
-        { 
-        <li>
-            <a href="@p">@p</a>
-        </li>
+    <style type="text/css">
+        .nested {
+            padding-left: 15px;
         }
-    </ul>
+    </style>
+    <div>
+        <div class="solutionRoot">@Model.folerName</div> @*The root*@
+        <div class="nested">
+            @foreach (var folder in Model.subFolders)
+            {
+                @Something(folder);
+            }
+            @foreach (var file in Model.solutionFiles)
+            {
+                <div class="solutionFile">
+                    <a href="@(file.relativePath + ".html")">@file.fileName</a>
+                </div>
+            }
+        </div>
+    </div>
 </body>
 </html>
+
+@helper Something(HighlighterLib.Shared.SolutionFolder folder)
+{
+    var folderClass = folder.isProject ? "project" : "folder";
+    <div class="@folderClass">@folder.folerName</div>
+    <div class="nested">
+        @foreach (var subFolder in folder.subFolders)
+        {
+            @Something(subFolder);
+        }
+        @foreach (var file in folder.solutionFiles)
+        {
+            <div class="solutionFile">
+                <a href="@(file.relativePath + ".html")">@file.fileName</a>
+            </div>
+        }
+    </div>
+}

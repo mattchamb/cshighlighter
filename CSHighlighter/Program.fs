@@ -127,14 +127,14 @@ namespace HighlighterLib.Templating
     }
     "
 
-    let a = Analysis.analyseFile(c5)
+    //let a = Analysis.analyseFile(c5)
     //let output = Formatting.htmlFormat a
 
     //let a = HighlighterLib.Templating.Render.SinglePage(output)
     //Console.WriteLine output
     //Console.ReadKey() |> ignore
 
-   // let asdf = SolutionParsing.analyseSolution "C:\Projects\cecil\Mono.Cecil.sln"
+    let asdf = SolutionParsing.analyseSolution "C:\Projects\KRuntime\CompSomething.sln"
     
 //    let baseDir = new Uri("C:\\Projects\\cecil\\")
 //
@@ -151,6 +151,6 @@ namespace HighlighterLib.Templating
 //            if not (folder.Exists) then
 //                folder.Create()
 //            File.WriteAllText(p, r)
-
+    let fs = Highlighting.renderSolution asdf (new Uri("C:\Projects\KRuntime\CompSomething.sln")) (new Uri("C:\Projects\KRuntime\CompSomething.sln")) |> Seq.toArray
     
     0 // return an integer exit code

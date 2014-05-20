@@ -1,4 +1,5 @@
-﻿using HighlighterLib.Templating.Models;
+﻿using HighlighterLib.Shared;
+using HighlighterLib.Templating.Models;
 using HighlighterLib.Templating.Properties;
 using RazorEngine;
 using RazorEngine.Configuration;
@@ -52,9 +53,9 @@ namespace HighlighterLib.Templating
             return RenderSingleFile(m);
         }
 
-        public static string Directory(IEnumerable<string> files)
+        public static string Directory(SolutionFolder solution)
         {
-            return Razor.Run("directory", files);
+            return Razor.Run("directory", solution);
         }
 
         private static string RenderSingleFile(SingleFileModel m)

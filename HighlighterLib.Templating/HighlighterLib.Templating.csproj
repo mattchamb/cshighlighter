@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\HightlightingScript.js" />
+    <TypeScriptCompile Include="Scripts\ParentNavigation.ts" />
     <TypeScriptCompile Include="Scripts\ViewModels.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\knockout.d.ts" />
   </ItemGroup>
@@ -167,6 +168,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HighlighterLib.Shared\HighlighterLib.Shared.fsproj">
+      <Project>{eeb7b0ff-709f-46c8-89e5-407dbea2fa4e}</Project>
+      <Name>HighlighterLib.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

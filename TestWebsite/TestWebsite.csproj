@@ -182,6 +182,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BrowseProjectModel.cs" />
     <Compile Include="Models\CodeModel.cs" />
     <Compile Include="Models\ZipLocationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -239,8 +240,13 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-2.1.0.min.map" />
     <Content Include="Views\Home\SubmitZipUrl.cshtml" />
+    <Content Include="Views\Home\ViewProject.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HighlighterLib.Shared\HighlighterLib.Shared.fsproj">
+      <Project>{eeb7b0ff-709f-46c8-89e5-407dbea2fa4e}</Project>
+      <Name>HighlighterLib.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HighlighterLib\HighlighterLib.fsproj">
       <Project>{2b1161b9-e541-4bfc-9a0d-9ef9a714f121}</Project>
       <Name>HighlighterLib</Name>

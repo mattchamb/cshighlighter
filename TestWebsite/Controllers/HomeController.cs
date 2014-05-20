@@ -81,7 +81,7 @@ namespace TestWebsite.Controllers
                 }
                 var solution = Directory.EnumerateFiles(zipDir, "*.sln", SearchOption.AllDirectories).FirstOrDefault();
                 var resultSoln = SolutionParsing.analyseSolution(solution);
-                var renderedContent = Hightlighting.renderSolution(resultSoln, uris.Style, uris.Script);
+                var renderedContent = Highlighting.renderSolution(resultSoln, uris.Style, uris.Script);
 
                 var projContainer = Storage.getContainer(_blobClient, BlobContainers.ProjectsContainer);
 
@@ -91,6 +91,7 @@ namespace TestWebsite.Controllers
                     Storage.storeBlob(projContainer, path, Storage.BlobContents.NewHtml(item.Content));
                 }
                 model.Directory = projContainer.Uri.AbsoluteUri + "/" + fileName + "/" + "Directory.html";
+                model.ProjectId = fileName;
             }
             finally
             {
@@ -115,12 +116,27 @@ namespace TestWebsite.Controllers
 
         private Uri FormatAndUploadStandalone(string code)
         {
-            var standaloneHighlighting = Hightlighting.renderStandalone(code);
+            var standaloneHighlighting = Highlighting.renderStandalone(code);
             
             var container = Storage.getContainer(_blobClient, BlobContainers.StandaloneContainer);
             var fileName = Guid.NewGuid().ToString("N") + ".html";
             var loc = Storage.storeBlob(container, fileName, Storage.BlobContents.NewHtml(standaloneHighlighting));
             return loc;
+        }
+
+        [HttpGet]
+        public ActionResult ViewProject(string projectId)
+        {
+            if(string.IsNullOrWhiteSpace(projectId))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
+            return View(new BrowseProjectModel()
+                {
+                    DirectoryUrl = string.Format("{0}/projects/{1}/Directory.html", _blobClient.BaseUri.ToString(), projectId),
+                    SourceUrl = ""
+                });
         }
                 
     }

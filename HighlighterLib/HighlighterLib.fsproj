@@ -118,12 +118,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hashing.fs" />
-    <Compile Include="Storage.fs" />
-    <Compile Include="Content.fs" />
     <Compile Include="Analysis.fs" />
     <Compile Include="Formatting.fs" />
     <Compile Include="SolutionParsing.fs" />
+    <Compile Include="Hashing.fs" />
+    <Compile Include="Storage.fs" />
+    <Compile Include="Content.fs" />
     <Compile Include="Highlighting.fs" />
     <Compile Include="Github.fs" />
     <None Include="Script.fsx" />

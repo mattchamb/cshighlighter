@@ -185,19 +185,18 @@ module Analysis =
 
         member x.getOutput() = outputElements
 
-
-    let compilationForSource trees =
-        CSharpCompilation.Create("highlightingCompilation", trees, [|new MetadataFileReference(typeof<Object>.Assembly.Location)|])
-
-    let parseCode (code: string) =
-        CSharpSyntaxTree.ParseText (code, String.Empty)
-
     let createHighlightingModel syntaxTreeRoot model =
         let v = new Visitor(model)
         v.DefaultVisit syntaxTreeRoot
         let elements = v.getOutput()
         elements
       
+    let compilationForSource trees =
+        CSharpCompilation.Create("highlightingCompilation", trees, [|new MetadataFileReference(typeof<Object>.Assembly.Location)|])
+
+    let parseCode (code: string) =
+        CSharpSyntaxTree.ParseText (code, String.Empty)
+
     let analyseFile (code: string) = 
         let syntaxTree = parseCode code
         let compilation = compilationForSource [|syntaxTree|]
@@ -205,20 +204,4 @@ module Analysis =
         let model = compilation.GetSemanticModel(syntaxTree)
         let classifiedTokens = createHighlightingModel root model
         { ClassifiedTokens = classifiedTokens }
-
-//    let analyseFiles (files: SourceInput seq) =
-//        let syntaxTrees =
-//            files
-//            |> Seq.map parseCode
-//            |> Seq.toArray
-//        let compilation = compilationForSource syntaxTrees
-//        let fileOutputs =
-//            syntaxTrees
-//            |> Array.map 
-//                (fun t -> 
-//                    let root = t.GetRoot()
-//                    let model = compilation.GetSemanticModel(t)
-//                    createHighlightingModel root model)
-//        fileOutputs
-
 

@@ -126,9 +126,7 @@
     <Compile Include="Content.fs" />
     <Compile Include="Highlighting.fs" />
     <Compile Include="Github.fs" />
-    <None Include="Script.fsx" />
     <None Include="packages.config" />
-    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HighlighterLib.Shared\HighlighterLib.Shared.fsproj">

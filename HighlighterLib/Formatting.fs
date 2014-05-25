@@ -162,6 +162,7 @@ module Formatting =
         let propRef = sourceReference "propRef"
         let methodRef = sourceReference "methodRef"
         let namedTypeRef = sourceReference "namedTypeRef"
+        let typeVarRef = sourceReference "keyword"
         let enumMemberRef = sourceReference "enumMemberRef"
 
         /// There is something being declared in the file that we are formatting.
@@ -198,7 +199,11 @@ module Formatting =
             | Keyword tok -> keyword <| toStr tok
             | Identifier tok -> Literal <| toStr tok
             | NamedTypeDeclaration (tok, _) -> namedTypeDecl tok <| toStr tok
-            | NamedTypeReference (tok, sym) -> namedTypeRef tok sym <| toStr tok
+            | NamedTypeReference (tok, sym) -> 
+                let tokenStr = toStr tok
+                match tokenStr with
+                | "var" -> typeVarRef tok sym tokenStr
+                | _ -> namedTypeRef tok sym <| toStr tok
             | StringLiteral tok -> stringLiteral <| toStr tok
             | NumericLiteral tok -> numericLiteral <| toStr tok
             | CharacterLiteral tok -> characterLiteral <| toStr tok

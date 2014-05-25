@@ -130,18 +130,18 @@ module Formatting =
         let ident = intoLiteralSpan "identifier"
         let stringLiteral = intoLiteralSpan "stringLiteral"
         let numericLiteral = intoLiteralSpan "numericLiteral"
+        let characterLiteral = intoLiteralSpan "characterLiteral"
         let region text = intoLiteralSpan "region" (text + Environment.NewLine)
         let semanticError = intoTitledSpan "semanticError" 
         let disabled = intoLiteralSpan "disabled"
 
 
         /// There is reference another defined symbol. The symbol may or may not be in the file that we are formatting.
-        let sourceReference referenceClass tok sym =
+        let sourceReference referenceClass tok (sym: ISymbol) =
             let refInfo = symbolReferenceInfo sym
             let symbolDisplayText = getSymbolTitle sym
             match refInfo with
             | Some (destLocId, destHref, className) -> 
-                
                 let attribs = [
                         Class [|referenceClass; className|];
                         Href destHref;
@@ -197,13 +197,14 @@ module Formatting =
             | Unformatted tok -> Literal <| toStr tok
             | Keyword tok -> keyword <| toStr tok
             | Identifier tok -> Literal <| toStr tok
-            | NamedTypeDeclaration tok -> namedTypeDecl tok <| toStr tok
+            | NamedTypeDeclaration (tok, _) -> namedTypeDecl tok <| toStr tok
             | NamedTypeReference (tok, sym) -> namedTypeRef tok sym <| toStr tok
             | StringLiteral tok -> stringLiteral <| toStr tok
             | NumericLiteral tok -> numericLiteral <| toStr tok
+            | CharacterLiteral tok -> characterLiteral <| toStr tok
             | LocalVariableDeclaration (tok, sym) -> localDecl tok <| toStr tok
             | LocalVariableReference (tok, sym) -> localRef tok sym <| toStr tok
-            | FieldDeclaration tok -> fieldDecl tok <| toStr tok
+            | FieldDeclaration (tok, sym) -> fieldDecl tok <| toStr tok
             | FieldReference (tok, sym) -> fieldRef tok sym <| toStr tok
             | ParameterDeclaration tok -> paramDecl tok <| toStr tok
             | ParameterReference (tok, sym) -> paramRef tok sym <| toStr tok
@@ -211,7 +212,7 @@ module Formatting =
             | PropertyReference (tok, sym) -> propRef tok sym <| toStr tok
             | MethodDeclaration tok -> methodDecl tok <| toStr tok
             | MethodReference (tok, sym) -> methodRef tok sym <| toStr tok
-            | EnumMemberDeclaration tok -> enumMemberDecl tok <| toStr tok
+            | EnumMemberDeclaration (tok, _) -> enumMemberDecl tok <| toStr tok
             | EnumMemberReference (tok, sym) -> enumMemberRef tok sym <| toStr tok
             | SemanticError (tok, errors) -> 
                 let errorMessage = String.Join(Environment.NewLine, errors)

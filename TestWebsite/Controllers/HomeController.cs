@@ -62,18 +62,21 @@ namespace TestWebsite.Controllers
         [HttpPost]
         public ActionResult SubmitZipUrl(ZipLocationModel model)
         {
-            var contentContainer = Storage.getContainer(_blobClient, BlobContainers.ContentContainer);
-            var uris = CSHighlighter.Content.getOrUploadLatestContent(contentContainer);
+
             var fileName = Guid.NewGuid().ToString("N");
             var downloadTo = Path.Combine(Server.MapPath("~/App_Data/"), fileName + ".zip");
             var zipDir = Path.Combine(Server.MapPath("~/App_Data/"), fileName);
-            if (!Directory.Exists(Server.MapPath("~/App_Data/")))
-            {
-                Directory.CreateDirectory(Server.MapPath("~/App_Data/"));
-            }
-            
+
             try
             {
+                var contentContainer = Storage.getContainer(_blobClient, BlobContainers.ContentContainer);
+                var uris = CSHighlighter.Content.getOrUploadLatestContent(contentContainer);
+                
+                if (!Directory.Exists(Server.MapPath("~/App_Data/")))
+                {
+                    Directory.CreateDirectory(Server.MapPath("~/App_Data/"));
+                }
+
                 new WebClient().DownloadFile(model.ZipUrl, downloadTo);
                 using (var zip = Ionic.Zip.ZipFile.Read(downloadTo))
                 {

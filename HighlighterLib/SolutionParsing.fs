@@ -30,7 +30,7 @@ module SolutionParsing =
     let openSolution solutionPath = 
         async {
             let workspace = MSBuild.MSBuildWorkspace.Create()
-            let! solution =workspace.OpenSolutionAsync(solutionPath) |> Async.AwaitTask
+            let! solution = workspace.OpenSolutionAsync(solutionPath) |> Async.AwaitTask
             return workspace
         }
 

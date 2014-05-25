@@ -31,6 +31,10 @@
     color: magenta;
 }
 
+.characterLiteral {
+    color: magenta;
+}
+
 .identifier {
     color: #2B91AF;
     text-decoration: none;

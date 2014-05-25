@@ -123,18 +123,34 @@ namespace HighlighterLib.Templating
     /// Somehow.
     ///</summary>
     public class SomeClass {
-        private SomeEnum Asdf = SomeEnum.B;
+        private readonly SomeEnum Asdf = SomeEnum.B;
+        public SomeClass() {
+            Asdf = 0;
+        }
     }
     "
 
-    //let a = Analysis.analyseFile(c5)
-    //let output = Formatting.htmlFormat a
+    let c6 = @"
+    using System.IO;
+    public class SomeClass {
+        public SomeClass() {
+            using(var asf = new File.OpenRead(""))
+            {
+
+            }
+        }
+    }
+    "
+
+    let a = Analysis.analyseFile(c6)
+    
+    //let output = Formatting.htmlFormat Formatting.Standalone a.ClassifiedTokens
 
     //let a = HighlighterLib.Templating.Render.SinglePage(output)
     //Console.WriteLine output
     //Console.ReadKey() |> ignore
 
-    let asdf = SolutionParsing.analyseSolution "C:\Projects\KRuntime\CompSomething.sln"
+    //let asdf = SolutionParsing.analyseSolution "C:\Users\Matthew\Desktop\Ref12-master\Ref12.sln"
     
 //    let baseDir = new Uri("C:\\Projects\\cecil\\")
 //
@@ -151,6 +167,6 @@ namespace HighlighterLib.Templating
 //            if not (folder.Exists) then
 //                folder.Create()
 //            File.WriteAllText(p, r)
-    let fs = Highlighting.renderSolution asdf (new Uri("C:\Projects\KRuntime\CompSomething.sln")) (new Uri("C:\Projects\KRuntime\CompSomething.sln")) |> Seq.toArray
+    //let fs = Highlighting.renderSolution asdf (new Uri("C:\Projects\KRuntime\CompSomething.sln")) (new Uri("C:\Projects\KRuntime\CompSomething.sln")) |> Seq.toArray
     
     0 // return an integer exit code

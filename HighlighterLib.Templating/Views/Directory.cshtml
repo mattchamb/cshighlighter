@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-@model HighlighterLib.Shared.SolutionFolder
+@model HighlighterLib.Templating.SolutionFolder
 @using System.IO
 <html>
 <head>
@@ -13,16 +13,16 @@
         }
     </style>
     <div>
-        <div class="solutionRoot">@Model.folerName</div> @*The root*@
+        <div class="solutionRoot">@Model.FolderName</div> @*The root*@
         <div class="nested">
-            @foreach (var folder in Model.subFolders)
+            @foreach (var folder in Model.SubFolders)
             {
                 @Something(folder);
             }
-            @foreach (var file in Model.solutionFiles)
+            @foreach (var file in Model.SolutionFiles)
             {
                 <div class="solutionFile">
-                    <a href="@(file.relativePath + ".html")">@file.fileName</a>
+                    <a href="@(file.RelativePath + ".html")">@file.FileName</a>
                 </div>
             }
         </div>
@@ -30,19 +30,19 @@
 </body>
 </html>
 
-@helper Something(HighlighterLib.Shared.SolutionFolder folder)
+@helper Something(HighlighterLib.Templating.SolutionFolder folder)
 {
-    var folderClass = folder.isProject ? "project" : "folder";
-    <div class="@folderClass">@folder.folerName</div>
+    var folderClass = folder.IsProject ? "project" : "folder";
+    <div class="@folderClass">@folder.FolderName</div>
     <div class="nested">
-        @foreach (var subFolder in folder.subFolders)
+        @foreach (var subFolder in folder.SubFolders)
         {
             @Something(subFolder);
         }
-        @foreach (var file in folder.solutionFiles)
+        @foreach (var file in folder.SolutionFiles)
         {
             <div class="solutionFile">
-                <a href="@(file.relativePath + ".html")">@file.fileName</a>
+                <a href="@(file.RelativePath + ".html")">@file.FileName</a>
             </div>
         }
     </div>

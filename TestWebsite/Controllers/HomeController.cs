@@ -5,9 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TestWebsite.Models;
-using CSHighlighter;
-using Microsoft.WindowsAzure.Storage;
+using Highlighter.Web;
+using HighlighterLib;
 using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Configuration;
 using System.Net;
@@ -39,9 +40,9 @@ namespace TestWebsite.Controllers
                 return View();
             try
             {
-                var blobUri = FormatAndUploadStandalone(code);
+                //var blobUri = FormatAndUploadStandalone(code);
                 //return View(new CodeModel() { FrameUrl = blobUri.AbsoluteUri });
-                return Redirect(blobUri.AbsoluteUri);
+                return Redirect("");
             }
             catch (Exception ex)
             {
@@ -69,8 +70,6 @@ namespace TestWebsite.Controllers
 
             try
             {
-                var contentContainer = Storage.getContainer(_blobClient, BlobContainers.ContentContainer);
-                var uris = CSHighlighter.Content.getOrUploadLatestContent(contentContainer);
                 
                 if (!Directory.Exists(Server.MapPath("~/App_Data/")))
                 {
@@ -82,17 +81,13 @@ namespace TestWebsite.Controllers
                 {
                     zip.ExtractAll(zipDir);
                 }
-                var solution = Directory.EnumerateFiles(zipDir, "*.sln", SearchOption.AllDirectories).FirstOrDefault();
-                var resultSoln = SolutionParsing.analyseSolution(solution);
-                var renderedContent = Highlighting.renderSolution(resultSoln, uris.Style, uris.Script);
+                var solutionPath = Directory.EnumerateFiles(zipDir, "*.sln", SearchOption.AllDirectories).FirstOrDefault();
+                var resultSoln = SolutionProcessing.processSolutionAtPath(solutionPath);
 
                 var projContainer = Storage.getContainer(_blobClient, BlobContainers.ProjectsContainer);
 
-                foreach (var item in renderedContent)
-                {
-                    var path = fileName + "/" + item.RelativePath;
-                    Storage.storeBlob(projContainer, path, Storage.BlobContents.NewHtml(item.Content));
-                }
+                Solutions.renderSolutionToBlobStorage(projContainer, fileName, resultSoln);
+
                 model.Directory = projContainer.Uri.AbsoluteUri + "/" + fileName + "/" + "Directory.html";
                 model.ProjectId = fileName;
             }
@@ -117,15 +112,15 @@ namespace TestWebsite.Controllers
             return View(model);
         }
 
-        private Uri FormatAndUploadStandalone(string code)
-        {
-            var standaloneHighlighting = Highlighting.renderStandalone(code);
+        //private Uri FormatAndUploadStandalone(string code)
+        //{
+        //    var standaloneHighlighting = Highlighting.renderStandalone(code);
             
-            var container = Storage.getContainer(_blobClient, BlobContainers.StandaloneContainer);
-            var fileName = Guid.NewGuid().ToString("N") + ".html";
-            var loc = Storage.storeBlob(container, fileName, Storage.BlobContents.NewHtml(standaloneHighlighting));
-            return loc;
-        }
+        //    var container = Storage.getContainer(_blobClient, BlobContainers.StandaloneContainer);
+        //    var fileName = Guid.NewGuid().ToString("N") + ".html";
+        //    var loc = Storage.storeBlob(container, fileName, Storage.BlobContents.NewHtml(standaloneHighlighting));
+        //    return loc;
+        //}
 
         [HttpGet]
         public ActionResult ViewProject(string projectId)

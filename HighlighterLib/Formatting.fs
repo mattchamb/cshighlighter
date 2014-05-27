@@ -1,4 +1,4 @@
-﻿namespace CSHighlighter
+﻿namespace HighlighterLib
 
 module Formatting =
 
@@ -11,7 +11,12 @@ module Formatting =
     open Microsoft.CodeAnalysis.CSharp.Syntax
     open Microsoft.CodeAnalysis.Text
     open System.Net
-    open HighlighterLib.Templating
+
+    type FormattedHtml = {
+        Html: string;
+        Stylesheet: string;
+        Javascript: string
+    }
 
     type FormattingEnvironment =
         | Standalone
@@ -60,7 +65,7 @@ module Formatting =
             | Literal text -> WebUtility.HtmlEncode text
 
 
-    let htmlFormat (env: FormattingEnvironment) (tokens: TokenClassification seq) =
+    let htmlFormat (env: FormattingEnvironment) (tokens: TokenClassification seq) : FormattedHtml =
 
         /// Gets information that allows the destLoc to be referenced from the current formatting environment.
         /// The destLoc can be either in the file that is currently being formatted; some other source file; or a metadata reference.
@@ -244,4 +249,4 @@ module Formatting =
                     |> ignore)
 
             out.ToString();
-        htmlOutput
+        { Html = htmlOutput; Stylesheet = HtmlResources.style; Javascript = HtmlResources.script }

@@ -1,4 +1,5 @@
-﻿namespace CSHighlighter
+﻿namespace Highlighter.Web
+
 module Hashing =
 
     open System

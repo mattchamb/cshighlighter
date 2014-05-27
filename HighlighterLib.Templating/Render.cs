@@ -1,6 +1,5 @@
-﻿using HighlighterLib.Shared;
-using HighlighterLib.Templating.Models;
-using HighlighterLib.Templating.Properties;
+﻿using HighlighterLib.Templating.Models;
+using HighlighterLib;
 using RazorEngine;
 using RazorEngine.Configuration;
 using RazorEngine.Templating;
@@ -27,17 +26,17 @@ namespace HighlighterLib.Templating
 
             var service = new TemplateService(config);
             Razor.SetTemplateService(service);
-            Razor.Compile(Resources.FormattedSingleFile, "singleFile");
-            Razor.Compile(Resources.Directory, "directory");
+            Razor.Compile(Resources.FormattedSingleFile(), "singleFile");
+            Razor.Compile(Resources.Directory(), "directory");
         }
 
-        public static string SinglePage(string htmlContent)
+        public static string SinglePage(Formatting.FormattedHtml htmlContent)
         {
             var m = new Models.SingleFileModel()
             {
-                Stylesheets = StaticContent.GetStyles(),
-                PreformattedHtml = htmlContent,
-                Javascript = StaticContent.GetScripts()
+                Stylesheets = new[] { htmlContent.Stylesheet },
+                PreformattedHtml = htmlContent.Html,
+                Javascript = new[] { htmlContent.Javascript }
             };
             return RenderSingleFile(m);
         }

@@ -1,4 +1,5 @@
-﻿namespace CSHighlighter
+﻿namespace Highlighter.Web
+
 module Storage =
 
     open System

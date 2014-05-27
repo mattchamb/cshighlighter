@@ -84,11 +84,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HighlighterLib.Shared\HighlighterLib.Shared.fsproj">
-      <Name>HighlighterLib.Shared</Name>
-      <Project>{eeb7b0ff-709f-46c8-89e5-407dbea2fa4e}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\HighlighterLib.Templating\HighlighterLib.Templating.csproj">
       <Name>HighlighterLib.Templating</Name>
       <Project>{2f7fd1e6-10ad-485c-9544-51f49a7a0e26}</Project>

@@ -5,22 +5,22 @@
 
     var mouseOver = function (element) {
         return function () {
-            var hoverId = element.getAttribute(hoverAttrName)
+            var hoverId = element.getAttribute(hoverAttrName);
             var toHighlight = document.querySelectorAll("." + hoverId);
-            for(var j = 0; j < toHighlight.length; j++) {
+            for (var j = 0; j < toHighlight.length; j++) {
                 toHighlight[j].classList.add(highlightClassName);
             }
-        }
+        };
     };
 
     var mouseOut = function(element) {
         return function () {
-            var hoverId = element.getAttribute(hoverAttrName)
+            var hoverId = element.getAttribute(hoverAttrName);
             var toHighlight = document.querySelectorAll("." + hoverId);
             for (var j = 0; j < toHighlight.length; j++) {
                 toHighlight[j].classList.remove(highlightClassName);
             }
-        }
+        };
     };
 
     var all = document.querySelectorAll("#formattedCode *");

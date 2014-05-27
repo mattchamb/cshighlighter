@@ -1,5 +1,5 @@
 ﻿open System
-open CSHighlighter
+open HighlighterLib
 open System.IO
 open HighlighterLib.Templating
 
@@ -144,7 +144,7 @@ namespace HighlighterLib.Templating
 
     let a = Analysis.analyseFile(c6)
     
-    //let output = Formatting.htmlFormat Formatting.Standalone a.ClassifiedTokens
+    let output = Formatting.htmlFormat Formatting.Standalone a.ClassifiedTokens
 
     //let a = HighlighterLib.Templating.Render.SinglePage(output)
     //Console.WriteLine output

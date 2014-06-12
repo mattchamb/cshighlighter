@@ -10,15 +10,16 @@ namespace HighlighterLib.Templating
     public static class Resources
     {
         /*
-            "HighlighterLib.Templating.Views.View.cshtml"
-            "HighlighterLib.Templating.Views.Directory.cshtml"
-            "HighlighterLib.Templating.Views.SourcePageTemplate.cshtml"
-            "HighlighterLib.Templating.Views.SingleUpload.FormattedSingleFile.cshtml"
+            "Highlighter.Web.Templating.Views.View.cshtml"
+            "Highlighter.Web.Templating.Views.Directory.cshtml"
+            "Highlighter.Web.Templating.Views.SourcePageTemplate.cshtml"
+            "Highlighter.Web.Templating.Views.SingleUpload.FormattedSingleFile.cshtml"
         */
         public static string FormattedSingleFile()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            using (var reader = new StreamReader(assembly.GetManifestResourceStream("HighlighterLib.Templating.Views.SingleUpload.FormattedSingleFile.cshtml")))
+            using (var stream = assembly.GetManifestResourceStream("Highlighter.Web.Templating.Views.SingleUpload.FormattedSingleFile.cshtml"))
+            using (var reader = new StreamReader(stream))
             {
                 return reader.ReadToEnd();
             }
@@ -27,7 +28,8 @@ namespace HighlighterLib.Templating
         public static string Directory()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            using (var reader = new StreamReader(assembly.GetManifestResourceStream("HighlighterLib.Templating.Views.Directory.cshtml")))
+            using (var stream = assembly.GetManifestResourceStream("Highlighter.Web.Templating.Views.Directory.cshtml"))
+            using (var reader = new StreamReader(stream))
             {
                 return reader.ReadToEnd();
             }

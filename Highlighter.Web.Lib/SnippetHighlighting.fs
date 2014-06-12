@@ -6,8 +6,9 @@ module SnippetHighlighting =
     open System.Collections.Generic
     open System.IO
     open HighlighterLib
+    open HighlighterLib.Templating
 
-//    let renderStandalone code = 
-//        let analysis = Analysis.analyseFile code
-//        let preformattedOutput = Formatting.htmlFormat Formatting.Standalone analysis.ClassifiedTokens
-//        Render.SinglePage(preformattedOutput)
+    let renderStandalone code = 
+        let analysis = Analysis.analyseFile code
+        let preformattedOutput = Formatting.htmlFormat Formatting.Standalone analysis.ClassifiedTokens
+        Render.SinglePage(preformattedOutput)

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TestWebsite.Models;
-using Highlighter.Web;
 using HighlighterLib;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
@@ -13,6 +12,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using System.Configuration;
 using System.Net;
 using System.IO;
+using Highlighter.Web;
 
 namespace TestWebsite.Controllers
 {
@@ -40,9 +40,9 @@ namespace TestWebsite.Controllers
                 return View();
             try
             {
-                //var blobUri = FormatAndUploadStandalone(code);
-                //return View(new CodeModel() { FrameUrl = blobUri.AbsoluteUri });
-                return Redirect("");
+                var blobUri = FormatAndUploadStandalone(code);
+                return View(new CodeModel() { FrameUrl = blobUri.AbsoluteUri });
+                //return Redirect("");
             }
             catch (Exception ex)
             {
@@ -112,15 +112,15 @@ namespace TestWebsite.Controllers
             return View(model);
         }
 
-        //private Uri FormatAndUploadStandalone(string code)
-        //{
-        //    var standaloneHighlighting = Highlighting.renderStandalone(code);
-            
-        //    var container = Storage.getContainer(_blobClient, BlobContainers.StandaloneContainer);
-        //    var fileName = Guid.NewGuid().ToString("N") + ".html";
-        //    var loc = Storage.storeBlob(container, fileName, Storage.BlobContents.NewHtml(standaloneHighlighting));
-        //    return loc;
-        //}
+        private Uri FormatAndUploadStandalone(string code)
+        {
+            var standaloneHighlighting = SnippetHighlighting.renderStandalone(code);
+
+            var container = Storage.getContainer(_blobClient, BlobContainers.StandaloneContainer);
+            var fileName = Guid.NewGuid().ToString("N") + ".html";
+            var loc = Storage.storeBlob(container, fileName, Storage.BlobContents.NewHtml(standaloneHighlighting));
+            return loc;
+        }
 
         [HttpGet]
         public ActionResult ViewProject(string projectId)

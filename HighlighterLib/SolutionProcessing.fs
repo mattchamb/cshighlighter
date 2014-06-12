@@ -60,7 +60,7 @@ module SolutionProcessing =
 
     let processSolution (sol: Solution) =
         async {
-            let! dependencyGraph = sol.GetProjectDependencyGraphAsync() |> Async.AwaitTask
+            let dependencyGraph = sol.GetProjectDependencyGraph()
             let! projects = 
                 dependencyGraph.GetTopologicallySortedProjects() 
                 |> Seq.map (fun projId -> sol.GetProject projId)

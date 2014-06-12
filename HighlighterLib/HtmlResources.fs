@@ -1,6 +1,6 @@
 ﻿namespace HighlighterLib
 
-module HtmlResources =
+module internal HtmlResources =
 
     open System.Reflection
     open System.IO

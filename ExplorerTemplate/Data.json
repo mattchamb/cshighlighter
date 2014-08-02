@@ -1,0 +1,1492 @@
+{
+  "toolTips": [
+    {
+      "tipId": 0,
+      "text": "Foo",
+      "location": ""
+    },
+    {
+      "tipId": 1,
+      "text": "int Foo.someField",
+      "location": ""
+    },
+    {
+      "tipId": 2,
+      "text": "string Foo.someStringField",
+      "location": ""
+    },
+    {
+      "tipId": 3,
+      "text": "int",
+      "location": "CommonLanguageRuntimeLibrary"
+    },
+    {
+      "tipId": 4,
+      "text": "int a",
+      "location": ""
+    },
+    {
+      "tipId": 5,
+      "text": "int x",
+      "location": ""
+    },
+    {
+      "tipId": 6,
+      "text": "bool Foo.Test()",
+      "location": ""
+    },
+    {
+      "tipId": 7,
+      "text": "SubClass<TSomething>",
+      "location": ""
+    },
+    {
+      "tipId": 8,
+      "text": "TSomething SubClass<TSomething>.Value",
+      "location": ""
+    },
+    {
+      "tipId": 9,
+      "text": "TSomething ts",
+      "location": ""
+    }
+  ],
+  "typeDecls": 1,
+  "codeTokens": [
+    {
+      "kind": "Keyword",
+      "text": "using",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Identifier",
+      "text": "System",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ";",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "namespace",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Identifier",
+      "text": "TopLevel",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "{",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "    ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "class",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "TypeDecl",
+      "text": "Foo",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 0
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "    ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "{",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Comment",
+      "text": "// Something something comment",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "private",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "int",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "FieldDecl",
+      "text": "someField",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "=",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "NumericLiteral",
+      "text": "0",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ";",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "private",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "string",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "FieldDecl",
+      "text": "someStringField",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 2
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "=",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "StringLiteral",
+      "text": "\"asdf\"",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ";",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "public",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "MethodDecl",
+      "text": "Foo",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "(",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "int",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "ParamDecl",
+      "text": "x",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ")",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "{",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "            ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "var",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 3
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "LocalDecl",
+      "text": "a",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 4
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "=",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "NumericLiteral",
+      "text": "10",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ";",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "            ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "LocalRef",
+      "text": "a",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 4
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "=",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "NumericLiteral",
+      "text": "3456",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ";",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "            ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "this",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ".",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "FieldRef",
+      "text": "someField",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "=",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "ParamRef",
+      "text": "x",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 5
+    },
+    {
+      "kind": "Literal",
+      "text": ";",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "}",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Comment",
+      "text": "/* multiline on a single line */",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Comment",
+      "text": "/*****\r\n        *\r\n        * Multiline on multi lines.\r\n        *\r\n        ******/",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "public",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "bool",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "MethodDecl",
+      "text": "Test",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "(",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ")",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "{",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "            ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "#",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "region",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "SomeRegion",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "            ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "return",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "FieldRef",
+      "text": "someField",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "==",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "NumericLiteral",
+      "text": "0",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "&&",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "MethodRef",
+      "text": "Test",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 6
+    },
+    {
+      "kind": "Literal",
+      "text": "(",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ")",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ";",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "            ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "#",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "endregion",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "}",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "private",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "class",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "TypeDecl",
+      "text": "SubClass",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 7
+    },
+    {
+      "kind": "Literal",
+      "text": "<",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Identifier",
+      "text": "TSomething",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ">",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "{",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "            ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "public",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Identifier",
+      "text": "TSomething",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "PropDecl",
+      "text": "Value",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "{",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "get",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ";",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "set",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ";",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "}",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "            ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Keyword",
+      "text": "public",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "MethodDecl",
+      "text": "SubClass",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "(",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Identifier",
+      "text": "TSomething",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "ParamDecl",
+      "text": "ts",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": ")",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "            ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "{",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "                ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "PropRef",
+      "text": "Value",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 8
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "=",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": " ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "ParamRef",
+      "text": "ts",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": 9
+    },
+    {
+      "kind": "Literal",
+      "text": ";",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "            ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "}",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "        ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "}",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "    ",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "}",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Trivia",
+      "text": "\r\n",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "}",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    },
+    {
+      "kind": "Literal",
+      "text": "",
+      "declTokenId": "",
+      "fileId": 0,
+      "tipId": -1
+    }
+  ]
+}

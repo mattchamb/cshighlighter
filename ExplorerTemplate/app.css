@@ -1,0 +1,148 @@
+﻿body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.hasSymbolInfo {
+    position: relative;
+}
+
+.hasSymbolInfo .symbolInfo {
+    display: none;
+}
+
+.hasSymbolInfo:hover .symbolInfo {
+    display: block; 
+    position: absolute; 
+    padding: 5px;
+    top: 1.5em;
+    left: 0;
+    z-index: 100; 
+    color: #000000; 
+    background: #FFFFFF; 
+    text-align: left; 
+    text-decoration: none;
+    border: 1px solid;
+}
+
+.formattedCode {
+    font-family: "Consolas", "Courier New", "Andale Mono", "Lucida Console", monospace;
+    font-size: 12pt;
+    line-height: 125%;
+}
+
+.highlighted {
+    background-color: yellow;
+}
+
+.comment {
+    color: green;
+}
+
+.disabled {
+    color: gray;
+}
+
+.keyword {
+    color: blue;
+    text-decoration: none;
+}
+
+.stringLiteral {
+    color: darkred;
+    text-decoration: none;
+}
+
+.numericLiteral {
+    color: magenta;
+}
+
+.characterLiteral {
+    color: magenta;
+}
+
+.identifier {
+    color: #2B91AF;
+    text-decoration: none;
+}
+
+.region {
+    color: lightgray;
+    text-decoration: none;
+}
+
+.localDecl {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.localRef {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.fieldDecl {
+    color: mediumvioletred;
+    text-decoration: none;
+}
+
+.fieldRef {
+    color: mediumvioletred;
+    text-decoration: none;
+}
+
+.paramDecl {
+    color: black;
+    text-decoration: none;
+}
+
+.paramRef {
+    color: black;
+    text-decoration: none;
+}
+
+.propDecl {
+    color: purple;
+    text-decoration: none;
+}
+
+.propRef {
+    color: purple;
+    text-decoration: none;
+}
+
+.methodRef {
+    color: black;
+    text-decoration: none;
+}
+
+.methodDecl {
+    color: black;
+    text-decoration: none;
+}
+
+.namedTypeRef {
+    color: #2B91AF;
+    text-decoration: none;
+}
+
+.namedTypeDecl {
+    color: #2B91AF;
+    text-decoration: none;
+}
+
+.enumMemberDecl {
+    color: royalblue;
+    text-decoration: none;
+}
+
+.enumMemberRef {
+    color: royalblue;
+    text-decoration: none;
+}
+
+.semanticError {
+    color: red;
+    text-decoration: underline;
+}

@@ -1,0 +1,209 @@
+﻿namespace HighlighterLib
+
+module JsonTransform =
+
+    open System
+    open System.Collections.Generic
+    open System.Text
+    open System.IO
+    open Analysis
+    open Types
+    open Microsoft.CodeAnalysis
+    open Microsoft.CodeAnalysis.CSharp
+    open Microsoft.CodeAnalysis.CSharp.Syntax
+    open Microsoft.CodeAnalysis.Text
+    open Newtonsoft.Json
+    open Newtonsoft.Json.Converters
+    
+    type ProjectFile =
+        {
+            fileId: int
+            filePath: string
+        }
+    type SourceLocation =
+        {
+            fileId: int
+            line: int
+        }
+    type TokenKind =
+        | Literal = 1
+        | Keyword = 2
+        | Identifier = 3
+        | TypeDecl = 4
+        | TypeRef = 5
+        | StringLiteral = 6
+        | NumericLiteral = 7
+        | CharLiteral = 8
+        | LocalDecl = 9
+        | LocalRef = 10
+        | FieldDecl = 11
+        | FieldRef = 12
+        | ParamDecl = 13
+        | ParamRef = 14
+        | PropDecl = 15
+        | PropRef = 16
+        | MethodDecl = 17
+        | MethodRef = 18
+        | EnumMemberDecl = 19
+        | EnumMemberRef = 20
+        | SemanticError = 21
+        | Trivia = 22
+        | Comment = 23
+        | Region = 24
+        | DisabledText = 25
+
+    type CodeSpan = 
+        {
+            kind: TokenKind
+            text: string
+            declTokenId: string
+            fileId: int
+            tipId: int
+        }
+        
+    let getSymbol t : ISymbol option =
+        match t with
+        | LocalVariableDeclaration(_, sym) -> Some (sym :> ISymbol)
+        | LocalVariableReference(_, sym) -> Some (sym :> ISymbol)
+        | FieldDeclaration(_, sym) -> Some (sym :> ISymbol)
+        | FieldReference(_, sym) -> Some (sym :> ISymbol)
+        | ParameterReference(_, sym) -> Some (sym :> ISymbol)
+        | PropertyReference(_, sym) -> Some (sym :> ISymbol)
+        | NamedTypeDeclaration(_, sym) -> Some (sym :> ISymbol)
+        | NamedTypeReference(_, sym) -> Some (sym :> ISymbol)
+        | MethodReference(_, sym) -> Some (sym :> ISymbol)
+        | EnumMemberDeclaration(_, sym) -> Some (sym :> ISymbol)
+        | EnumMemberReference(_, sym) -> Some (sym :> ISymbol)
+        | _ -> None
+    
+    let tokenToSerializableFormat (tipId: int) (token: TokenClassification) : CodeSpan =
+        let tokenId = ""
+        let declFileId = 0
+
+        let codeSpan kind token =
+            { kind = kind; text = token.ToString(); declTokenId = tokenId; fileId = declFileId; tipId = tipId }
+
+        match token with
+        | Unformatted tok -> codeSpan TokenKind.Literal tok
+        | Keyword tok -> codeSpan TokenKind.Keyword tok
+        | Identifier tok -> codeSpan TokenKind.Identifier tok
+        | NamedTypeDeclaration (tok, _) -> codeSpan TokenKind.TypeDecl tok
+        | NamedTypeReference (tok, sym) -> 
+            match tok.ToString() with
+            | "var" -> codeSpan TokenKind.Keyword tok
+            | _ -> codeSpan TokenKind.TypeRef tok
+        | StringLiteral tok -> codeSpan TokenKind.StringLiteral tok
+        | NumericLiteral tok -> codeSpan TokenKind.NumericLiteral tok
+        | CharacterLiteral tok -> codeSpan TokenKind.CharLiteral tok
+        | LocalVariableDeclaration (tok, sym) -> codeSpan TokenKind.LocalDecl tok
+        | LocalVariableReference (tok, sym) -> codeSpan TokenKind.LocalRef tok
+        | FieldDeclaration (tok, sym) -> codeSpan TokenKind.FieldDecl tok
+        | FieldReference (tok, sym) -> codeSpan TokenKind.FieldRef tok
+        | ParameterDeclaration tok -> codeSpan TokenKind.ParamDecl tok
+        | ParameterReference (tok, sym) -> codeSpan TokenKind.ParamRef tok
+        | PropertyDeclaration tok -> codeSpan TokenKind.PropDecl tok
+        | PropertyReference (tok, sym) -> codeSpan TokenKind.PropRef tok
+        | MethodDeclaration tok -> codeSpan TokenKind.MethodDecl tok
+        | MethodReference (tok, sym) -> codeSpan TokenKind.MethodRef tok
+        | EnumMemberDeclaration (tok, _) -> codeSpan TokenKind.EnumMemberDecl tok
+        | EnumMemberReference (tok, sym) -> codeSpan TokenKind.EnumMemberRef tok
+        | SemanticError (tok, errors) -> codeSpan TokenKind.SemanticError tok
+        | Trivia tr -> 
+            match tr with
+            | TriviaElement.BeginRegion s -> codeSpan TokenKind.Region s
+            | TriviaElement.EndRegion s -> codeSpan TokenKind.Region s
+            | TriviaElement.Comment s -> codeSpan TokenKind.Comment s
+            | TriviaElement.NewLine -> codeSpan TokenKind.Trivia Environment.NewLine
+            | TriviaElement.UnformattedTrivia s -> codeSpan TokenKind.Trivia s
+            | TriviaElement.Whitespace s -> codeSpan TokenKind.Trivia s
+            | TriviaElement.DisabledText s -> codeSpan TokenKind.DisabledText s
+    
+    let typeMemberToSerializableFormat (asd: TypeMember) = 
+        0
+
+    type TypeDeclaration =
+        {
+            location: SourceLocation list
+            typeName: string
+            typeKind: string
+        }
+
+    let typeDeclToSerializableFormat (asd: DeclaredType) = 
+        0
+
+    let createToolTip (sym: ISymbol) =
+        let locationText =
+            let loc = Seq.head sym.Locations
+            if loc.IsInMetadata then
+                loc.MetadataModule.ToDisplayString()
+            else
+                loc.FilePath
+        sym.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat), locationText 
+
+    let createTipDict (tokens: TokenClassification seq) =
+        let d = new Dictionary<_,_>()
+        tokens 
+        |> Seq.choose getSymbol
+        |> Seq.iter 
+            (fun sym -> 
+                if not <| d.ContainsKey sym then
+                    d.Add (sym, createToolTip sym))
+        d
+
+    type ToolTip =
+        {
+            tipId: int
+            text: string
+            location: string
+        }
+
+    type Asd =
+        {
+            toolTips: ToolTip seq
+            typeDecls: int
+            codeTokens: CodeSpan seq
+        }
+
+    let jsonFormat (input: FileAnalysisResult) : string =
+        let toJson : (obj -> string) =
+            let converters: JsonConverter array = [| new StringEnumConverter() |]
+            let serialize obj = JsonConvert.SerializeObject (obj, Formatting.Indented, converters)
+            serialize
+        
+        let tokens = input.ClassifiedTokens
+
+        let tipDict = createTipDict tokens
+        let symbolIndexes = 
+            let dict = new Dictionary<_,_>()
+            tipDict 
+            |> Seq.iteri (fun i sym -> dict.Add(sym.Key, i))
+            dict
+
+        let serToolTips =
+            tipDict
+            |> Seq.map 
+                (fun kvp ->
+                    let id = symbolIndexes.[kvp.Key]
+                    let text, location = kvp.Value
+                    {tipId = id; text = text; location = location})
+        
+        let codeTokens = 
+            tokens 
+            |> Seq.map 
+                (fun tok ->
+                    let tipId = 
+                        match getSymbol tok with
+                        | None -> -1
+                        | Some sym -> symbolIndexes.[sym]
+                    tokenToSerializableFormat tipId tok)
+
+        let types = input.DeclaredTypes
+        let a = types |> Seq.map typeDeclToSerializableFormat
+
+        {
+            toolTips = serToolTips
+            typeDecls = 1
+            codeTokens = codeTokens
+        } 
+        |> toJson
+

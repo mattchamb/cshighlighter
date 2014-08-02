@@ -1,7 +1,16 @@
 ﻿open System
 open HighlighterLib
 open System.IO
-open HighlighterLib.Templating
+open System.IO.Compression
+open System.Text
+
+let asdf (str: String) = 
+    let outputStr = new MemoryStream()
+    do
+        use gz = new GZipStream(outputStr, CompressionMode.Compress, true)
+        let memStream = new MemoryStream(Encoding.UTF8.GetBytes(str))
+        memStream.CopyTo gz
+    outputStr.ToArray()
 
 [<EntryPoint>]
 let main argv = 
@@ -142,9 +151,15 @@ namespace HighlighterLib.Templating
     }
     "
 
-    let a = Analysis.analyseFile(c6)
+    let a = Analysis.analyseFile(code)
     
-    let output = Formatting.htmlFormat Formatting.Standalone a.ClassifiedTokens
+    let output = JsonTransform.jsonFormat a
+    
+    let rawLen = output.Length
+    let gzipped = asdf output
+    
+    File.WriteAllText("C:\Projects\CSHighhighter\ExplorerTemplate\Data.json", output)
+
 
     //let a = HighlighterLib.Templating.Render.SinglePage(output)
     //Console.WriteLine output

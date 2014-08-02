@@ -32,27 +32,27 @@ namespace TestWebsite.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult Index(string code = null)
-        {
-            if(code == null)
-                return View();
-            try
-            {
-                var blobUri = FormatAndUploadStandalone(code);
-                return View(new CodeModel() { FrameUrl = blobUri.AbsoluteUri });
-                //return Redirect("");
-            }
-            catch (Exception ex)
-            {
-                Trace.Write(ex);
-                return View(new CodeModel()
-                    {
-                        ExceptionMessage = ex.ToString()
-                    });
-            }
-        }
+        //[HttpPost]
+        //[ValidateInput(false)]
+        //public ActionResult Index(string code = null)
+        //{
+        //    if(code == null)
+        //        return View();
+        //    try
+        //    {
+        //        var blobUri = FormatAndUploadStandalone(code);
+        //        return View(new CodeModel() { FrameUrl = blobUri.AbsoluteUri });
+        //        //return Redirect("");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Trace.Write(ex);
+        //        return View(new CodeModel()
+        //            {
+        //                ExceptionMessage = ex.ToString()
+        //            });
+        //    }
+        //}
 
         [HttpGet]
         public ActionResult SubmitZipUrl()
@@ -68,59 +68,50 @@ namespace TestWebsite.Controllers
             var downloadTo = Path.Combine(Server.MapPath("~/App_Data/"), fileName + ".zip");
             var zipDir = Path.Combine(Server.MapPath("~/App_Data/"), fileName);
 
-            try
-            {
+            //try
+            //{
                 
-                if (!Directory.Exists(Server.MapPath("~/App_Data/")))
-                {
-                    Directory.CreateDirectory(Server.MapPath("~/App_Data/"));
-                }
+            //    if (!Directory.Exists(Server.MapPath("~/App_Data/")))
+            //    {
+            //        Directory.CreateDirectory(Server.MapPath("~/App_Data/"));
+            //    }
 
-                new WebClient().DownloadFile(model.ZipUrl, downloadTo);
-                using (var zip = Ionic.Zip.ZipFile.Read(downloadTo))
-                {
-                    zip.ExtractAll(zipDir);
-                }
-                var solutionPath = Directory.EnumerateFiles(zipDir, "*.sln", SearchOption.AllDirectories).FirstOrDefault();
-                var resultSoln = SolutionProcessing.processSolutionAtPath(solutionPath);
+            //    new WebClient().DownloadFile(model.ZipUrl, downloadTo);
+            //    using (var zip = Ionic.Zip.ZipFile.Read(downloadTo))
+            //    {
+            //        zip.ExtractAll(zipDir);
+            //    }
+            //    var solutionPath = Directory.EnumerateFiles(zipDir, "*.sln", SearchOption.AllDirectories).FirstOrDefault();
+            //    var resultSoln = SolutionProcessing.processSolutionAtPath(solutionPath);
 
-                var projContainer = Storage.getContainer(_blobClient, BlobContainers.ProjectsContainer);
+            //    var projContainer = Storage.getContainer(_blobClient, BlobContainers.ProjectsContainer);
 
-                Solutions.renderSolutionToBlobStorage(projContainer, fileName, resultSoln);
+            //    Solutions.renderSolutionToBlobStorage(projContainer, fileName, resultSoln);
 
-                model.Directory = projContainer.Uri.AbsoluteUri + "/" + fileName + "/" + "Directory.html";
-                model.ProjectId = fileName;
-            }
-            finally
-            {
-                try
-                {
-                    if (System.IO.File.Exists(downloadTo))
-                    {
-                        System.IO.File.Delete(downloadTo);
-                    }
-                    if (Directory.Exists(zipDir))
-                    {
-                        Directory.Delete(zipDir, true);
-                    }
-                } catch (Exception ex)
-                {
-                    model.Exception = ex.ToString();
-                }
-            }
+            //    model.Directory = projContainer.Uri.AbsoluteUri + "/" + fileName + "/" + "Directory.html";
+            //    model.ProjectId = fileName;
+            //}
+            //finally
+            //{
+            //    try
+            //    {
+            //        if (System.IO.File.Exists(downloadTo))
+            //        {
+            //            System.IO.File.Delete(downloadTo);
+            //        }
+            //        if (Directory.Exists(zipDir))
+            //        {
+            //            Directory.Delete(zipDir, true);
+            //        }
+            //    } catch (Exception ex)
+            //    {
+            //        model.Exception = ex.ToString();
+            //    }
+            //}
             
             return View(model);
         }
 
-        private Uri FormatAndUploadStandalone(string code)
-        {
-            var standaloneHighlighting = SnippetHighlighting.renderStandalone(code);
-
-            var container = Storage.getContainer(_blobClient, BlobContainers.StandaloneContainer);
-            var fileName = Guid.NewGuid().ToString("N") + ".html";
-            var loc = Storage.storeBlob(container, fileName, Storage.BlobContents.NewHtml(standaloneHighlighting));
-            return loc;
-        }
 
         [HttpGet]
         public ActionResult ViewProject(string projectId)

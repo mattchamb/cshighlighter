@@ -10,13 +10,13 @@ type TypeMemberVisitor() =
     inherit SymbolVisitor<TypeMember option>()
     let m (sym: ISymbol) kind = Some { MemberName = sym.Name; Kind = kind; Signature = sym.ToDisplayString() }
     override x.VisitField sym = 
-        m sym Field
+        m sym FieldKind.Field
     override x.VisitProperty sym = 
-        m sym Property
+        m sym FieldKind.Property
     override x.VisitMethod sym = 
-        m sym Method
+        m sym FieldKind.Method
     override x.VisitEvent sym = 
-        m sym Field
+        m sym FieldKind.Field
     override x.DefaultVisit sym =
         None
 
@@ -51,16 +51,16 @@ type TypeDeclarationVisitor(model: SemanticModel) =
         { TypeName = sym.Name; Kind = typeKind; Members = members }
 
     override x.VisitClassDeclaration decl =
-        let t = declType Class <| model.GetDeclaredSymbol(decl) 
+        let t = declType TypeKind.Class <| model.GetDeclaredSymbol(decl) 
         outputElements := t :: !outputElements
             
 
     override x.VisitEnumDeclaration decl =
-        let t = declType Enum <| model.GetDeclaredSymbol(decl) 
+        let t = declType TypeKind.Enum <| model.GetDeclaredSymbol(decl) 
         outputElements := t :: !outputElements
 
     override x.VisitStructDeclaration decl =
-        let t = declType Struct <| model.GetDeclaredSymbol(decl) 
+        let t = declType TypeKind.Struct <| model.GetDeclaredSymbol(decl) 
         outputElements := t :: !outputElements
 
     member x.getOutput() = !outputElements
@@ -125,9 +125,9 @@ type TokenVisitor(model: SemanticModel) =
         match symbol with
         | :? ILocalSymbol as sym -> LocalVariableDeclaration (token, sym)
         | :? INamedTypeSymbol as sym -> NamedTypeDeclaration (token, sym)
-        | :? IPropertySymbol as sym -> PropertyDeclaration token
-        | :? IMethodSymbol as sym -> MethodDeclaration token
-        | :? IParameterSymbol as sym -> ParameterDeclaration token
+        | :? IPropertySymbol as sym -> PropertyDeclaration (token, sym)
+        | :? IMethodSymbol as sym -> MethodDeclaration (token, sym)
+        | :? IParameterSymbol as sym -> ParameterDeclaration (token, sym)
         | :? IFieldSymbol as sym ->
             match sym with
             | ClassOrStructField -> FieldDeclaration (token, sym)
@@ -145,7 +145,7 @@ type TokenVisitor(model: SemanticModel) =
             | :? IPropertySymbol as sym -> PropertyReference (token, sym)
             | :? INamedTypeSymbol as sym -> NamedTypeReference (token, sym)
             | :? IMethodSymbol as sym -> MethodReference (token, sym)
-            | :? INamespaceSymbol as sym -> Identifier token
+            | :? INamespaceSymbol as sym -> NamespaceReference (token, sym)
             | _ -> Identifier token
 
     let classifyIdentifierToken (token: SyntaxToken) = 

@@ -20,15 +20,16 @@ type TokenClassification =
     | FieldDeclaration of SyntaxToken * IFieldSymbol
     | FieldReference of SyntaxToken * IFieldSymbol
     | ParameterReference of SyntaxToken * IParameterSymbol
-    | ParameterDeclaration of SyntaxToken
-    | PropertyDeclaration of SyntaxToken
+    | ParameterDeclaration of SyntaxToken * IParameterSymbol
+    | PropertyDeclaration of SyntaxToken * IPropertySymbol
     | PropertyReference of SyntaxToken * IPropertySymbol
     | NamedTypeDeclaration of SyntaxToken * INamedTypeSymbol
     | NamedTypeReference of SyntaxToken * INamedTypeSymbol
-    | MethodDeclaration of SyntaxToken
+    | MethodDeclaration of SyntaxToken * IMethodSymbol
     | MethodReference of SyntaxToken * IMethodSymbol
     | EnumMemberDeclaration of SyntaxToken * IFieldSymbol
     | EnumMemberReference of SyntaxToken * IFieldSymbol
+    | NamespaceReference of SyntaxToken * INamespaceSymbol
     | SemanticError of SyntaxToken * Diagnostic array
 and TriviaElement =
     | Comment of SyntaxTrivia
@@ -40,10 +41,10 @@ and TriviaElement =
     | UnformattedTrivia of SyntaxTrivia
 
 type FieldKind =
-    | Field
-    | Property
-    | Method
-    | Event
+    | Field = 1
+    | Property = 2 
+    | Method = 3
+    | Event = 4
 
 type TypeMember =
     {
@@ -53,9 +54,9 @@ type TypeMember =
     }
 
 type TypeKind =
-    | Class
-    | Struct
-    | Enum
+    | Class = 1
+    | Struct = 2
+    | Enum = 3
 
 type DeclaredType =
     {

@@ -151,7 +151,11 @@ namespace HighlighterLib.Templating
     }
     "
 
-    let a = Analysis.analyseFile(code)
+    let x = SolutionProcessing.processSolutionAtPath "C:\Projects\cecil\Mono.Cecil.sln"
+    let y = JsonTransform.solutionToJson x
+    File.WriteAllText("C:\Projects\CSHighhighter\ExplorerTemplate\Data2.json", y)
+
+    let a = Analysis.analyseFile code None
     
     let output = JsonTransform.jsonFormat a
     

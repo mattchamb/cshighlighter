@@ -12,6 +12,7 @@ module Analysis =
 
     type FileAnalysisResult =
         {
+            FilePath: string
             ClassifiedTokens: TokenClassification seq
             DeclaredTypes: DeclaredType seq
         }
@@ -29,13 +30,17 @@ module Analysis =
         elements
       
     let compilationForSource trees =
-        CSharpCompilation.Create("highlightingCompilation", trees, [|new MetadataFileReference(typeof<Object>.Assembly.Location)|])
+        CSharpCompilation.Create("highlightingCompilation", trees, [|new MetadataFileReference(typeof<Object>.Assembly.Location); new MetadataFileReference(typeof<Uri>.Assembly.Location)|])
 
-    let parseCode (code: string) =
-        CSharpSyntaxTree.ParseText (code, String.Empty)
+    let parseCode (code: string) path =
+        CSharpSyntaxTree.ParseText (code, path)
 
-    let analyseFile (code: string) = 
-        let syntaxTree = parseCode code
+    let analyseFile (code: string) path = 
+        let pathStr =
+            match path with
+            | None -> "standalone_file.cs"
+            | Some p -> p
+        let syntaxTree = parseCode code pathStr
         let compilation = compilationForSource [|syntaxTree|]
         let root = syntaxTree.GetRoot()
         let model = compilation.GetSemanticModel(syntaxTree)
@@ -43,5 +48,5 @@ module Analysis =
         let classifiedTokens = createHighlightingModel root model
         let declaredTypes = getDeclaredTypes root model
 
-        { ClassifiedTokens = classifiedTokens; DeclaredTypes = declaredTypes }
+        { FilePath = pathStr; ClassifiedTokens = classifiedTokens; DeclaredTypes = declaredTypes }
 

@@ -14,17 +14,14 @@ module JsonTransform =
     open Microsoft.CodeAnalysis.Text
     open Newtonsoft.Json
     open Newtonsoft.Json.Converters
+    open SolutionProcessing
     
-    type ProjectFile =
-        {
-            fileId: int
-            filePath: string
-        }
     type SourceLocation =
         {
             fileId: int
             line: int
         }
+
     type TokenKind =
         | Literal = 1
         | Keyword = 2
@@ -68,12 +65,16 @@ module JsonTransform =
         | FieldDeclaration(_, sym) -> Some (sym :> ISymbol)
         | FieldReference(_, sym) -> Some (sym :> ISymbol)
         | ParameterReference(_, sym) -> Some (sym :> ISymbol)
+        | ParameterDeclaration(_, sym) -> Some (sym :> ISymbol)
         | PropertyReference(_, sym) -> Some (sym :> ISymbol)
+        | PropertyDeclaration(_, sym) -> Some (sym :> ISymbol)
         | NamedTypeDeclaration(_, sym) -> Some (sym :> ISymbol)
         | NamedTypeReference(_, sym) -> Some (sym :> ISymbol)
         | MethodReference(_, sym) -> Some (sym :> ISymbol)
+        | MethodDeclaration(_, sym) -> Some (sym :> ISymbol)
         | EnumMemberDeclaration(_, sym) -> Some (sym :> ISymbol)
         | EnumMemberReference(_, sym) -> Some (sym :> ISymbol)
+        | NamespaceReference(_, sym) -> Some (sym :> ISymbol)
         | _ -> None
     
     let tokenToSerializableFormat (tipId: int) (token: TokenClassification) : CodeSpan =
@@ -87,6 +88,7 @@ module JsonTransform =
         | Unformatted tok -> codeSpan TokenKind.Literal tok
         | Keyword tok -> codeSpan TokenKind.Keyword tok
         | Identifier tok -> codeSpan TokenKind.Identifier tok
+        | NamespaceReference (tok, _) -> codeSpan TokenKind.Identifier tok
         | NamedTypeDeclaration (tok, _) -> codeSpan TokenKind.TypeDecl tok
         | NamedTypeReference (tok, sym) -> 
             match tok.ToString() with
@@ -99,11 +101,11 @@ module JsonTransform =
         | LocalVariableReference (tok, sym) -> codeSpan TokenKind.LocalRef tok
         | FieldDeclaration (tok, sym) -> codeSpan TokenKind.FieldDecl tok
         | FieldReference (tok, sym) -> codeSpan TokenKind.FieldRef tok
-        | ParameterDeclaration tok -> codeSpan TokenKind.ParamDecl tok
+        | ParameterDeclaration (tok, sym) -> codeSpan TokenKind.ParamDecl tok
         | ParameterReference (tok, sym) -> codeSpan TokenKind.ParamRef tok
-        | PropertyDeclaration tok -> codeSpan TokenKind.PropDecl tok
+        | PropertyDeclaration (tok, sym) -> codeSpan TokenKind.PropDecl tok
         | PropertyReference (tok, sym) -> codeSpan TokenKind.PropRef tok
-        | MethodDeclaration tok -> codeSpan TokenKind.MethodDecl tok
+        | MethodDeclaration (tok, sym) -> codeSpan TokenKind.MethodDecl tok
         | MethodReference (tok, sym) -> codeSpan TokenKind.MethodRef tok
         | EnumMemberDeclaration (tok, _) -> codeSpan TokenKind.EnumMemberDecl tok
         | EnumMemberReference (tok, sym) -> codeSpan TokenKind.EnumMemberRef tok
@@ -118,9 +120,6 @@ module JsonTransform =
             | TriviaElement.Whitespace s -> codeSpan TokenKind.Trivia s
             | TriviaElement.DisabledText s -> codeSpan TokenKind.DisabledText s
     
-    let typeMemberToSerializableFormat (asd: TypeMember) = 
-        0
-
     type TypeDeclaration =
         {
             location: SourceLocation list
@@ -128,16 +127,13 @@ module JsonTransform =
             typeKind: string
         }
 
-    let typeDeclToSerializableFormat (asd: DeclaredType) = 
-        0
-
     let createToolTip (sym: ISymbol) =
         let locationText =
             let loc = Seq.head sym.Locations
             if loc.IsInMetadata then
                 loc.MetadataModule.ToDisplayString()
             else
-                loc.FilePath
+                Path.GetFileName loc.FilePath
         sym.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat), locationText 
 
     let createTipDict (tokens: TokenClassification seq) =
@@ -157,19 +153,30 @@ module JsonTransform =
             location: string
         }
 
-    type Asd =
-        {
-            toolTips: ToolTip seq
-            typeDecls: int
-            codeTokens: CodeSpan seq
-        }
+    let toJson : (obj -> string) =
+        let converters: JsonConverter array = [| new StringEnumConverter() |]
+        let serialize obj = JsonConvert.SerializeObject (obj, Formatting.Indented, converters)
+        serialize
 
-    let jsonFormat (input: FileAnalysisResult) : string =
-        let toJson : (obj -> string) =
-            let converters: JsonConverter array = [| new StringEnumConverter() |]
-            let serialize obj = JsonConvert.SerializeObject (obj, Formatting.Indented, converters)
-            serialize
-        
+    type JsonFile =  {
+        path: string
+        toolTips: ToolTip seq
+        typeDecls: DeclaredType seq
+        codeTokens: CodeSpan seq
+    }
+
+    type JsonProj = {
+        path: string
+        files: JsonFile seq
+    }
+
+    type JsonSol = {
+        path: string
+        projects: JsonProj seq
+    }
+
+    let transformFile (input: FileAnalysisResult) =
+
         let tokens = input.ClassifiedTokens
 
         let tipDict = createTipDict tokens
@@ -197,13 +204,26 @@ module JsonTransform =
                         | Some sym -> symbolIndexes.[sym]
                     tokenToSerializableFormat tipId tok)
 
-        let types = input.DeclaredTypes
-        let a = types |> Seq.map typeDeclToSerializableFormat
-
         {
+            path = input.FilePath
             toolTips = serToolTips
-            typeDecls = 1
+            typeDecls = input.DeclaredTypes
             codeTokens = codeTokens
         } 
-        |> toJson
 
+    let jsonFormat (input: FileAnalysisResult) =
+        toJson <| transformFile input
+
+    let solutionToJson (solution: ProcessedSolution) : string =
+        
+        let mapProj (proj: ProcessedProject) : JsonProj =
+            {
+                path = proj.Path
+                files = proj.Files |> Seq.map transformFile
+            }
+        let proj =
+            {
+                path = solution.Path
+                projects = solution.Projects |> Seq.map mapProj
+            }
+        toJson proj

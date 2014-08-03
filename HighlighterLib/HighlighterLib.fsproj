@@ -55,10 +55,9 @@
     <Compile Include="Types.fs" />
     <Compile Include="Visitors.fs" />
     <Compile Include="Analysis.fs" />
-    <Compile Include="JsonTransform.fs" />
     <Compile Include="Formatting.fs" />
     <Compile Include="SolutionProcessing.fs" />
-    <EmbeddedResource Include="Style.css" />
+    <Compile Include="JsonTransform.fs" />
     <EmbeddedResource Include="HighlightingScript.js" />
     <None Include="packages.config" />
     <None Include="app.config" />

@@ -1,57 +1,105 @@
 {
+  "path": "standalone_file.cs",
   "toolTips": [
     {
       "tipId": 0,
-      "text": "Foo",
-      "location": ""
+      "text": "System",
+      "location": "CommonLanguageRuntimeLibrary"
     },
     {
       "tipId": 1,
-      "text": "int Foo.someField",
-      "location": ""
+      "text": "TopLevel",
+      "location": "standalone_file.cs"
     },
     {
       "tipId": 2,
-      "text": "string Foo.someStringField",
-      "location": ""
+      "text": "Foo",
+      "location": "standalone_file.cs"
     },
     {
       "tipId": 3,
+      "text": "int Foo.someField",
+      "location": "standalone_file.cs"
+    },
+    {
+      "tipId": 4,
+      "text": "string Foo.someStringField",
+      "location": "standalone_file.cs"
+    },
+    {
+      "tipId": 5,
+      "text": "Foo.Foo(int x)",
+      "location": "standalone_file.cs"
+    },
+    {
+      "tipId": 6,
+      "text": "int x",
+      "location": "standalone_file.cs"
+    },
+    {
+      "tipId": 7,
       "text": "int",
       "location": "CommonLanguageRuntimeLibrary"
     },
     {
-      "tipId": 4,
-      "text": "int a",
-      "location": ""
-    },
-    {
-      "tipId": 5,
-      "text": "int x",
-      "location": ""
-    },
-    {
-      "tipId": 6,
-      "text": "bool Foo.Test()",
-      "location": ""
-    },
-    {
-      "tipId": 7,
-      "text": "SubClass<TSomething>",
-      "location": ""
-    },
-    {
       "tipId": 8,
-      "text": "TSomething SubClass<TSomething>.Value",
-      "location": ""
+      "text": "int a",
+      "location": "standalone_file.cs"
     },
     {
       "tipId": 9,
+      "text": "bool Foo.Test()",
+      "location": "standalone_file.cs"
+    },
+    {
+      "tipId": 10,
+      "text": "SubClass<TSomething>",
+      "location": "standalone_file.cs"
+    },
+    {
+      "tipId": 11,
+      "text": "TSomething SubClass<TSomething>.Value",
+      "location": "standalone_file.cs"
+    },
+    {
+      "tipId": 12,
+      "text": "SubClass<TSomething>.SubClass(TSomething ts)",
+      "location": "standalone_file.cs"
+    },
+    {
+      "tipId": 13,
       "text": "TSomething ts",
-      "location": ""
+      "location": "standalone_file.cs"
     }
   ],
-  "typeDecls": 1,
+  "typeDecls": [
+    {
+      "TypeName": "Foo",
+      "Kind": "Class",
+      "Members": [
+        {
+          "MemberName": "someField",
+          "Signature": "TopLevel.Foo.someField",
+          "Kind": "Field"
+        },
+        {
+          "MemberName": "someStringField",
+          "Signature": "TopLevel.Foo.someStringField",
+          "Kind": "Field"
+        },
+        {
+          "MemberName": ".ctor",
+          "Signature": "TopLevel.Foo.Foo(int)",
+          "Kind": "Method"
+        },
+        {
+          "MemberName": "Test",
+          "Signature": "TopLevel.Foo.Test()",
+          "Kind": "Method"
+        }
+      ]
+    }
+  ],
   "codeTokens": [
     {
       "kind": "Keyword",
@@ -72,7 +120,7 @@
       "text": "System",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": -1
+      "tipId": 0
     },
     {
       "kind": "Literal",
@@ -114,7 +162,7 @@
       "text": "TopLevel",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": -1
+      "tipId": 1
     },
     {
       "kind": "Trivia",
@@ -170,7 +218,7 @@
       "text": "Foo",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 0
+      "tipId": 2
     },
     {
       "kind": "Trivia",
@@ -268,7 +316,7 @@
       "text": "someField",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 1
+      "tipId": 3
     },
     {
       "kind": "Trivia",
@@ -352,7 +400,7 @@
       "text": "someStringField",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 2
+      "tipId": 4
     },
     {
       "kind": "Trivia",
@@ -422,7 +470,7 @@
       "text": "Foo",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": -1
+      "tipId": 5
     },
     {
       "kind": "Literal",
@@ -450,7 +498,7 @@
       "text": "x",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": -1
+      "tipId": 6
     },
     {
       "kind": "Literal",
@@ -499,7 +547,7 @@
       "text": "var",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 3
+      "tipId": 7
     },
     {
       "kind": "Trivia",
@@ -513,7 +561,7 @@
       "text": "a",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 4
+      "tipId": 8
     },
     {
       "kind": "Trivia",
@@ -569,7 +617,7 @@
       "text": "a",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 4
+      "tipId": 8
     },
     {
       "kind": "Trivia",
@@ -639,7 +687,7 @@
       "text": "someField",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 1
+      "tipId": 3
     },
     {
       "kind": "Trivia",
@@ -667,7 +715,7 @@
       "text": "x",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 5
+      "tipId": 6
     },
     {
       "kind": "Literal",
@@ -793,7 +841,7 @@
       "text": "Test",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": -1
+      "tipId": 9
     },
     {
       "kind": "Literal",
@@ -912,7 +960,7 @@
       "text": "someField",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 1
+      "tipId": 3
     },
     {
       "kind": "Trivia",
@@ -968,7 +1016,7 @@
       "text": "Test",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 6
+      "tipId": 9
     },
     {
       "kind": "Literal",
@@ -1094,7 +1142,7 @@
       "text": "SubClass",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 7
+      "tipId": 10
     },
     {
       "kind": "Literal",
@@ -1185,7 +1233,7 @@
       "text": "Value",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": -1
+      "tipId": 11
     },
     {
       "kind": "Trivia",
@@ -1290,7 +1338,7 @@
       "text": "SubClass",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": -1
+      "tipId": 12
     },
     {
       "kind": "Literal",
@@ -1318,7 +1366,7 @@
       "text": "ts",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": -1
+      "tipId": 13
     },
     {
       "kind": "Literal",
@@ -1367,7 +1415,7 @@
       "text": "Value",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 8
+      "tipId": 11
     },
     {
       "kind": "Trivia",
@@ -1395,7 +1443,7 @@
       "text": "ts",
       "declTokenId": "",
       "fileId": 0,
-      "tipId": 9
+      "tipId": 13
     },
     {
       "kind": "Literal",

@@ -76,7 +76,7 @@ var SymbolInfo = React.createClass({
 
 function renderToken(toolTips, token) {
 	var className = tokenClassName(token.kind);
-	if(token.tipId == -1) {
+	if(!token.tipId) {
 		return <span className={className}>{token.text}</span>;
     }
 	var tip = toolTips[token.tipId];

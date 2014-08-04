@@ -2,7 +2,6 @@
   "path": "standalone_file.cs",
   "toolTips": [
     {
-      "tipId": 0,
       "text": "System",
       "location": "CommonLanguageRuntimeLibrary"
     },
@@ -103,717 +102,432 @@
   "codeTokens": [
     {
       "kind": "Keyword",
-      "text": "using",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "using"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "Identifier",
       "text": "System",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 0
     },
     {
       "kind": "Unformatted",
-      "text": ";\r\n\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": ";\r\n\r\n"
     },
     {
       "kind": "Keyword",
-      "text": "namespace",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "namespace"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "Identifier",
       "text": "TopLevel",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 1
     },
     {
       "kind": "Unformatted",
-      "text": "\r\n{ \r\n    ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "\r\n{ \r\n    "
     },
     {
       "kind": "Keyword",
-      "text": "class",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "class"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "TypeDecl",
       "text": "Foo",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 2
     },
     {
       "kind": "Unformatted",
-      "text": " \r\n    {\r\n        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " \r\n    {\r\n        "
     },
     {
       "kind": "Comment",
-      "text": "// Something something comment",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "// Something something comment"
     },
     {
       "kind": "Unformatted",
-      "text": "\r\n        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "\r\n        "
     },
     {
       "kind": "Keyword",
-      "text": "private",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "private"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "Keyword",
-      "text": "int",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "int"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "FieldDecl",
       "text": "someField",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 3
     },
     {
       "kind": "Unformatted",
-      "text": " = ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " = "
     },
     {
       "kind": "NumericLiteral",
-      "text": "0",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "0"
     },
     {
       "kind": "Unformatted",
-      "text": ";\r\n        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": ";\r\n        "
     },
     {
       "kind": "Keyword",
-      "text": "private",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "private"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "Keyword",
-      "text": "string",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "string"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "FieldDecl",
       "text": "someStringField",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 4
     },
     {
       "kind": "Unformatted",
-      "text": " = ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " = "
     },
     {
       "kind": "StringLiteral",
-      "text": "\"asdf\"",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "\"asdf\""
     },
     {
       "kind": "Unformatted",
-      "text": ";\r\n        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": ";\r\n        "
     },
     {
       "kind": "Keyword",
-      "text": "public",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "public"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "MethodDecl",
       "text": "Foo",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 5
     },
     {
       "kind": "Unformatted",
-      "text": "(",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "("
     },
     {
       "kind": "Keyword",
-      "text": "int",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "int"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "ParamDecl",
       "text": "x",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 6
     },
     {
       "kind": "Unformatted",
-      "text": ")\r\n        {\r\n            ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": ")\r\n        {\r\n            "
     },
     {
       "kind": "Keyword",
       "text": "var",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 7
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "LocalDecl",
       "text": "a",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 8
     },
     {
       "kind": "Unformatted",
-      "text": " = ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " = "
     },
     {
       "kind": "NumericLiteral",
-      "text": "10",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "10"
     },
     {
       "kind": "Unformatted",
-      "text": ";\r\n            ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": ";\r\n            "
     },
     {
       "kind": "LocalRef",
       "text": "a",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 8
     },
     {
       "kind": "Unformatted",
-      "text": " = ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " = "
     },
     {
       "kind": "NumericLiteral",
-      "text": "3456",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "3456"
     },
     {
       "kind": "Unformatted",
-      "text": ";\r\n            ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": ";\r\n            "
     },
     {
       "kind": "Keyword",
-      "text": "this",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "this"
     },
     {
       "kind": "Unformatted",
-      "text": ".",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "."
     },
     {
       "kind": "FieldRef",
       "text": "someField",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 3
     },
     {
       "kind": "Unformatted",
-      "text": " = ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " = "
     },
     {
       "kind": "ParamRef",
       "text": "x",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 6
     },
     {
       "kind": "Unformatted",
-      "text": ";\r\n        }\r\n\r\n        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": ";\r\n        }\r\n\r\n        "
     },
     {
       "kind": "Comment",
-      "text": "/* multiline on a single line */",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "/* multiline on a single line */"
     },
     {
       "kind": "Unformatted",
-      "text": "\r\n        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "\r\n        "
     },
     {
       "kind": "Comment",
-      "text": "/*****\r\n        *\r\n        * Multiline on multi lines.\r\n        *\r\n        ******/",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "/*****\r\n        *\r\n        * Multiline on multi lines.\r\n        *\r\n        ******/"
     },
     {
       "kind": "Unformatted",
-      "text": "\r\n        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "\r\n        "
     },
     {
       "kind": "Keyword",
-      "text": "public",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "public"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "Keyword",
-      "text": "bool",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "bool"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "MethodDecl",
       "text": "Test",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 9
     },
     {
       "kind": "Unformatted",
-      "text": "()\r\n        {\r\n            #region SomeRegion\r\n            ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "()\r\n        {\r\n            #region SomeRegion\r\n            "
     },
     {
       "kind": "Keyword",
-      "text": "return",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "return"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "FieldRef",
       "text": "someField",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 3
     },
     {
       "kind": "Unformatted",
-      "text": " == ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " == "
     },
     {
       "kind": "NumericLiteral",
-      "text": "0",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "0"
     },
     {
       "kind": "Unformatted",
-      "text": " && ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " && "
     },
     {
       "kind": "MethodRef",
       "text": "Test",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 9
     },
     {
       "kind": "Unformatted",
-      "text": "();\r\n            #endregion\r\n        }\r\n        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "();\r\n            #endregion\r\n        }\r\n        "
     },
     {
       "kind": "Keyword",
-      "text": "private",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "private"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "Keyword",
-      "text": "class",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "class"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "TypeDecl",
       "text": "SubClass",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 10
     },
     {
       "kind": "Unformatted",
-      "text": "<",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "<"
     },
     {
       "kind": "Identifier",
-      "text": "TSomething",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "TSomething"
     },
     {
       "kind": "Unformatted",
-      "text": ">\r\n        {\r\n            ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": ">\r\n        {\r\n            "
     },
     {
       "kind": "Keyword",
-      "text": "public",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "public"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "Identifier",
-      "text": "TSomething",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "TSomething"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "PropDecl",
       "text": "Value",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 11
     },
     {
       "kind": "Unformatted",
-      "text": " { ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " { "
     },
     {
       "kind": "Keyword",
-      "text": "get",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "get"
     },
     {
       "kind": "Unformatted",
-      "text": "; ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "; "
     },
     {
       "kind": "Keyword",
-      "text": "set",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "set"
     },
     {
       "kind": "Unformatted",
-      "text": "; }\r\n            ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "; }\r\n            "
     },
     {
       "kind": "Keyword",
-      "text": "public",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "public"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "MethodDecl",
       "text": "SubClass",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 12
     },
     {
       "kind": "Unformatted",
-      "text": "(",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "("
     },
     {
       "kind": "Identifier",
-      "text": "TSomething",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": "TSomething"
     },
     {
       "kind": "Unformatted",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " "
     },
     {
       "kind": "ParamDecl",
       "text": "ts",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 13
     },
     {
       "kind": "Unformatted",
-      "text": ")\r\n            {\r\n                ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": ")\r\n            {\r\n                "
     },
     {
       "kind": "PropRef",
       "text": "Value",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 11
     },
     {
       "kind": "Unformatted",
-      "text": " = ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": " = "
     },
     {
       "kind": "ParamRef",
       "text": "ts",
-      "declTokenId": "",
-      "fileId": 0,
       "tipId": 13
     },
     {
       "kind": "Unformatted",
-      "text": ";\r\n            }\r\n        }\r\n    }\r\n}",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
+      "text": ";\r\n            }\r\n        }\r\n    }\r\n}"
     }
   ]
 }

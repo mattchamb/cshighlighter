@@ -55,6 +55,7 @@ module JsonTransform =
             text: string
             declTokenId: string
             fileId: int
+            [<System.ComponentModel.DefaultValue(-1)>]
             tipId: int
         }
         
@@ -78,7 +79,7 @@ module JsonTransform =
         | _ -> None
     
     let tokenToSerializableFormat (tipId: int) (token: TokenClassification) : CodeSpan =
-        let tokenId = ""
+        let tokenId = null
         let declFileId = 0
 
         let codeSpan kind token =
@@ -154,8 +155,12 @@ module JsonTransform =
         }
 
     let toJson : (obj -> string) =
-        let converters: JsonConverter array = [| new StringEnumConverter() |]
-        let serialize obj = JsonConvert.SerializeObject (obj, Formatting.Indented, converters)
+        let settings = new JsonSerializerSettings()
+        settings.Converters <- [| new StringEnumConverter() |]
+        settings.Formatting <- Formatting.Indented
+        settings.DefaultValueHandling <- DefaultValueHandling.Ignore
+        settings.NullValueHandling <- NullValueHandling.Ignore
+        let serialize obj = JsonConvert.SerializeObject (obj, settings)
         serialize
 
     type JsonFile =  {

@@ -109,7 +109,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -123,22 +123,8 @@
       "tipId": 0
     },
     {
-      "kind": "Literal",
-      "text": ";",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
+      "kind": "Unformatted",
+      "text": ";\r\n\r\n",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -151,7 +137,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -165,36 +151,8 @@
       "tipId": 1
     },
     {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "{",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "    ",
+      "kind": "Unformatted",
+      "text": "\r\n{ \r\n    ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -207,7 +165,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -221,43 +179,8 @@
       "tipId": 2
     },
     {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "    ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "{",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
+      "kind": "Unformatted",
+      "text": " \r\n    {\r\n        ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -270,15 +193,8 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
+      "kind": "Unformatted",
+      "text": "\r\n        ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -291,7 +207,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -305,7 +221,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -319,22 +235,8 @@
       "tipId": 3
     },
     {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "=",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
+      "kind": "Unformatted",
+      "text": " = ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -347,22 +249,8 @@
       "tipId": -1
     },
     {
-      "kind": "Literal",
-      "text": ";",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
+      "kind": "Unformatted",
+      "text": ";\r\n        ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -375,7 +263,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -389,7 +277,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -403,22 +291,8 @@
       "tipId": 4
     },
     {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "=",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
+      "kind": "Unformatted",
+      "text": " = ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -431,22 +305,8 @@
       "tipId": -1
     },
     {
-      "kind": "Literal",
-      "text": ";",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
+      "kind": "Unformatted",
+      "text": ";\r\n        ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -459,7 +319,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -473,7 +333,7 @@
       "tipId": 5
     },
     {
-      "kind": "Literal",
+      "kind": "Unformatted",
       "text": "(",
       "declTokenId": "",
       "fileId": 0,
@@ -487,7 +347,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -501,43 +361,8 @@
       "tipId": 6
     },
     {
-      "kind": "Literal",
-      "text": ")",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "{",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "            ",
+      "kind": "Unformatted",
+      "text": ")\r\n        {\r\n            ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -550,7 +375,7 @@
       "tipId": 7
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -564,22 +389,8 @@
       "tipId": 8
     },
     {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "=",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
+      "kind": "Unformatted",
+      "text": " = ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -592,22 +403,8 @@
       "tipId": -1
     },
     {
-      "kind": "Literal",
-      "text": ";",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "            ",
+      "kind": "Unformatted",
+      "text": ";\r\n            ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -620,22 +417,8 @@
       "tipId": 8
     },
     {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "=",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
+      "kind": "Unformatted",
+      "text": " = ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -648,22 +431,8 @@
       "tipId": -1
     },
     {
-      "kind": "Literal",
-      "text": ";",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "            ",
+      "kind": "Unformatted",
+      "text": ";\r\n            ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -676,7 +445,7 @@
       "tipId": -1
     },
     {
-      "kind": "Literal",
+      "kind": "Unformatted",
       "text": ".",
       "declTokenId": "",
       "fileId": 0,
@@ -690,22 +459,8 @@
       "tipId": 3
     },
     {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "=",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
+      "kind": "Unformatted",
+      "text": " = ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -718,50 +473,8 @@
       "tipId": 6
     },
     {
-      "kind": "Literal",
-      "text": ";",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "}",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
+      "kind": "Unformatted",
+      "text": ";\r\n        }\r\n\r\n        ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -774,15 +487,8 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
+      "kind": "Unformatted",
+      "text": "\r\n        ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -795,15 +501,8 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
+      "kind": "Unformatted",
+      "text": "\r\n        ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -816,7 +515,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -830,7 +529,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -844,99 +543,8 @@
       "tipId": 9
     },
     {
-      "kind": "Literal",
-      "text": "(",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": ")",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "{",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "            ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "#",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "region",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "SomeRegion",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "            ",
+      "kind": "Unformatted",
+      "text": "()\r\n        {\r\n            #region SomeRegion\r\n            ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -949,7 +557,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -963,22 +571,8 @@
       "tipId": 3
     },
     {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "==",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
+      "kind": "Unformatted",
+      "text": " == ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -991,22 +585,8 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "&&",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
+      "kind": "Unformatted",
+      "text": " && ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -1019,92 +599,8 @@
       "tipId": 9
     },
     {
-      "kind": "Literal",
-      "text": "(",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": ")",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": ";",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "            ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "#",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "endregion",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "}",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
+      "kind": "Unformatted",
+      "text": "();\r\n            #endregion\r\n        }\r\n        ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -1117,7 +613,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -1131,7 +627,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -1145,7 +641,7 @@
       "tipId": 10
     },
     {
-      "kind": "Literal",
+      "kind": "Unformatted",
       "text": "<",
       "declTokenId": "",
       "fileId": 0,
@@ -1159,43 +655,8 @@
       "tipId": -1
     },
     {
-      "kind": "Literal",
-      "text": ">",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "{",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "            ",
+      "kind": "Unformatted",
+      "text": ">\r\n        {\r\n            ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -1208,7 +669,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -1222,7 +683,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -1236,22 +697,8 @@
       "tipId": 11
     },
     {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "{",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
+      "kind": "Unformatted",
+      "text": " { ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -1264,15 +711,8 @@
       "tipId": -1
     },
     {
-      "kind": "Literal",
-      "text": ";",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
+      "kind": "Unformatted",
+      "text": "; ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -1285,36 +725,8 @@
       "tipId": -1
     },
     {
-      "kind": "Literal",
-      "text": ";",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "}",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "            ",
+      "kind": "Unformatted",
+      "text": "; }\r\n            ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -1327,7 +739,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -1341,7 +753,7 @@
       "tipId": 12
     },
     {
-      "kind": "Literal",
+      "kind": "Unformatted",
       "text": "(",
       "declTokenId": "",
       "fileId": 0,
@@ -1355,7 +767,7 @@
       "tipId": -1
     },
     {
-      "kind": "Trivia",
+      "kind": "Unformatted",
       "text": " ",
       "declTokenId": "",
       "fileId": 0,
@@ -1369,43 +781,8 @@
       "tipId": 13
     },
     {
-      "kind": "Literal",
-      "text": ")",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "            ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "{",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "                ",
+      "kind": "Unformatted",
+      "text": ")\r\n            {\r\n                ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -1418,22 +795,8 @@
       "tipId": 11
     },
     {
-      "kind": "Trivia",
-      "text": " ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "=",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": " ",
+      "kind": "Unformatted",
+      "text": " = ",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1
@@ -1446,92 +809,8 @@
       "tipId": 13
     },
     {
-      "kind": "Literal",
-      "text": ";",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "            ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "}",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "        ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "}",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "    ",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "}",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Trivia",
-      "text": "\r\n",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "}",
-      "declTokenId": "",
-      "fileId": 0,
-      "tipId": -1
-    },
-    {
-      "kind": "Literal",
-      "text": "",
+      "kind": "Unformatted",
+      "text": ";\r\n            }\r\n        }\r\n    }\r\n}",
       "declTokenId": "",
       "fileId": 0,
       "tipId": -1

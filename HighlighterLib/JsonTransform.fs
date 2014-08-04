@@ -23,7 +23,7 @@ module JsonTransform =
         }
 
     type TokenKind =
-        | Literal = 1
+        | Unformatted = 1
         | Keyword = 2
         | Identifier = 3
         | TypeDecl = 4
@@ -85,7 +85,7 @@ module JsonTransform =
             { kind = kind; text = token.ToString(); declTokenId = tokenId; fileId = declFileId; tipId = tipId }
 
         match token with
-        | Unformatted tok -> codeSpan TokenKind.Literal tok
+        | Unformatted tok -> codeSpan TokenKind.Unformatted tok
         | Keyword tok -> codeSpan TokenKind.Keyword tok
         | Identifier tok -> codeSpan TokenKind.Identifier tok
         | NamespaceReference (tok, _) -> codeSpan TokenKind.Identifier tok
@@ -115,9 +115,9 @@ module JsonTransform =
             | TriviaElement.BeginRegion s -> codeSpan TokenKind.Region s
             | TriviaElement.EndRegion s -> codeSpan TokenKind.Region s
             | TriviaElement.Comment s -> codeSpan TokenKind.Comment s
-            | TriviaElement.NewLine -> codeSpan TokenKind.Trivia Environment.NewLine
-            | TriviaElement.UnformattedTrivia s -> codeSpan TokenKind.Trivia s
-            | TriviaElement.Whitespace s -> codeSpan TokenKind.Trivia s
+            | TriviaElement.NewLine -> codeSpan TokenKind.Unformatted Environment.NewLine
+            | TriviaElement.UnformattedTrivia s -> codeSpan TokenKind.Unformatted s
+            | TriviaElement.Whitespace s -> codeSpan TokenKind.Unformatted s
             | TriviaElement.DisabledText s -> codeSpan TokenKind.DisabledText s
     
     type TypeDeclaration =
@@ -206,32 +206,34 @@ module JsonTransform =
             |> Seq.toList
 
         let combineSpans: (CodeSpan list -> String) = 
-                        Seq.fold (fun s t -> sprintf "%s%s" s t.text) String.Empty
+            Seq.fold (fun s t -> sprintf "%s%s" s t.text) String.Empty
 
-        let collapseTrivia triviaToCollapse = 
-            match triviaToCollapse with
+        let collapseSpans spansToCollapse = 
+            match spansToCollapse with
             | head :: _ ->
                 let collapsedText =
-                    triviaToCollapse 
+                    spansToCollapse 
                     |> combineSpans
                 Some { head with text = collapsedText }
             | [] -> None
 
         let reducedCodeSpans = 
             Seq.unfold 
-                (fun (triviaToCollapse, rest) -> 
+                (fun (spansToCollapse, rest) -> 
                     match rest with
                     | head :: tail ->
                         match head.kind with
-                        | TokenKind.Trivia -> 
-                            Some (List.empty, (head :: triviaToCollapse, tail)) // yield List.Empty because the trivia element is delayed to possibly collapse with the next element
+                        | TokenKind.Unformatted -> 
+                            Some (List.empty, (head :: spansToCollapse, tail)) // yield List.Empty because the trivia element is delayed to possibly collapse with the next element
                         | _ -> 
-                            Some ([collapseTrivia triviaToCollapse; Some head], (List.empty, tail))
+                            let spans = List.rev spansToCollapse
+                            Some ([collapseSpans spans; Some head], (List.empty, tail))
                     | [] -> 
-                        match triviaToCollapse with
+                        match spansToCollapse with
                         | [] -> None
                         | _ -> 
-                            Some ([collapseTrivia triviaToCollapse], (List.empty, List.empty))
+                            let spans = List.rev spansToCollapse
+                            Some ([collapseSpans spans], (List.empty, List.empty))
                 ) ([], codeTokens)
             |> Seq.collect (List.choose id)
 

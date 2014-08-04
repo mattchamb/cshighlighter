@@ -8,7 +8,7 @@ var Trivia = React.createClass({
 
 function tokenClassName(tokenKind) {
 	switch(tokenKind) {
-		case "Literal":
+		case "Unformatted":
 			return "";
 		case "Keyword":
 			return "keyword";
@@ -58,6 +58,8 @@ function tokenClassName(tokenKind) {
 			return "region";
 		case "DisabledText":
 			return "disabled";
+		default:
+		    return "";
 	}
 };
 

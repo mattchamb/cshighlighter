@@ -203,12 +203,43 @@ module JsonTransform =
                         | None -> -1
                         | Some sym -> symbolIndexes.[sym]
                     tokenToSerializableFormat tipId tok)
+            |> Seq.toList
+
+        let combineSpans: (CodeSpan list -> String) = 
+                        Seq.fold (fun s t -> sprintf "%s%s" s t.text) String.Empty
+
+        let collapseTrivia triviaToCollapse = 
+            match triviaToCollapse with
+            | head :: _ ->
+                let collapsedText =
+                    triviaToCollapse 
+                    |> combineSpans
+                Some { head with text = collapsedText }
+            | [] -> None
+
+        let reducedCodeSpans = 
+            Seq.unfold 
+                (fun (triviaToCollapse, rest) -> 
+                    match rest with
+                    | head :: tail ->
+                        match head.kind with
+                        | TokenKind.Trivia -> 
+                            Some (List.empty, (head :: triviaToCollapse, tail)) // yield List.Empty because the trivia element is delayed to possibly collapse with the next element
+                        | _ -> 
+                            Some ([collapseTrivia triviaToCollapse; Some head], (List.empty, tail))
+                    | [] -> 
+                        match triviaToCollapse with
+                        | [] -> None
+                        | _ -> 
+                            Some ([collapseTrivia triviaToCollapse], (List.empty, List.empty))
+                ) ([], codeTokens)
+            |> Seq.collect (List.choose id)
 
         {
             path = input.FilePath
             toolTips = serToolTips
             typeDecls = input.DeclaredTypes
-            codeTokens = codeTokens
+            codeTokens = reducedCodeSpans
         } 
 
     let jsonFormat (input: FileAnalysisResult) =
@@ -221,9 +252,9 @@ module JsonTransform =
                 path = proj.Path
                 files = proj.Files |> Seq.map transformFile
             }
-        let proj =
+        let soln =
             {
                 path = solution.Path
                 projects = solution.Projects |> Seq.map mapProj
-            }
-        toJson proj
+            } |> toJson
+        soln

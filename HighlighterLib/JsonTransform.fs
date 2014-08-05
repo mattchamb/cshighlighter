@@ -16,11 +16,7 @@ module JsonTransform =
     open Newtonsoft.Json.Converters
     open SolutionProcessing
     
-    type SourceLocation =
-        {
-            fileId: int
-            line: int
-        }
+
 
     type TokenKind =
         | Unformatted = 1
@@ -49,14 +45,18 @@ module JsonTransform =
         | Region = 24
         | DisabledText = 25
 
+    type CodeLocation =
+        {
+            sourceFile: string
+            line: int
+        }
+
     type CodeSpan = 
         {
             kind: TokenKind
             text: string
-            declTokenId: string
-            fileId: int
-            [<System.ComponentModel.DefaultValue(-1)>]
-            tipId: int
+            tipId: int option
+            symbolDefs: CodeLocation seq option
         }
         
     let getSymbol t : ISymbol option =
@@ -78,12 +78,23 @@ module JsonTransform =
         | NamespaceReference(_, sym) -> Some (sym :> ISymbol)
         | _ -> None
     
-    let tokenToSerializableFormat (tipId: int) (token: TokenClassification) : CodeSpan =
-        let tokenId = null
-        let declFileId = 0
+    let tokenToSerializableFormat (tipId: int option) (token: TokenClassification) : CodeSpan =
 
         let codeSpan kind token =
-            { kind = kind; text = token.ToString(); declTokenId = tokenId; fileId = declFileId; tipId = tipId }
+            { kind = kind; text = token.ToString(); tipId = tipId; symbolDefs = None }
+
+        let codeSpanWithRefs kind token locations =
+            let mapLocation (loc: Location) =
+                match loc.Kind with
+                | LocationKind.SourceFile ->
+                    let span = loc.GetLineSpan()
+                    Some {
+                        sourceFile = loc.FilePath
+                        line = span.StartLinePosition.Line
+                    }
+                | _ -> None
+            let defLocations = Some (locations |> Seq.choose mapLocation)
+            { kind = kind; text = token.ToString(); tipId = tipId; symbolDefs = defLocations }
 
         match token with
         | Unformatted tok -> codeSpan TokenKind.Unformatted tok
@@ -93,23 +104,23 @@ module JsonTransform =
         | NamedTypeDeclaration (tok, _) -> codeSpan TokenKind.TypeDecl tok
         | NamedTypeReference (tok, sym) -> 
             match tok.ToString() with
-            | "var" -> codeSpan TokenKind.Keyword tok
-            | _ -> codeSpan TokenKind.TypeRef tok
+            | "var" -> codeSpanWithRefs TokenKind.Keyword tok sym.Locations
+            | _ -> codeSpanWithRefs TokenKind.TypeRef tok sym.Locations
         | StringLiteral tok -> codeSpan TokenKind.StringLiteral tok
         | NumericLiteral tok -> codeSpan TokenKind.NumericLiteral tok
         | CharacterLiteral tok -> codeSpan TokenKind.CharLiteral tok
-        | LocalVariableDeclaration (tok, sym) -> codeSpan TokenKind.LocalDecl tok
-        | LocalVariableReference (tok, sym) -> codeSpan TokenKind.LocalRef tok
-        | FieldDeclaration (tok, sym) -> codeSpan TokenKind.FieldDecl tok
-        | FieldReference (tok, sym) -> codeSpan TokenKind.FieldRef tok
-        | ParameterDeclaration (tok, sym) -> codeSpan TokenKind.ParamDecl tok
-        | ParameterReference (tok, sym) -> codeSpan TokenKind.ParamRef tok
-        | PropertyDeclaration (tok, sym) -> codeSpan TokenKind.PropDecl tok
-        | PropertyReference (tok, sym) -> codeSpan TokenKind.PropRef tok
-        | MethodDeclaration (tok, sym) -> codeSpan TokenKind.MethodDecl tok
-        | MethodReference (tok, sym) -> codeSpan TokenKind.MethodRef tok
+        | LocalVariableDeclaration (tok, _) -> codeSpan TokenKind.LocalDecl tok
+        | LocalVariableReference (tok, sym) -> codeSpanWithRefs TokenKind.LocalRef tok sym.Locations
+        | FieldDeclaration (tok, _) -> codeSpan TokenKind.FieldDecl tok
+        | FieldReference (tok, sym) -> codeSpanWithRefs TokenKind.FieldRef tok sym.Locations
+        | ParameterDeclaration (tok, _) -> codeSpan TokenKind.ParamDecl tok
+        | ParameterReference (tok, sym) -> codeSpanWithRefs TokenKind.ParamRef tok sym.Locations
+        | PropertyDeclaration (tok, _) -> codeSpan TokenKind.PropDecl tok
+        | PropertyReference (tok, sym) -> codeSpanWithRefs TokenKind.PropRef tok sym.Locations
+        | MethodDeclaration (tok, _) -> codeSpan TokenKind.MethodDecl tok
+        | MethodReference (tok, sym) -> codeSpanWithRefs TokenKind.MethodRef tok sym.Locations
         | EnumMemberDeclaration (tok, _) -> codeSpan TokenKind.EnumMemberDecl tok
-        | EnumMemberReference (tok, sym) -> codeSpan TokenKind.EnumMemberRef tok
+        | EnumMemberReference (tok, sym) -> codeSpanWithRefs TokenKind.EnumMemberRef tok sym.Locations
         | SemanticError (tok, errors) -> codeSpan TokenKind.SemanticError tok
         | Trivia tr -> 
             match tr with
@@ -121,13 +132,6 @@ module JsonTransform =
             | TriviaElement.Whitespace s -> codeSpan TokenKind.Unformatted s
             | TriviaElement.DisabledText s -> codeSpan TokenKind.DisabledText s
     
-    type TypeDeclaration =
-        {
-            location: SourceLocation list
-            typeName: string
-            typeKind: string
-        }
-
     let createToolTip (sym: ISymbol) =
         let locationText =
             let loc = Seq.head sym.Locations
@@ -154,9 +158,23 @@ module JsonTransform =
             location: string
         }
 
+    let T<'a> = { new JsonConverter() with
+            override x.CanConvert t =
+                t.Equals typeof<Option<'a>>
+            override x.WriteJson (writer, obj, ser) =
+                let opt = obj :?> Option<'a>
+                match opt with
+                | Some a -> ser.Serialize(writer, a)
+                | None -> ser.Serialize(writer, null)
+            override x.ReadJson (_, _, _, _) =
+                failwith "Reading JSON not supported by this JsonConverter"
+            override x.CanRead = false
+            override x.CanWrite = true
+        }
+
     let toJson : (obj -> string) =
         let settings = new JsonSerializerSettings()
-        settings.Converters <- [| new StringEnumConverter() |]
+        settings.Converters <- [| new StringEnumConverter(); T<int>; T<String>; T<CodeLocation seq> |]
         settings.Formatting <- Formatting.Indented
         settings.DefaultValueHandling <- DefaultValueHandling.Ignore
         settings.NullValueHandling <- NullValueHandling.Ignore
@@ -205,8 +223,8 @@ module JsonTransform =
                 (fun tok ->
                     let tipId = 
                         match getSymbol tok with
-                        | None -> -1
-                        | Some sym -> symbolIndexes.[sym]
+                        | None -> None
+                        | Some sym -> Some symbolIndexes.[sym]
                     tokenToSerializableFormat tipId tok)
             |> Seq.toList
 

@@ -262,7 +262,8 @@
     {
       "kind": "Keyword",
       "text": "var",
-      "tipId": 7
+      "tipId": 7,
+      "symbolDefs": []
     },
     {
       "kind": "Unformatted",
@@ -288,7 +289,13 @@
     {
       "kind": "LocalRef",
       "text": "a",
-      "tipId": 8
+      "tipId": 8,
+      "symbolDefs": [
+        {
+          "sourceFile": "standalone_file.cs",
+          "line": 11
+        }
+      ]
     },
     {
       "kind": "Unformatted",
@@ -313,7 +320,13 @@
     {
       "kind": "FieldRef",
       "text": "someField",
-      "tipId": 3
+      "tipId": 3,
+      "symbolDefs": [
+        {
+          "sourceFile": "standalone_file.cs",
+          "line": 7
+        }
+      ]
     },
     {
       "kind": "Unformatted",
@@ -322,7 +335,13 @@
     {
       "kind": "ParamRef",
       "text": "x",
-      "tipId": 6
+      "tipId": 6,
+      "symbolDefs": [
+        {
+          "sourceFile": "standalone_file.cs",
+          "line": 9
+        }
+      ]
     },
     {
       "kind": "Unformatted",
@@ -380,7 +399,13 @@
     {
       "kind": "FieldRef",
       "text": "someField",
-      "tipId": 3
+      "tipId": 3,
+      "symbolDefs": [
+        {
+          "sourceFile": "standalone_file.cs",
+          "line": 7
+        }
+      ]
     },
     {
       "kind": "Unformatted",
@@ -397,7 +422,13 @@
     {
       "kind": "MethodRef",
       "text": "Test",
-      "tipId": 9
+      "tipId": 9,
+      "symbolDefs": [
+        {
+          "sourceFile": "standalone_file.cs",
+          "line": 22
+        }
+      ]
     },
     {
       "kind": "Unformatted",
@@ -514,7 +545,13 @@
     {
       "kind": "PropRef",
       "text": "Value",
-      "tipId": 11
+      "tipId": 11,
+      "symbolDefs": [
+        {
+          "sourceFile": "standalone_file.cs",
+          "line": 30
+        }
+      ]
     },
     {
       "kind": "Unformatted",
@@ -523,7 +560,13 @@
     {
       "kind": "ParamRef",
       "text": "ts",
-      "tipId": 13
+      "tipId": 13,
+      "symbolDefs": [
+        {
+          "sourceFile": "standalone_file.cs",
+          "line": 31
+        }
+      ]
     },
     {
       "kind": "Unformatted",

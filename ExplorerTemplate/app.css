@@ -1,5 +1,6 @@
 ﻿body {
     font-family: 'Segoe UI', sans-serif;
+    max-height: 100%;
 }
 
 .hasSymbolInfo {
@@ -95,11 +96,13 @@
 .paramDecl {
     color: black;
     text-decoration: none;
+    font-style: italic;
 }
 
 .paramRef {
     color: black;
     text-decoration: none;
+    font-style: italic;
 }
 
 .propDecl {
@@ -145,4 +148,21 @@
 .semanticError {
     color: red;
     text-decoration: underline;
+}
+
+.solutionExplorer {
+    float: left;
+    width: 25%;
+    overflow: auto;
+}
+
+.codePanel {
+    background-color: antiquewhite;
+    margin-left: 25%;
+    height: 100%;
+    overflow: auto;
+}
+
+.projectLevel {
+    padding-left: 15px;
 }

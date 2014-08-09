@@ -155,7 +155,7 @@ module JsonTransform =
     let toJson : (obj -> string) =
         let settings = new JsonSerializerSettings()
         settings.Converters <- [| new StringEnumConverter(); Optional<int>; Optional<String>; Optional<CodeLocation seq> |]
-        settings.Formatting <- Formatting.None
+        settings.Formatting <- Formatting.Indented
         settings.NullValueHandling <- NullValueHandling.Ignore
         let serialize obj = JsonConvert.SerializeObject (obj, settings)
         serialize
@@ -240,12 +240,12 @@ module JsonTransform =
                     sourceId = None
                     line = None
                     col = None
-                    assembly = Some (loc.MetadataModule.ToDisplayString())
+                    assembly = Some (loc.MetadataModule.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat))
                 }
             | _ -> None
 
         let toSymbolInfo id (sym: ISymbol) =
-            let text = sprintf "(%A) %s" sym.Kind (sym.ToDisplayString())
+            let text = sprintf "(%A) %s" sym.Kind (sym.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat))
             let locations = 
                 sym.Locations
                 |> Seq.choose mapLocation

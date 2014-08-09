@@ -152,15 +152,18 @@ namespace HighlighterLib.Templating
     "
 
     let x = SolutionProcessing.processSolutionAtPath "C:\Projects\cecil\Mono.Cecil.sln"
-    let y = JsonTransform.solutionToJson x
+    let y, sym = JsonTransform.solutionToJson x
     File.WriteAllText("C:\Projects\CSHighhighter\ExplorerTemplate\Data2.json", y)
+    File.WriteAllText("C:\Projects\CSHighhighter\ExplorerTemplate\Data2Symbols.json", sym)
     File.WriteAllBytes("C:\Projects\CSHighhighter\ExplorerTemplate\Data2.gz", asdf y)
+    File.WriteAllBytes("C:\Projects\CSHighhighter\ExplorerTemplate\Data2Symbols.gz", asdf sym)
+
 
     
 
     let a = Analysis.analyseFile code None
     
-    let output = JsonTransform.jsonFormat a
+    let output = JsonTransform.jsonFormatFile a
     
     let rawLen = output.Length
     let gzipped = asdf output

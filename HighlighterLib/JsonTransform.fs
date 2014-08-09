@@ -51,10 +51,14 @@ module JsonTransform =
             symbolId: int option}
 
         type CodeLocation = 
-            {sourceFile: string option;
+            {sourceId: int option;
             line: int option;
             col: int option;
             assembly: string option}
+
+        type JsonSourceFile =
+            {sourceId: int;
+            path: string}
 
         type JsonSymbolInfo = 
             {symbolId: int;
@@ -62,7 +66,7 @@ module JsonTransform =
             locations: CodeLocation seq}
 
         type JsonFile = 
-            {path: string;
+            {sourceId: int;
             typeDecls: DeclaredType seq;
             codeTokens: CodeSpan seq}
 
@@ -88,25 +92,6 @@ module JsonTransform =
             override x.CanWrite = true
         }
 
-    let mapLocation (loc: Location) =
-        match loc.Kind with
-        | LocationKind.SourceFile ->
-            let span = loc.GetLineSpan()
-            Some {
-                sourceFile = Some loc.FilePath
-                line = Some span.StartLinePosition.Line
-                col = Some span.StartLinePosition.Character
-                assembly = None
-            }
-        | LocationKind.MetadataFile ->
-            Some {
-                sourceFile = None
-                line = None
-                col = None
-                assembly = Some (loc.MetadataModule.ToDisplayString())
-            }
-        | _ -> None
-        
     let getSymbol t : ISymbol option =
         match t with
         | LocalVariableDeclaration(_, sym) -> Some (sym :> ISymbol)
@@ -170,12 +155,12 @@ module JsonTransform =
     let toJson : (obj -> string) =
         let settings = new JsonSerializerSettings()
         settings.Converters <- [| new StringEnumConverter(); Optional<int>; Optional<String>; Optional<CodeLocation seq> |]
-        settings.Formatting <- Formatting.Indented
+        settings.Formatting <- Formatting.None
         settings.NullValueHandling <- NullValueHandling.Ignore
         let serialize obj = JsonConvert.SerializeObject (obj, settings)
         serialize
 
-    let transformFile (symbolIndexes: IDictionary<ISymbol, int>) (input: FileAnalysisResult) =
+    let transformFile (getSourceId: string -> int) (symbolIndexes: IDictionary<ISymbol, int>) (input: FileAnalysisResult) =
         let codeTokens = 
             input.ClassifiedTokens 
             |> Seq.map 
@@ -221,7 +206,7 @@ module JsonTransform =
             |> Seq.collect (List.choose id)
 
         {
-            path = input.FilePath
+            sourceId = getSourceId (input.FilePath)
             typeDecls = input.DeclaredTypes
             codeTokens = reducedCodeSpans
         } 
@@ -235,7 +220,30 @@ module JsonTransform =
         dict
 
     /// Convert ISymbols into a JSON-able format
-    let indexesToSymInfo (idxs: Dictionary<ISymbol, int>) =
+    let indexesToSymInfo (getSourceId: string -> int option) (idxs: Dictionary<ISymbol, int>) =
+        let mapLocation (loc: Location) =
+            match loc.Kind with
+            | LocationKind.SourceFile ->
+                let span = loc.GetLineSpan()
+                let sourceId = getSourceId loc.FilePath
+                match sourceId with
+                | Some _ -> 
+                    Some {
+                        sourceId = sourceId
+                        line = Some span.StartLinePosition.Line
+                        col = Some span.StartLinePosition.Character
+                        assembly = None
+                    }
+                | None -> None
+            | LocationKind.MetadataFile ->
+                Some {
+                    sourceId = None
+                    line = None
+                    col = None
+                    assembly = Some (loc.MetadataModule.ToDisplayString())
+                }
+            | _ -> None
+
         let toSymbolInfo id (sym: ISymbol) =
             let text = sprintf "(%A) %s" sym.Kind (sym.ToDisplayString())
             let locations = 
@@ -254,33 +262,50 @@ module JsonTransform =
             input.ClassifiedTokens
             |> Seq.choose getSymbol
             |> toIndexesDict
-        let a = transformFile symbolIndexes input
-        toJson (a, indexesToSymInfo symbolIndexes)
+        let a = transformFile (fun f -> 0) symbolIndexes input
+        toJson (a, indexesToSymInfo (fun f -> Some 0) symbolIndexes)
 
-    let collectReferencedSymbolsInSolution (solution: ProcessedSolution) =
-        let allSymbolRefs =
-            seq {
-                for proj in solution.Projects do
-                    for file in proj.Files do
-                        yield! file.ClassifiedTokens
-            }
-            |> Seq.choose getSymbol
-        new HashSet<_>(allSymbolRefs) :> seq<_>
+    let getAllInSolution f (solution: ProcessedSolution) = 
+        seq {
+            for proj in solution.Projects do
+                for file in proj.Files do
+                    yield f file
+        }
 
-    let solutionToJson (solution: ProcessedSolution) : string * string =
+    let collectReferencedSymbols solution  =
+        getAllInSolution (fun f -> f.ClassifiedTokens) solution
+        |> Seq.collect id
+        |> Seq.choose getSymbol
+        |> Seq.distinct
+
+    let collectAllFiles solution  =
+        getAllInSolution (fun f -> f.FilePath) solution
+        |> Seq.distinct
+
+    let solutionToJson (solution: ProcessedSolution) : string * string * string =
         
-        let referencedSymbols = collectReferencedSymbolsInSolution solution
+        let referencedSymbols = collectReferencedSymbols solution
         let symIndexes = toIndexesDict referencedSymbols
 
-        let symInfo = indexesToSymInfo symIndexes
+        let allFiles = collectAllFiles solution
+        let fileIndexes = toIndexesDict allFiles
+        let sourcesFiles = fileIndexes |> Seq.map (fun kvp -> {sourceId = kvp.Value; path = kvp.Key})
+
+        /// Try to get the Id for the given source path.
+        /// There is a case where we will lookup paths that arent in the solution, and it is safer not to give away this info.
+        let getSourceId path = 
+            if fileIndexes.ContainsKey path then Some fileIndexes.[path]
+            else None
+
+        let symInfo = indexesToSymInfo getSourceId symIndexes
         
         let mapProj (proj: ProcessedProject) : JsonProj =
             {
                 path = proj.Path
-                files = proj.Files |> Seq.map (transformFile symIndexes)
+                files = proj.Files |> Seq.map (transformFile (fun f -> fileIndexes.[f]) symIndexes)
             }
         let soln = {
                 path = solution.Path
                 projects = solution.Projects |> Seq.map mapProj
             } 
-        (toJson soln), (toJson symInfo)
+        (toJson soln), (toJson symInfo), (toJson sourcesFiles)

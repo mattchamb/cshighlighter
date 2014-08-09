@@ -46,7 +46,7 @@ module SolutionProcessing =
                         let highlightingModel = Analysis.createHighlightingModel root model
                         let declaredTypes = Analysis.getDeclaredTypes root model
                         return {
-                            FilePath = doc.FilePath.Substring(solutionDir.Length)
+                            FilePath = doc.FilePath
                             ClassifiedTokens = highlightingModel
                             DeclaredTypes = declaredTypes
                         }

@@ -2,6 +2,26 @@
 
 "use strict";
 
+function StateStore() {
+	var state = {
+		currentProjectId: 0,
+		currentSourceId: 0
+	};
+	return {
+		getState: function() {
+			return state;
+		},
+
+		setProjectId: function(id) {
+			state.currentProjectId = id;
+		},
+
+		setSourceId: function(id) {
+			state.currentSourceId = id;
+		}
+	};
+};
+
 function tokenClassName(tokenKind) {
 	switch(tokenKind) {
 		case "Unformatted":
@@ -86,6 +106,8 @@ function map(f) {
 
 function renderStuff(sourceFiles, codeData, symbolData) {
 
+	var Store = StateStore();
+
 	var Trivia = React.createClass({displayName: 'Trivia',
 		render: function() {
 			return this.props.data;
@@ -117,7 +139,7 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 
 	function renderToken(token) {
 		var className = tokenClassName(token.kind);
-		if(!token.symbolId) {
+		if (!token.symbolId) {
 			return React.DOM.span({className: className}, token.text);
 	    }
 	    var symbolInfo = symbolData[token.symbolId];
@@ -138,9 +160,11 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 				tokenSpans.push(renderToken(token));
 			}
 			return (
-				React.DOM.pre(null, 
-					React.DOM.code({className: "formattedCode"}, 
-						tokenSpans
+				React.DOM.div({className: "codeSection"}, 
+					React.DOM.pre(null, 
+						React.DOM.code({className: "formattedCode"}, 
+							tokenSpans
+						)
 					)
 				)
 			);
@@ -196,39 +220,44 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 		throw "Shit fucked up.";
 	}
 
-	var _state = {
-		currentProjectId: 0,
-		currentFileId: 0
-	};
+	var SourceStats = React.createClass({displayName: 'SourceStats',
+		render: function() {
+			var file = this.props.file;
+
+			var totalMembers = 0;
+			for(var i = 0; i < file.typeDecls.length; i++) {
+				var decl = file.typeDecls[i];
+				totalMembers += decl.Members.length;
+			}
+
+			var referencedSymbols = 0;
+			for(var i = 0; i < file.codeTokens.length; i++) {
+				var token = file.codeTokens[i];
+				if(token.symbolId) {
+					referencedSymbols++;
+				}
+			}
+
+			return (
+				React.DOM.div(null, 
+					React.DOM.div(null, "Types defined: ", file.typeDecls.length), 
+					React.DOM.div(null, "Members defined: ", totalMembers), 
+					React.DOM.div(null, "Classified spans: ", file.codeTokens.length), 
+					React.DOM.div(null, "Referenced symbols: ", referencedSymbols)
+				)
+			);
+		}
+	});
 
 	var SolutionExplorer = React.createClass({displayName: 'SolutionExplorer',
 
 		getInitialState: function() {
-			
-			return {
-				currentProjectId: 0,
-				currentFileId: 0
-			};
+			return Store.getState();
 		},
 
 		componentWillMount: function() {
-			var self = this;
-			selectedFileChanged = function(sourceId) {
-				var newState = {
-					currentProjectId: _state.currentProjectId,
-					currentFileId: sourceId
-				};
-				_state = newState;
-				self.setState(newState);
-			};
-			selectedProjectChanged = function(projectId) {
-				var newState = {
-					currentProjectId: projectId,
-					currentFileId: _state.currentFileId
-				};
-				_state = newState;
-				self.setState(newState);
-			};
+			selectedFileChanged = this.selectedFileChanged;
+			selectedProjectChanged = this.selectedProjectChanged;
 		},
 
 	    render: function() {
@@ -236,7 +265,7 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 	    	var projects = codeData.projects;
 
 	    	var currProj = projects[this.state.currentProjectId];
-	    	var currFile = getFile(currProj, this.state.currentFileId);
+	    	var currFile = getFile(currProj, this.state.currentSourceId);
 
 			return (
 				React.DOM.div(null, 
@@ -245,16 +274,28 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 						ProjectList({projects: projects})
 					), 
 					React.DOM.div({className: "codePanel"}, 
+						React.DOM.h3(null, sourceFiles[this.state.currentSourceId].path), 
+						SourceStats({file: currFile }), 
 						CodeSection({file: currFile })
 					)
 				)
 			);
-	    }
+	    }, 
+
+	    selectedFileChanged: function(sourceId) {
+			Store.setSourceId(sourceId);
+			this.setState(Store.getState());
+		},
+
+		selectedProjectChanged: function(projectId) {
+			Store.setProjectId(projectId);
+			this.setState(Store.getState());
+		}
 	});
 	
     React.renderComponent(
         SolutionExplorer(null),
-        document.getElementById("SolutionExplorer")
+        document.getElementById("explorerContainer")
     );
 }
 

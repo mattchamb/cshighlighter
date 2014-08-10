@@ -2,6 +2,26 @@
 
 "use strict";
 
+function StateStore() {
+	var state = {
+		currentProjectId: 0,
+		currentSourceId: 0
+	};
+	return {
+		getState: function() {
+			return state;
+		},
+
+		setProjectId: function(id) {
+			state.currentProjectId = id;
+		},
+
+		setSourceId: function(id) {
+			state.currentSourceId = id;
+		}
+	};
+};
+
 function tokenClassName(tokenKind) {
 	switch(tokenKind) {
 		case "Unformatted":
@@ -86,6 +106,8 @@ function map(f) {
 
 function renderStuff(sourceFiles, codeData, symbolData) {
 
+	var Store = StateStore();
+
 	var Trivia = React.createClass({
 		render: function() {
 			return this.props.data;
@@ -117,7 +139,7 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 
 	function renderToken(token) {
 		var className = tokenClassName(token.kind);
-		if(!token.symbolId) {
+		if (!token.symbolId) {
 			return <span className={className}>{token.text}</span>;
 	    }
 	    var symbolInfo = symbolData[token.symbolId];
@@ -138,11 +160,13 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 				tokenSpans.push(renderToken(token));
 			}
 			return (
-				<pre>
-					<code className="formattedCode">
-						{tokenSpans}
-					</code>
-				</pre>
+				<div className="codeSection">
+					<pre>
+						<code className="formattedCode">
+							{tokenSpans}
+						</code>
+					</pre>
+				</div>
 			);
 	    }
 	});
@@ -196,39 +220,44 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 		throw "Shit fucked up.";
 	}
 
-	var _state = {
-		currentProjectId: 0,
-		currentFileId: 0
-	};
+	var SourceStats = React.createClass({
+		render: function() {
+			var file = this.props.file;
+
+			var totalMembers = 0;
+			for(var i = 0; i < file.typeDecls.length; i++) {
+				var decl = file.typeDecls[i];
+				totalMembers += decl.Members.length;
+			}
+
+			var referencedSymbols = 0;
+			for(var i = 0; i < file.codeTokens.length; i++) {
+				var token = file.codeTokens[i];
+				if(token.symbolId) {
+					referencedSymbols++;
+				}
+			}
+
+			return (
+				<div>
+					<div>Types defined: {file.typeDecls.length}</div>
+					<div>Members defined: {totalMembers}</div>
+					<div>Classified spans: {file.codeTokens.length}</div>
+					<div>Referenced symbols: {referencedSymbols}</div>
+				</div>
+			);
+		}
+	});
 
 	var SolutionExplorer = React.createClass({
 
 		getInitialState: function() {
-			
-			return {
-				currentProjectId: 0,
-				currentFileId: 0
-			};
+			return Store.getState();
 		},
 
 		componentWillMount: function() {
-			var self = this;
-			selectedFileChanged = function(sourceId) {
-				var newState = {
-					currentProjectId: _state.currentProjectId,
-					currentFileId: sourceId
-				};
-				_state = newState;
-				self.setState(newState);
-			};
-			selectedProjectChanged = function(projectId) {
-				var newState = {
-					currentProjectId: projectId,
-					currentFileId: _state.currentFileId
-				};
-				_state = newState;
-				self.setState(newState);
-			};
+			selectedFileChanged = this.selectedFileChanged;
+			selectedProjectChanged = this.selectedProjectChanged;
 		},
 
 	    render: function() {
@@ -236,7 +265,7 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 	    	var projects = codeData.projects;
 
 	    	var currProj = projects[this.state.currentProjectId];
-	    	var currFile = getFile(currProj, this.state.currentFileId);
+	    	var currFile = getFile(currProj, this.state.currentSourceId);
 
 			return (
 				<div>
@@ -245,16 +274,28 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 						<ProjectList projects={projects} />
 					</div>
 					<div className="codePanel">
+						<h3>{sourceFiles[this.state.currentSourceId].path}</h3>
+						<SourceStats file={ currFile } />
 						<CodeSection file={ currFile } />
 					</div>
 				</div>
 			);
-	    }
+	    }, 
+
+	    selectedFileChanged: function(sourceId) {
+			Store.setSourceId(sourceId);
+			this.setState(Store.getState());
+		},
+
+		selectedProjectChanged: function(projectId) {
+			Store.setProjectId(projectId);
+			this.setState(Store.getState());
+		}
 	});
 	
     React.renderComponent(
         <SolutionExplorer />,
-        document.getElementById("SolutionExplorer")
+        document.getElementById("explorerContainer")
     );
 }
 

@@ -1,34 +1,7 @@
 {
   "Item1": {
     "sourceId": 0,
-    "typeDecls": [
-      {
-        "TypeName": "Foo",
-        "Kind": "Class",
-        "Members": [
-          {
-            "MemberName": "someField",
-            "Signature": "TopLevel.Foo.someField",
-            "Kind": "Field"
-          },
-          {
-            "MemberName": "someStringField",
-            "Signature": "TopLevel.Foo.someStringField",
-            "Kind": "Field"
-          },
-          {
-            "MemberName": ".ctor",
-            "Signature": "TopLevel.Foo.Foo(int)",
-            "Kind": "Method"
-          },
-          {
-            "MemberName": "Test",
-            "Signature": "TopLevel.Foo.Test()",
-            "Kind": "Method"
-          }
-        ]
-      }
-    ],
+    "path": "standalone_file.cs",
     "codeTokens": [
       {
         "kind": "Keyword",

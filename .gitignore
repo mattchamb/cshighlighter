@@ -158,3 +158,4 @@ $RECYCLE.BIN/
 
 TestWebsite/Properties/PublishProfiles/
 /ExplorerTemplate/.module-cache
+/ExplorerTemplate/node_modules

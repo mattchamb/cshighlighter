@@ -4,14 +4,9 @@ module JsonTransform =
 
     open System
     open System.Collections.Generic
-    open System.Text
-    open System.IO
     open Analysis
     open Types
     open Microsoft.CodeAnalysis
-    open Microsoft.CodeAnalysis.CSharp
-    open Microsoft.CodeAnalysis.CSharp.Syntax
-    open Microsoft.CodeAnalysis.Text
     open Newtonsoft.Json
     open Newtonsoft.Json.Converters
     open SolutionProcessing
@@ -56,23 +51,19 @@ module JsonTransform =
             col: int option;
             assembly: string option}
 
-        type JsonSourceFile =
-            {sourceId: int;
-            path: string}
-
         type JsonSymbolInfo = 
             {symbolId: int;
             displayText: string;
             locations: CodeLocation seq}
 
-        type JsonFile = 
+        type JsonTokenisedFile = 
             {sourceId: int;
-            typeDecls: DeclaredType seq;
+            path: string;
             codeTokens: CodeSpan seq}
 
         type JsonProj = 
             {path: string;
-            files: JsonFile seq}
+            sourceIds: int seq}
 
         type JsonSol = 
             {path: string;
@@ -205,9 +196,9 @@ module JsonTransform =
                 ) ([], codeTokens)
             |> Seq.collect (List.choose id)
 
-        {
-            sourceId = getSourceId (input.FilePath)
-            typeDecls = input.DeclaredTypes
+        {   
+            sourceId = getSourceId (input.FilePath);
+            path = input.FilePath;
             codeTokens = reducedCodeSpans
         } 
 
@@ -272,24 +263,26 @@ module JsonTransform =
                     yield f file
         }
 
-    let collectReferencedSymbols solution  =
+    let collectReferencedSymbols solution =
         getAllInSolution (fun f -> f.ClassifiedTokens) solution
         |> Seq.collect id
         |> Seq.choose getSymbol
         |> Seq.distinct
 
-    let collectAllFiles solution  =
+    let collectAllFilePaths solution =
         getAllInSolution (fun f -> f.FilePath) solution
         |> Seq.distinct
+
+    let collectAllFiles solution =
+        getAllInSolution id solution
 
     let solutionToJson (solution: ProcessedSolution) : string * string * string =
         
         let referencedSymbols = collectReferencedSymbols solution
         let symIndexes = toIndexesDict referencedSymbols
 
-        let allFiles = collectAllFiles solution
+        let allFiles = collectAllFilePaths solution
         let fileIndexes = toIndexesDict allFiles
-        let sourcesFiles = fileIndexes |> Seq.map (fun kvp -> {sourceId = kvp.Value; path = kvp.Key})
 
         /// Try to get the Id for the given source path.
         /// There is a case where we will lookup paths that arent in the solution, and it is safer not to give away this info.
@@ -299,13 +292,18 @@ module JsonTransform =
 
         let symInfo = indexesToSymInfo getSourceId symIndexes
         
-        let mapProj (proj: ProcessedProject) : JsonProj =
-            {
+        let mapProj (proj: ProcessedProject) : JsonProj = {
                 path = proj.Path
-                files = proj.Files |> Seq.map (transformFile (fun f -> fileIndexes.[f]) symIndexes)
+                sourceIds = proj.Files |> Seq.map (fun f -> fileIndexes.[f.FilePath])
             }
+
         let soln = {
                 path = solution.Path
                 projects = solution.Projects |> Seq.map mapProj
-            } 
-        (toJson soln), (toJson symInfo), (toJson sourcesFiles)
+            }
+
+        let sourceFiles = 
+            collectAllFiles solution
+            |> Seq.map (transformFile (fun f -> fileIndexes.[f]) symIndexes)
+
+        (toJson soln), (toJson symInfo), (toJson sourceFiles)

@@ -153,12 +153,12 @@ namespace HighlighterLib.Templating
 
     let x = SolutionProcessing.processSolutionAtPath "C:\Projects\cecil\Mono.Cecil.sln"
     let y, sym, z = JsonTransform.solutionToJson x
-    File.WriteAllText("C:\Projects\CSHighhighter\ExplorerTemplate\Data2.json", y)
-    File.WriteAllText("C:\Projects\CSHighhighter\ExplorerTemplate\Data2Symbols.json", sym)
-    File.WriteAllText("C:\Projects\CSHighhighter\ExplorerTemplate\Data2SourceFiles.json", z)
-    File.WriteAllBytes("C:\Projects\CSHighhighter\ExplorerTemplate\Data2.gz", asdf y)
-    File.WriteAllBytes("C:\Projects\CSHighhighter\ExplorerTemplate\Data2Symbols.gz", asdf sym)
-    File.WriteAllBytes("C:\Projects\CSHighhighter\ExplorerTemplate\Data2SourceFiles.gz", asdf z)
+    File.WriteAllText("C:\Projects\CSHighhighter\ExplorerTemplate\Solution.json", y)
+    File.WriteAllText("C:\Projects\CSHighhighter\ExplorerTemplate\Symbols.json", sym)
+    File.WriteAllText("C:\Projects\CSHighhighter\ExplorerTemplate\Source.json", z)
+    File.WriteAllBytes("C:\Projects\CSHighhighter\ExplorerTemplate\Solution.gz", asdf y)
+    File.WriteAllBytes("C:\Projects\CSHighhighter\ExplorerTemplate\Symbols.gz", asdf sym)
+    File.WriteAllBytes("C:\Projects\CSHighhighter\ExplorerTemplate\Source.gz", asdf z)
 
 
     let a = Analysis.analyseFile code None

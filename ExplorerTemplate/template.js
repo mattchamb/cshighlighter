@@ -104,7 +104,7 @@ function map(f) {
 
 
 
-function renderStuff(sourceFiles, codeData, symbolData) {
+function renderStuff(dispatcher, sourceFiles, codeData, symbolData) {
 
 	var Store = StateStore();
 
@@ -139,13 +139,18 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 
 	function renderToken(token) {
 		var className = tokenClassName(token.kind);
+		var text = token.text;
+		if (className == "") {
+			text = token.text.replace(/\t/g, "    ");
+		}
+
 		if (!token.symbolId) {
-			return React.DOM.span({className: className}, token.text);
+			return React.DOM.span({className: className}, text);
 	    }
 	    var symbolInfo = symbolData[token.symbolId];
 		return (
 			React.DOM.span({className: "hasSymbolInfo"}, 
-				React.DOM.span({className: className}, token.text), 
+				React.DOM.span({className: className}, text), 
 				SymbolInfo({text: symbolInfo.displayText, locations: symbolInfo.locations})
 			)
 		);
@@ -154,16 +159,24 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 	var CodeSection = React.createClass({displayName: 'CodeSection',
 	    render: function() {
 			var tokenSpans = [];
+			var groups = [];
 			var tokens = this.props.file.codeTokens;
 			for(var i = 0; i < tokens.length; i++) {
 				var token = tokens[i];
 				tokenSpans.push(renderToken(token));
+				if(tokenSpans.length == 200) {
+					groups.push(React.DOM.span(null, tokenSpans));
+					tokenSpans = [];
+				}
+			}
+			if (tokenSpans.length > 0) {
+				groups.push(React.DOM.span(null, tokenSpans));
 			}
 			return (
 				React.DOM.div({className: "codeSection"}, 
 					React.DOM.pre(null, 
 						React.DOM.code({className: "formattedCode"}, 
-							tokenSpans
+							groups
 						)
 					)
 				)
@@ -182,12 +195,12 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 			var toSourceFileListing = map(function(x) {
 				var path = sourceFiles[x.sourceId].path;
 				var fileClicked = function() {
-					 selectedFileChanged(x.sourceId);
+					dispatcher.trigger("selectedFileChanged", x.sourceId);
 				}
 				return React.DOM.div({className: "", onClick: fileClicked}, path);
 			});
 			var projectClicked = function() {
-				selectedProjectChanged(projId);
+				dispatcher.trigger("selectedProjectChanged", projId);
 			};
 			return (
 				React.DOM.div({onClick: projectClicked, className: "projectLevel"}, 
@@ -256,8 +269,13 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 		},
 
 		componentWillMount: function() {
-			selectedFileChanged = this.selectedFileChanged;
-			selectedProjectChanged = this.selectedProjectChanged;
+			dispatcher.addListener("selectedFileChanged", this.selectedFileChanged);
+			dispatcher.addListener("selectedProjectChanged", this.selectedProjectChanged);
+		},
+
+		componentWillUnmount: function() {
+			dispatcher.removeListener("selectedFileChanged", this.selectedFileChanged);
+			dispatcher.removeListener("selectedProjectChanged", this.selectedProjectChanged);
 		},
 
 	    render: function() {
@@ -302,7 +320,8 @@ function renderStuff(sourceFiles, codeData, symbolData) {
 $.getJSON("Data2SourceFiles.json", function(sourceFiles) {
 	$.getJSON("Data2.json", function(codeData) {
 		$.getJSON("Data2Symbols.json", function(symbolData) {
-			renderStuff(sourceFiles, codeData, symbolData);
+			var dispatcher = new Dispatcher();
+			renderStuff(dispatcher, sourceFiles, codeData, symbolData);
 		});
 	});
 });

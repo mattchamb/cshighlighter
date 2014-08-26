@@ -17,16 +17,29 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="app.css" />
+    <TypeScriptCompile Include="src\components\CodeSection.ts" />
+    <TypeScriptCompile Include="src\components\ProjectFileList.ts" />
+    <TypeScriptCompile Include="src\components\ProjectList.ts" />
+    <TypeScriptCompile Include="src\components\SourceStats.ts" />
+    <TypeScriptCompile Include="src\components\SymbolInfo.ts" />
+    <Content Include="src\css\app.css" />
+    <Content Include="gulpfile.js" />
     <Content Include="index.html" />
-    <Content Include="template.js" />
+    <Content Include="src\scripts\combined.js" />
+    <Content Include="src\scripts\react-0.11.js" />
+    <Content Include="src\scripts\react-0.11.min.js" />
     <Content Include="web.config" />
+    <TypeScriptCompile Include="src\scripts\AppState.ts" />
+    <TypeScriptCompile Include="src\scripts\Dispatcher.ts" />
+    <TypeScriptCompile Include="src\scripts\react.d.ts" />
+    <TypeScriptCompile Include="src\scripts\Util.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="src\components\SolutionExplorer.ts" />
+    <TypeScriptCompile Include="src\scripts\app.ts" />
+    <TypeScriptCompile Include="src\scripts\ProjectStore.ts" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="template.jsx" />
     <Content Include="Data.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
@@ -67,7 +80,8 @@
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
-    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
+    <TypeScriptOutFile>src\scripts\combined.js</TypeScriptOutFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>

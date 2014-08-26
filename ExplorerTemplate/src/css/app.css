@@ -18,12 +18,12 @@ body {
     max-height: 100%; 
 }
 
-.hasSymbolInfo {
-    position: relative;
-}
-
 .hasSymbolInfo .symbolInfo {
     display: none;
+}
+
+.hasSymbolInfo:hover {
+    position: relative;
 }
 
 .hasSymbolInfo:hover .symbolInfo {
